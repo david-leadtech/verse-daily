@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -6,9 +6,7 @@ import {
   Pressable,
   Platform,
   Alert,
-  Animated,
   ImageBackground,
-  ScrollView,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
@@ -29,16 +27,6 @@ export default function PaywallWeekly({ onClose, onSkipToAnnual }: PaywallWeekly
   const [freeTrialEnabled, setFreeTrialEnabled] = useState(true);
   const topInset = isWeb ? 67 : insets.top;
   const bottomInset = isWeb ? 34 : insets.bottom;
-
-  const contentFade = useRef(new Animated.Value(0)).current;
-  const contentSlideY = useRef(new Animated.Value(30)).current;
-
-  useEffect(() => {
-    Animated.parallel([
-      Animated.timing(contentFade, { toValue: 1, duration: 600, delay: 200, useNativeDriver: true }),
-      Animated.spring(contentSlideY, { toValue: 0, tension: 50, friction: 8, delay: 200, useNativeDriver: true }),
-    ]).start();
-  }, []);
 
   const handleSubscribe = () => {
     if (Platform.OS !== "web") {
@@ -68,123 +56,87 @@ export default function PaywallWeekly({ onClose, onSkipToAnnual }: PaywallWeekly
         resizeMode="cover"
       >
         <LinearGradient
-          colors={["rgba(10, 5, 2, 0.3)", "rgba(10, 5, 2, 0.1)", Colors.light.background]}
-          locations={[0, 0.5, 1]}
+          colors={["rgba(10, 5, 2, 0.25)", "rgba(253, 248, 240, 0.6)", Colors.light.background]}
+          locations={[0, 0.6, 1]}
           style={StyleSheet.absoluteFillObject}
         />
-
         <View style={[styles.topBar, { paddingTop: topInset + 8 }]}>
           <Pressable onPress={onSkipToAnnual} style={styles.restoreBtn}>
-            <Text style={styles.restoreText}>Restore</Text>
+            <Text style={styles.restoreText}>Restore purchase</Text>
           </Pressable>
           <Pressable
             onPress={onSkipToAnnual}
             style={({ pressed }) => [styles.closeBtn, { opacity: pressed ? 0.7 : 1 }]}
           >
-            <Feather name="x" size={20} color="rgba(255,255,255,0.9)" />
+            <Feather name="x" size={20} color={Colors.light.textSecondary} />
           </Pressable>
-        </View>
-
-        <View style={styles.heroContent}>
-          <Text style={styles.heroEyebrow}>PREMIUM</Text>
-          <Text style={styles.heroTitle}>Unlock the Full</Text>
-          <Text style={styles.heroTitleAccent}>Scripture Experience</Text>
         </View>
       </ImageBackground>
 
-      <Animated.View
-        style={[
-          styles.bodyContent,
-          { opacity: contentFade, transform: [{ translateY: contentSlideY }] },
-        ]}
-      >
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.scrollContent}
-        >
-          <Text style={styles.bodySubtitle}>
+      <View style={styles.body}>
+        <View style={styles.heroSection}>
+          <Text style={styles.heroTitle}>Unlock the Full</Text>
+          <Text style={styles.heroTitleAccent}>Scripture Experience</Text>
+          <Text style={styles.heroSubtitle}>
             Everything you need for a deeper, more meaningful walk with Christ — every single day.
           </Text>
+        </View>
 
-          <View style={styles.featuresGrid}>
-            <View style={styles.featureItem}>
-              <View style={styles.featureIcon}>
-                <Feather name="book-open" size={16} color="#8B4513" />
+        <View style={styles.featuresCard}>
+          <Text style={styles.featuresText}>
+            Unlimited Devotionals, No Ads, All Bible Translations, Verse Wallpapers & More!{"\n"}
+            {freeTrialEnabled ? "Free for 3 days, then $9.99/week" : "$9.99/week"}
+          </Text>
+        </View>
+
+        <Pressable
+          onPress={() => {
+            setFreeTrialEnabled(!freeTrialEnabled);
+            if (Platform.OS !== "web") {
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+            }
+          }}
+          style={styles.trialToggleRow}
+        >
+          <Text style={styles.trialToggleLabel}>Free Trial Enabled</Text>
+          <View style={[styles.checkbox, freeTrialEnabled && styles.checkboxActive]}>
+            {freeTrialEnabled && <Feather name="check" size={16} color="#FFF" />}
+          </View>
+        </Pressable>
+
+        <View style={styles.pricingBreakdown}>
+          <View style={styles.pricingRow}>
+            <View style={styles.pricingLeft}>
+              <View style={[styles.pricingDot, { backgroundColor: Colors.light.accent }]} />
+              <View>
+                <Text style={styles.pricingLabel}>Today</Text>
+                <Text style={styles.pricingDueDate}>Due {trialEndDate}</Text>
               </View>
-              <Text style={styles.featureText}>Unlimited{"\n"}Devotionals</Text>
             </View>
-            <View style={styles.featureItem}>
-              <View style={styles.featureIcon}>
-                <Feather name="globe" size={16} color="#8B4513" />
-              </View>
-              <Text style={styles.featureText}>All Bible{"\n"}Translations</Text>
-            </View>
-            <View style={styles.featureItem}>
-              <View style={styles.featureIcon}>
-                <Feather name="image" size={16} color="#8B4513" />
-              </View>
-              <Text style={styles.featureText}>Verse{"\n"}Wallpapers</Text>
-            </View>
-            <View style={styles.featureItem}>
-              <View style={styles.featureIcon}>
-                <Feather name="zap" size={16} color="#8B4513" />
-              </View>
-              <Text style={styles.featureText}>Ad-Free{"\n"}Experience</Text>
+            <View style={styles.pricingRight}>
+              <Text style={[styles.pricingStatus, { color: freeTrialEnabled ? "#5B7D3A" : Colors.light.text }]}>
+                {freeTrialEnabled ? "Free" : "$9.99"}
+              </Text>
+              <Text style={styles.pricingAmount}>
+                {freeTrialEnabled ? "$0.00" : "$9.99"}
+              </Text>
             </View>
           </View>
-
-          <Pressable
-            onPress={() => {
-              setFreeTrialEnabled(!freeTrialEnabled);
-              if (Platform.OS !== "web") {
-                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-              }
-            }}
-            style={styles.trialToggleRow}
-          >
-            <View style={styles.trialToggleLeft}>
-              <Feather name="gift" size={18} color={freeTrialEnabled ? "#5B7D3A" : Colors.light.textSecondary} />
-              <Text style={styles.trialToggleLabel}>Free Trial Enabled</Text>
-            </View>
-            <View style={[styles.checkbox, freeTrialEnabled && styles.checkboxActive]}>
-              {freeTrialEnabled && <Feather name="check" size={16} color="#FFF" />}
-            </View>
-          </Pressable>
-
-          <View style={styles.pricingBreakdown}>
-            <View style={styles.pricingRow}>
+          {freeTrialEnabled && (
+            <View style={[styles.pricingRow, { marginTop: 2 }]}>
               <View style={styles.pricingLeft}>
-                <View style={[styles.pricingDot, { backgroundColor: freeTrialEnabled ? "#5B7D3A" : Colors.light.accent }]} />
-                <View>
-                  <Text style={styles.pricingLabel}>Today</Text>
-                  <Text style={styles.pricingDueDate}>Due {trialEndDate}</Text>
-                </View>
+                <View style={[styles.pricingDot, { backgroundColor: Colors.light.border }]} />
+                <Text style={styles.pricingDueDate}>Then weekly</Text>
               </View>
               <View style={styles.pricingRight}>
-                <Text style={[styles.pricingStatus, { color: freeTrialEnabled ? "#5B7D3A" : Colors.light.text }]}>
-                  {freeTrialEnabled ? "Free" : "$9.99"}
-                </Text>
-                <Text style={styles.pricingAmount}>
-                  {freeTrialEnabled ? "$0.00" : "$9.99"}
-                </Text>
+                <Text style={styles.pricingAmount}>$9.99</Text>
               </View>
             </View>
-            {freeTrialEnabled && (
-              <View style={[styles.pricingRow, { marginTop: 4 }]}>
-                <View style={styles.pricingLeft}>
-                  <View style={[styles.pricingDot, { backgroundColor: Colors.light.border }]} />
-                  <Text style={styles.pricingDueDate}>Then weekly</Text>
-                </View>
-                <View style={styles.pricingRight}>
-                  <Text style={styles.pricingAmount}>$9.99</Text>
-                </View>
-              </View>
-            )}
-          </View>
-        </ScrollView>
-      </Animated.View>
+          )}
+        </View>
 
-      <View style={styles.bottomSection}>
+        <View style={{ flex: 1 }} />
+
         <Pressable
           onPress={handleSubscribe}
           style={({ pressed }) => [
@@ -193,18 +145,17 @@ export default function PaywallWeekly({ onClose, onSkipToAnnual }: PaywallWeekly
           ]}
         >
           <Text style={styles.subscribeBtnText}>
-            {freeTrialEnabled ? "Start Free Trial" : "Subscribe Now"}
+            {freeTrialEnabled ? "Try Free" : "Subscribe Now"}
           </Text>
         </Pressable>
 
         <View style={styles.footerLinks}>
-          <Feather name="lock" size={11} color={Colors.light.tabIconDefault} />
+          <Feather name="lock" size={12} color={Colors.light.tabIconDefault} />
           <Text style={styles.securedText}>Secured with Apple</Text>
-          <Text style={styles.footerDot}>·</Text>
-          <Pressable>
-            <Text style={styles.termsText}>Terms</Text>
-          </Pressable>
         </View>
+        <Pressable>
+          <Text style={styles.termsText}>Terms & Conditions</Text>
+        </Pressable>
       </View>
     </View>
   );
@@ -216,8 +167,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.light.background,
   },
   heroImage: {
-    height: 280,
-    justifyContent: "space-between",
+    height: 200,
+    justifyContent: "flex-start",
   },
   topBar: {
     flexDirection: "row",
@@ -225,121 +176,83 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 20,
   },
-  restoreBtn: {
-    paddingHorizontal: 14,
-    paddingVertical: 6,
-    borderRadius: 16,
-    backgroundColor: "rgba(0,0,0,0.3)",
-  },
+  restoreBtn: {},
   restoreText: {
-    fontSize: 13,
+    fontSize: 14,
     fontFamily: "Inter_500Medium",
-    color: "rgba(255,255,255,0.85)",
+    color: Colors.light.accent,
   },
   closeBtn: {
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: "rgba(0,0,0,0.3)",
     alignItems: "center",
     justifyContent: "center",
   },
-  heroContent: {
+  body: {
+    flex: 1,
     paddingHorizontal: 24,
-    paddingBottom: 24,
   },
-  heroEyebrow: {
-    fontSize: 11,
-    fontFamily: "Inter_600SemiBold",
-    color: Colors.light.accent,
-    letterSpacing: 3,
-    marginBottom: 6,
+  heroSection: {
+    alignItems: "center",
+    marginBottom: 28,
   },
   heroTitle: {
-    fontSize: 30,
+    fontSize: 28,
     fontFamily: "PlayfairDisplay_700Bold",
     color: Colors.light.text,
-    lineHeight: 38,
+    textAlign: "center",
   },
   heroTitleAccent: {
-    fontSize: 30,
+    fontSize: 28,
     fontFamily: "PlayfairDisplay_700Bold",
     color: Colors.light.accent,
-    lineHeight: 38,
+    textAlign: "center",
+    marginBottom: 10,
   },
-  bodyContent: {
-    flex: 1,
-    marginTop: -8,
-  },
-  scrollContent: {
-    paddingHorizontal: 24,
-    paddingTop: 4,
-  },
-  bodySubtitle: {
+  heroSubtitle: {
     fontSize: 14,
     fontFamily: "Inter_400Regular",
     color: Colors.light.textSecondary,
+    textAlign: "center",
     lineHeight: 22,
-    marginBottom: 20,
+    maxWidth: 320,
   },
-  featuresGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 10,
-    marginBottom: 18,
-  },
-  featureItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    width: "47%",
+  featuresCard: {
     backgroundColor: Colors.light.surface,
-    borderRadius: 12,
-    paddingVertical: 12,
-    paddingHorizontal: 12,
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 16,
     borderWidth: 1,
-    borderColor: Colors.light.borderLight,
+    borderColor: Colors.light.border,
   },
-  featureIcon: {
-    width: 32,
-    height: 32,
-    borderRadius: 8,
-    backgroundColor: "rgba(197, 150, 58, 0.12)",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  featureText: {
-    fontSize: 12,
-    fontFamily: "Inter_500Medium",
-    color: Colors.light.text,
-    lineHeight: 16,
+  featuresText: {
+    fontSize: 15,
+    fontFamily: "Inter_400Regular",
+    color: Colors.light.textSecondary,
+    lineHeight: 24,
+    textAlign: "center",
   },
   trialToggleRow: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     backgroundColor: Colors.light.surface,
-    borderRadius: 14,
-    paddingVertical: 14,
-    paddingHorizontal: 16,
+    borderRadius: 16,
+    padding: 18,
     borderWidth: 1,
     borderColor: Colors.light.border,
-    marginBottom: 14,
-  },
-  trialToggleLeft: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 10,
+    marginBottom: 16,
   },
   trialToggleLabel: {
-    fontSize: 15,
+    fontSize: 16,
     fontFamily: "Inter_600SemiBold",
     color: Colors.light.text,
   },
   checkbox: {
-    width: 26,
-    height: 26,
-    borderRadius: 13,
+    width: 28,
+    height: 28,
+    borderRadius: 14,
     borderWidth: 2,
     borderColor: Colors.light.border,
     alignItems: "center",
@@ -350,9 +263,8 @@ const styles = StyleSheet.create({
     borderColor: Colors.light.accent,
   },
   pricingBreakdown: {
-    gap: 10,
+    gap: 12,
     paddingHorizontal: 4,
-    marginBottom: 16,
   },
   pricingRow: {
     flexDirection: "row",
@@ -392,15 +304,12 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_500Medium",
     color: Colors.light.textSecondary,
   },
-  bottomSection: {
-    paddingHorizontal: 24,
-    gap: 10,
-  },
   subscribeBtn: {
     borderRadius: 16,
     backgroundColor: Colors.light.accent,
     paddingVertical: 18,
     alignItems: "center",
+    marginBottom: 14,
   },
   subscribeBtnText: {
     fontSize: 18,
@@ -412,20 +321,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     gap: 6,
+    marginBottom: 4,
   },
   securedText: {
-    fontSize: 12,
+    fontSize: 13,
     fontFamily: "Inter_400Regular",
-    color: Colors.light.tabIconDefault,
-  },
-  footerDot: {
-    fontSize: 12,
-    color: Colors.light.tabIconDefault,
+    color: Colors.light.textSecondary,
   },
   termsText: {
-    fontSize: 12,
+    fontSize: 13,
     fontFamily: "Inter_500Medium",
     color: Colors.light.accent,
+    textAlign: "center",
     textDecorationLine: "underline",
   },
 });
