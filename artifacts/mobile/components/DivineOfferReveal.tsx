@@ -9,6 +9,7 @@ import {
   ImageBackground,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { Feather } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const { width, height } = Dimensions.get("window");
@@ -84,14 +85,14 @@ export default function DivineOfferReveal({ onContinue }: DivineOfferRevealProps
       </Animated.View>
 
       <View style={styles.content}>
-        <Animated.Text
+          <Animated.View
           style={[
             styles.crossIcon,
             { opacity: crossFade, transform: [{ scale: crossScale }] },
           ]}
         >
-          ✝
-        </Animated.Text>
+          <Feather name="plus" size={44} color="#C5963A" />
+        </Animated.View>
 
         <Animated.Text
           style={[
@@ -151,8 +152,6 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
   },
   crossIcon: {
-    fontSize: 52,
-    color: "#C5963A",
     marginBottom: 40,
   },
   line1: {

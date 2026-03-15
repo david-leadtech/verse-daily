@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { StyleSheet, Text, View, Animated, Dimensions, ImageBackground, Platform } from "react-native";
+import { Feather } from "@expo/vector-icons";
 
 const { width, height } = Dimensions.get("window");
 
@@ -69,7 +70,7 @@ export default function SplashLoader({ onAnimationComplete }: SplashLoaderProps)
           { opacity: fadeAnim, transform: [{ scale: scaleAnim }] },
         ]}
       >
-        <Text style={styles.crossIcon}>✝</Text>
+        <Feather name="plus" size={44} color="#C5963A" style={styles.crossIcon} />
 
         <Text style={styles.title}>Bible Verse</Text>
         <Text style={styles.titleAccent}>Daily</Text>
@@ -106,8 +107,6 @@ const styles = StyleSheet.create({
     paddingBottom: 80,
   },
   crossIcon: {
-    fontSize: 52,
-    color: "#C5963A",
     marginBottom: 16,
   },
   title: {

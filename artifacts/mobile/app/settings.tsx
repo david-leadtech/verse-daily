@@ -86,7 +86,7 @@ export default function SettingsScreen() {
           >
             <View style={styles.premiumCard}>
               <View style={styles.premiumContent}>
-                <Text style={styles.premiumIcon}>✝</Text>
+                <Feather name="award" size={20} color="#C5963A" />
                 <View style={styles.premiumInfo}>
                   <Text style={styles.premiumTitle}>
                     {settings.isPremium ? "Premium Active" : "Upgrade to Premium"}

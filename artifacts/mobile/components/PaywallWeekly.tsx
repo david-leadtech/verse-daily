@@ -56,12 +56,12 @@ export default function PaywallWeekly({ onClose, onSkipToAnnual }: PaywallWeekly
         resizeMode="cover"
       >
         <LinearGradient
-          colors={["rgba(10, 5, 2, 0.25)", "rgba(253, 248, 240, 0.6)", Colors.light.background]}
-          locations={[0, 0.6, 1]}
+          colors={["rgba(253,248,240,0)", "rgba(253,248,240,0.4)", Colors.light.background]}
+          locations={[0, 0.55, 1]}
           style={StyleSheet.absoluteFillObject}
         />
-        <View style={[styles.topBar, { paddingTop: topInset + 8 }]}>
-          <Pressable onPress={onSkipToAnnual} style={styles.restoreBtn}>
+        <View style={[styles.topBar, { paddingTop: topInset + 6 }]}>
+          <Pressable onPress={onSkipToAnnual}>
             <Text style={styles.restoreText}>Restore purchase</Text>
           </Pressable>
           <Pressable
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.light.background,
   },
   heroImage: {
-    height: 200,
+    height: 180,
     justifyContent: "flex-start",
   },
   topBar: {
@@ -176,7 +176,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 20,
   },
-  restoreBtn: {},
   restoreText: {
     fontSize: 14,
     fontFamily: "Inter_500Medium",
@@ -192,10 +191,11 @@ const styles = StyleSheet.create({
   body: {
     flex: 1,
     paddingHorizontal: 24,
+    marginTop: -4,
   },
   heroSection: {
     alignItems: "center",
-    marginBottom: 28,
+    marginBottom: 20,
   },
   heroTitle: {
     fontSize: 28,
@@ -208,21 +208,21 @@ const styles = StyleSheet.create({
     fontFamily: "PlayfairDisplay_700Bold",
     color: Colors.light.accent,
     textAlign: "center",
-    marginBottom: 10,
+    marginBottom: 8,
   },
   heroSubtitle: {
     fontSize: 14,
     fontFamily: "Inter_400Regular",
     color: Colors.light.textSecondary,
     textAlign: "center",
-    lineHeight: 22,
-    maxWidth: 320,
+    lineHeight: 21,
+    maxWidth: 310,
   },
   featuresCard: {
     backgroundColor: Colors.light.surface,
     borderRadius: 16,
-    padding: 20,
-    marginBottom: 16,
+    padding: 18,
+    marginBottom: 12,
     borderWidth: 1,
     borderColor: Colors.light.border,
   },
@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: "Inter_400Regular",
     color: Colors.light.textSecondary,
-    lineHeight: 24,
+    lineHeight: 23,
     textAlign: "center",
   },
   trialToggleRow: {
@@ -239,10 +239,10 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     backgroundColor: Colors.light.surface,
     borderRadius: 16,
-    padding: 18,
+    padding: 16,
     borderWidth: 1,
     borderColor: Colors.light.border,
-    marginBottom: 16,
+    marginBottom: 14,
   },
   trialToggleLabel: {
     fontSize: 16,
@@ -263,7 +263,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.light.accent,
   },
   pricingBreakdown: {
-    gap: 12,
+    gap: 10,
     paddingHorizontal: 4,
   },
   pricingRow: {
@@ -309,7 +309,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.light.accent,
     paddingVertical: 18,
     alignItems: "center",
-    marginBottom: 14,
+    marginBottom: 12,
   },
   subscribeBtnText: {
     fontSize: 18,
