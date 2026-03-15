@@ -4,7 +4,7 @@
 
 pnpm workspace monorepo using TypeScript. Each package manages its own dependencies.
 
-**Bible Verse Daily** — A mobile-first Bible Verse of the Day app built with Expo React Native, Express API backend, and PostgreSQL. Features daily verse delivery, devotional readings, Bible book/chapter reader, favorites with persistence, animated splash screen, 3-slide onboarding flow, and a dual-tier subscription paywall. Styled with a warm biblical parchment theme.
+**Bible Verse Daily** — A mobile-first Bible Verse of the Day app built with Expo React Native, Express API backend, and PostgreSQL. Features daily verse delivery, devotional readings, Bible book/chapter reader, favorites with persistence, animated splash screen, 3-slide animated onboarding flow (crossfading backgrounds, spring-physics text animations, per-slide layout variation), and a dual-tier subscription paywall. Styled with a warm biblical parchment theme.
 
 ## Stack
 
