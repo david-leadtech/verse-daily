@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
   heroTitle: {
     fontSize: 28,
     fontFamily: "PlayfairDisplay_700Bold",
-    color: Colors.light.accent,
+    color: Colors.light.text,
     textAlign: "center",
   },
   heroTitleAccent: {
@@ -202,10 +202,12 @@ const styles = StyleSheet.create({
     maxWidth: 320,
   },
   featuresCard: {
-    backgroundColor: Colors.light.surfaceSecondary,
+    backgroundColor: Colors.light.surface,
     borderRadius: 16,
     padding: 20,
     marginBottom: 16,
+    borderWidth: 1,
+    borderColor: Colors.light.border,
   },
   featuresText: {
     fontSize: 15,
@@ -295,7 +297,7 @@ const styles = StyleSheet.create({
   subscribeBtnText: {
     fontSize: 18,
     fontFamily: "Inter_700Bold",
-    color: "#FFF",
+    color: "#2C1810",
   },
   footerLinks: {
     flexDirection: "row",

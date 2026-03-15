@@ -56,7 +56,7 @@ export default function PaywallAnnual({ onClose }: PaywallAnnualProps) {
 
           <Pressable
             onPress={onClose}
-            style={({ pressed }) => [styles.closeBtn, { opacity: pressed ? 0.7 : 1 }]}
+            style={({ pressed }) => [styles.closeBtn, { top: (isWeb ? 67 : insets.top) + 12, opacity: pressed ? 0.7 : 1 }]}
           >
             <Feather name="x" size={22} color="rgba(245,236,215,0.7)" />
           </Pressable>
@@ -132,11 +132,11 @@ const styles = StyleSheet.create({
   },
   heroOverlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(15, 30, 50, 0.6)",
+    backgroundColor: "rgba(30, 12, 2, 0.55)",
   },
   closeBtn: {
     position: "absolute",
-    top: 52,
+    top: 16,
     right: 20,
     width: 36,
     height: 36,

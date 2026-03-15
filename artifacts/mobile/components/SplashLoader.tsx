@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { StyleSheet, Text, View, Animated, Dimensions, ImageBackground } from "react-native";
+import { StyleSheet, Text, View, Animated, Dimensions, ImageBackground, Platform } from "react-native";
 
 const { width, height } = Dimensions.get("window");
 
@@ -73,7 +73,7 @@ export default function SplashLoader() {
         </Animated.View>
       </Animated.View>
 
-      <Animated.View style={[styles.bottomSection, { opacity: subtitleFade }]}>
+      <Animated.View style={[styles.bottomSection, { bottom: Platform.OS === "web" ? 54 : 60, opacity: subtitleFade }]}>
         <Text style={styles.tagline}>
           Thy word is a lamp unto my feet,{"\n"}and a light unto my path.
         </Text>

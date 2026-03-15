@@ -118,12 +118,11 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 14,
-    fontFamily: "Inter_400Regular",
+    fontFamily: "PlayfairDisplay_400Regular_Italic",
     color: Colors.light.textSecondary,
     paddingHorizontal: 20,
     marginTop: 4,
     marginBottom: 20,
-    fontStyle: "italic",
   },
   categoriesScroll: {
     paddingHorizontal: 20,

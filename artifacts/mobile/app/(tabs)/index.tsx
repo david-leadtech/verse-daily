@@ -261,12 +261,11 @@ const styles = StyleSheet.create({
   },
   dailyMessage: {
     fontSize: 15,
-    fontFamily: "Inter_400Regular",
+    fontFamily: "PlayfairDisplay_400Regular_Italic",
     color: Colors.light.textSecondary,
     paddingHorizontal: 20,
     lineHeight: 23,
     marginBottom: 24,
-    fontStyle: "italic",
   },
   dailyVerseContainer: {
     paddingHorizontal: 20,

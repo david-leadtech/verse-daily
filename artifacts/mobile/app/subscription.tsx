@@ -73,7 +73,7 @@ export default function SubscriptionScreen() {
           <View style={styles.heroOverlay} />
           <Pressable
             onPress={() => router.back()}
-            style={({ pressed }) => [styles.closeBtn, { opacity: pressed ? 0.7 : 1 }]}
+            style={({ pressed }) => [styles.closeBtn, { top: (isWeb ? 67 : insets.top) + 12, opacity: pressed ? 0.7 : 1 }]}
           >
             <Feather name="x" size={24} color="#F5ECD7" />
           </Pressable>
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
   },
   closeBtn: {
     position: "absolute",
-    top: 52,
+    top: 16,
     right: 20,
     width: 40,
     height: 40,
