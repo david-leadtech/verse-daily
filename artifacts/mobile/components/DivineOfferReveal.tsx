@@ -7,6 +7,7 @@ import {
   Dimensions,
   Platform,
   ImageBackground,
+  Easing,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Feather } from "@expo/vector-icons";
@@ -14,54 +15,56 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const { width, height } = Dimensions.get("window");
 
+const ease = Easing.out(Easing.cubic);
+
 interface DivineOfferRevealProps {
   onContinue: () => void;
 }
 
 export default function DivineOfferReveal({ onContinue }: DivineOfferRevealProps) {
   const crossFade = useRef(new Animated.Value(0)).current;
-  const crossScale = useRef(new Animated.Value(0.5)).current;
+  const crossScale = useRef(new Animated.Value(0.7)).current;
   const line1Fade = useRef(new Animated.Value(0)).current;
-  const line1SlideY = useRef(new Animated.Value(25)).current;
+  const line1SlideY = useRef(new Animated.Value(18)).current;
   const line2Fade = useRef(new Animated.Value(0)).current;
-  const line2SlideY = useRef(new Animated.Value(25)).current;
+  const line2SlideY = useRef(new Animated.Value(18)).current;
   const line3Fade = useRef(new Animated.Value(0)).current;
-  const line3SlideY = useRef(new Animated.Value(25)).current;
+  const line3SlideY = useRef(new Animated.Value(18)).current;
   const glowPulse = useRef(new Animated.Value(0.3)).current;
   const screenFadeOut = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
     Animated.sequence([
-      Animated.delay(300),
+      Animated.delay(200),
       Animated.parallel([
-        Animated.timing(crossFade, { toValue: 1, duration: 500, useNativeDriver: true }),
-        Animated.timing(crossScale, { toValue: 1, duration: 500, useNativeDriver: true }),
+        Animated.timing(crossFade, { toValue: 1, duration: 350, easing: ease, useNativeDriver: true }),
+        Animated.timing(crossScale, { toValue: 1, duration: 350, easing: ease, useNativeDriver: true }),
       ]),
-      Animated.delay(400),
+      Animated.delay(250),
       Animated.parallel([
-        Animated.timing(line1Fade, { toValue: 1, duration: 450, useNativeDriver: true }),
-        Animated.timing(line1SlideY, { toValue: 0, duration: 450, useNativeDriver: true }),
+        Animated.timing(line1Fade, { toValue: 1, duration: 350, easing: ease, useNativeDriver: true }),
+        Animated.timing(line1SlideY, { toValue: 0, duration: 350, easing: ease, useNativeDriver: true }),
       ]),
-      Animated.delay(300),
+      Animated.delay(200),
       Animated.parallel([
-        Animated.timing(line2Fade, { toValue: 1, duration: 450, useNativeDriver: true }),
-        Animated.timing(line2SlideY, { toValue: 0, duration: 450, useNativeDriver: true }),
+        Animated.timing(line2Fade, { toValue: 1, duration: 350, easing: ease, useNativeDriver: true }),
+        Animated.timing(line2SlideY, { toValue: 0, duration: 350, easing: ease, useNativeDriver: true }),
       ]),
-      Animated.delay(400),
+      Animated.delay(250),
       Animated.parallel([
-        Animated.timing(line3Fade, { toValue: 1, duration: 500, useNativeDriver: true }),
-        Animated.timing(line3SlideY, { toValue: 0, duration: 500, useNativeDriver: true }),
+        Animated.timing(line3Fade, { toValue: 1, duration: 400, easing: ease, useNativeDriver: true }),
+        Animated.timing(line3SlideY, { toValue: 0, duration: 400, easing: ease, useNativeDriver: true }),
       ]),
-      Animated.delay(1200),
-      Animated.timing(screenFadeOut, { toValue: 0, duration: 500, useNativeDriver: true }),
+      Animated.delay(800),
+      Animated.timing(screenFadeOut, { toValue: 0, duration: 400, easing: Easing.in(Easing.ease), useNativeDriver: true }),
     ]).start(() => {
       onContinue();
     });
 
     Animated.loop(
       Animated.sequence([
-        Animated.timing(glowPulse, { toValue: 0.7, duration: 1500, useNativeDriver: true }),
-        Animated.timing(glowPulse, { toValue: 0.3, duration: 1500, useNativeDriver: true }),
+        Animated.timing(glowPulse, { toValue: 0.7, duration: 1200, easing: Easing.inOut(Easing.ease), useNativeDriver: true }),
+        Animated.timing(glowPulse, { toValue: 0.3, duration: 1200, easing: Easing.inOut(Easing.ease), useNativeDriver: true }),
       ])
     ).start();
   }, []);

@@ -8,6 +8,7 @@ import {
   Platform,
   Animated,
   Image,
+  Easing,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
@@ -15,6 +16,9 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Haptics from "expo-haptics";
 
 const { width, height } = Dimensions.get("window");
+
+const ease = Easing.out(Easing.cubic);
+const easeIn = Easing.in(Easing.cubic);
 
 interface OnboardingFlowProps {
   onComplete: () => void;
@@ -59,13 +63,12 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
   const textFade = useRef(new Animated.Value(1)).current;
   const textSlideY = useRef(new Animated.Value(0)).current;
   const eyebrowSlideX = useRef(new Animated.Value(0)).current;
-  const dotScale = useRef(SLIDES.map(() => new Animated.Value(1))).current;
 
   useEffect(() => {
     Animated.parallel([
-      Animated.spring(textFade, { toValue: 1, useNativeDriver: true, tension: 60, friction: 8 }),
-      Animated.spring(textSlideY, { toValue: 0, useNativeDriver: true, tension: 50, friction: 8 }),
-      Animated.spring(eyebrowSlideX, { toValue: 0, useNativeDriver: true, tension: 50, friction: 8 }),
+      Animated.timing(textFade, { toValue: 1, duration: 400, easing: ease, useNativeDriver: true }),
+      Animated.timing(textSlideY, { toValue: 0, duration: 400, easing: ease, useNativeDriver: true }),
+      Animated.timing(eyebrowSlideX, { toValue: 0, duration: 400, easing: ease, useNativeDriver: true }),
     ]).start();
   }, []);
 
@@ -74,37 +77,32 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
     isAnimating.current = true;
 
     Animated.parallel([
-      Animated.timing(textFade, { toValue: 0, duration: 200, useNativeDriver: true }),
-      Animated.timing(textSlideY, { toValue: 30, duration: 200, useNativeDriver: true }),
-      Animated.timing(eyebrowSlideX, { toValue: -20, duration: 200, useNativeDriver: true }),
+      Animated.timing(textFade, { toValue: 0, duration: 150, easing: easeIn, useNativeDriver: true }),
+      Animated.timing(textSlideY, { toValue: 20, duration: 150, easing: easeIn, useNativeDriver: true }),
+      Animated.timing(eyebrowSlideX, { toValue: -15, duration: 150, easing: easeIn, useNativeDriver: true }),
     ]).start(() => {
       setCurrentIndex(nextIndex);
 
-      textSlideY.setValue(40);
-      eyebrowSlideX.setValue(30);
+      textSlideY.setValue(30);
+      eyebrowSlideX.setValue(20);
 
       Animated.parallel([
         ...imageOpacities.map((opacity, i) =>
           Animated.timing(opacity, {
             toValue: i === nextIndex ? 1 : 0,
-            duration: 600,
+            duration: 450,
+            easing: Easing.inOut(Easing.ease),
             useNativeDriver: true,
           })
         ),
         Animated.sequence([
-          Animated.delay(150),
+          Animated.delay(100),
           Animated.parallel([
-            Animated.spring(textFade, { toValue: 1, useNativeDriver: true, tension: 50, friction: 8 }),
-            Animated.spring(textSlideY, { toValue: 0, useNativeDriver: true, tension: 50, friction: 8 }),
-            Animated.spring(eyebrowSlideX, { toValue: 0, useNativeDriver: true, tension: 50, friction: 8 }),
+            Animated.timing(textFade, { toValue: 1, duration: 350, easing: ease, useNativeDriver: true }),
+            Animated.timing(textSlideY, { toValue: 0, duration: 400, easing: ease, useNativeDriver: true }),
+            Animated.timing(eyebrowSlideX, { toValue: 0, duration: 400, easing: ease, useNativeDriver: true }),
           ]),
         ]),
-        ...dotScale.map((scale, i) =>
-          Animated.sequence([
-            Animated.timing(scale, { toValue: i === nextIndex ? 1.3 : 0.8, duration: 150, useNativeDriver: true }),
-            Animated.spring(scale, { toValue: 1, useNativeDriver: true, tension: 100, friction: 6 }),
-          ])
-        ),
       ]).start(() => {
         isAnimating.current = false;
       });
@@ -196,12 +194,11 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
       <View style={[styles.footer, { paddingBottom: bottomInset + 16 }]}>
         <View style={styles.dots}>
           {SLIDES.map((_, i) => (
-            <Animated.View
+            <View
               key={i}
               style={[
                 styles.dot,
                 currentIndex === i && styles.dotActive,
-                { transform: [{ scale: dotScale[i] }] },
               ]}
             />
           ))}

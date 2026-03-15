@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { StyleSheet, Text, View, Animated, Dimensions, ImageBackground, Platform } from "react-native";
+import { StyleSheet, Text, View, Animated, Dimensions, ImageBackground, Platform, Easing } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
 const { width, height } = Dimensions.get("window");
@@ -10,46 +10,52 @@ interface SplashLoaderProps {
 
 export default function SplashLoader({ onAnimationComplete }: SplashLoaderProps) {
   const fadeAnim = useRef(new Animated.Value(0)).current;
-  const scaleAnim = useRef(new Animated.Value(0.85)).current;
+  const scaleAnim = useRef(new Animated.Value(0.9)).current;
   const subtitleFade = useRef(new Animated.Value(0)).current;
   const dotOpacity = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
+    const ease = Easing.out(Easing.cubic);
+
     Animated.sequence([
       Animated.parallel([
         Animated.timing(fadeAnim, {
           toValue: 1,
-          duration: 900,
+          duration: 600,
+          easing: ease,
           useNativeDriver: true,
         }),
-        Animated.spring(scaleAnim, {
+        Animated.timing(scaleAnim, {
           toValue: 1,
-          tension: 40,
-          friction: 7,
+          duration: 600,
+          easing: ease,
           useNativeDriver: true,
         }),
       ]),
       Animated.timing(subtitleFade, {
         toValue: 1,
-        duration: 600,
+        duration: 400,
+        easing: ease,
         useNativeDriver: true,
       }),
     ]).start(() => {
       setTimeout(() => {
         onAnimationComplete?.();
-      }, 800);
+      }, 500);
     });
 
     Animated.loop(
       Animated.sequence([
         Animated.timing(dotOpacity, {
           toValue: 0.3,
-          duration: 900,
+          duration: 700,
+          easing: Easing.inOut(Easing.ease),
           useNativeDriver: true,
         }),
         Animated.timing(dotOpacity, {
           toValue: 1,
-          duration: 900,
+          duration: 700,
+          easing: Easing.inOut(Easing.ease),
           useNativeDriver: true,
         }),
       ])
