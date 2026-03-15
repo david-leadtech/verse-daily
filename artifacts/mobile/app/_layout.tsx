@@ -22,6 +22,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import SplashLoader from "@/components/SplashLoader";
 import OnboardingFlow from "@/components/OnboardingFlow";
+import DivineOfferReveal from "@/components/DivineOfferReveal";
 import PaywallWeekly from "@/components/PaywallWeekly";
 import PaywallAnnual from "@/components/PaywallAnnual";
 import { FavoritesProvider } from "@/contexts/FavoritesContext";
@@ -52,7 +53,7 @@ function RootLayoutNav() {
   );
 }
 
-type AppPhase = "splash" | "onboarding" | "paywall-weekly" | "paywall-annual" | "app";
+type AppPhase = "splash" | "onboarding" | "divine-offer" | "paywall-weekly" | "paywall-annual" | "app";
 
 function AppGate() {
   const { hasCompletedOnboarding, completeOnboarding } = useOnboarding();
@@ -87,7 +88,15 @@ function AppGate() {
   if (phase === "onboarding") {
     return (
       <OnboardingFlow
-        onComplete={() => setPhase("paywall-weekly")}
+        onComplete={() => setPhase("divine-offer")}
+      />
+    );
+  }
+
+  if (phase === "divine-offer") {
+    return (
+      <DivineOfferReveal
+        onContinue={() => setPhase("paywall-weekly")}
       />
     );
   }
