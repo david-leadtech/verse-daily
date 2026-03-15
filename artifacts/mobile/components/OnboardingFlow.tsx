@@ -86,8 +86,8 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
             resizeMode="cover"
           >
             <LinearGradient
-              colors={["transparent", "rgba(10, 5, 2, 0.35)", "rgba(10, 5, 2, 0.92)"]}
-              locations={[0, 0.4, 0.75]}
+              colors={["rgba(10, 5, 2, 0.15)", "rgba(10, 5, 2, 0.5)", "rgba(10, 5, 2, 0.95)"]}
+              locations={[0, 0.35, 0.7]}
               style={StyleSheet.absoluteFillObject}
             />
           </ImageBackground>
@@ -165,35 +165,44 @@ const styles = StyleSheet.create({
   eyebrow: {
     fontSize: 11,
     fontFamily: "Inter_600SemiBold",
-    color: "#C5963A",
+    color: "#E8C868",
     letterSpacing: 3,
+    textShadowColor: "rgba(0, 0, 0, 0.5)",
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 3,
   },
   slideTitle: {
     fontSize: 34,
     fontFamily: "PlayfairDisplay_700Bold",
-    color: "#F5ECD7",
+    color: "#FFFFFF",
     lineHeight: 42,
+    textShadowColor: "rgba(0, 0, 0, 0.6)",
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 4,
   },
   slideDescription: {
     fontSize: 15,
     fontFamily: "Inter_400Regular",
-    color: "rgba(245, 236, 215, 0.7)",
+    color: "rgba(255, 255, 255, 0.85)",
     lineHeight: 24,
     maxWidth: 330,
+    textShadowColor: "rgba(0, 0, 0, 0.5)",
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 3,
   },
   skipBtn: {
     position: "absolute",
     right: 20,
     zIndex: 20,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
+    paddingHorizontal: 18,
+    paddingVertical: 9,
     borderRadius: 20,
-    backgroundColor: "rgba(0,0,0,0.3)",
+    backgroundColor: "rgba(0,0,0,0.45)",
   },
   skipText: {
     fontSize: 14,
-    fontFamily: "Inter_500Medium",
-    color: "rgba(245, 236, 215, 0.7)",
+    fontFamily: "Inter_600SemiBold",
+    color: "rgba(255, 255, 255, 0.9)",
   },
   footer: {
     position: "absolute",

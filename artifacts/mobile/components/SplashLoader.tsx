@@ -113,8 +113,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 42,
     fontFamily: "PlayfairDisplay_700Bold",
-    color: "#F5ECD7",
+    color: "#FFFFFF",
     letterSpacing: 1,
+    textShadowColor: "rgba(0, 0, 0, 0.5)",
+    textShadowOffset: { width: 0, height: 2 },
+    textShadowRadius: 6,
   },
   titleAccent: {
     fontSize: 30,
@@ -144,9 +147,12 @@ const styles = StyleSheet.create({
   tagline: {
     fontSize: 15,
     fontFamily: "PlayfairDisplay_400Regular_Italic",
-    color: "rgba(245, 236, 215, 0.8)",
+    color: "rgba(255, 255, 255, 0.9)",
     textAlign: "center",
     lineHeight: 24,
+    textShadowColor: "rgba(0, 0, 0, 0.5)",
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 3,
   },
   taglineRef: {
     fontSize: 12,

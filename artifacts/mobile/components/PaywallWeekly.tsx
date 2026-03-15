@@ -284,7 +284,7 @@ const styles = StyleSheet.create({
   },
   pricingAmount: {
     fontSize: 13,
-    fontFamily: "Inter_400Regular",
+    fontFamily: "Inter_500Medium",
     color: Colors.light.textSecondary,
   },
   subscribeBtn: {
@@ -309,11 +309,11 @@ const styles = StyleSheet.create({
   securedText: {
     fontSize: 13,
     fontFamily: "Inter_400Regular",
-    color: Colors.light.tabIconDefault,
+    color: Colors.light.textSecondary,
   },
   termsText: {
     fontSize: 13,
-    fontFamily: "Inter_400Regular",
+    fontFamily: "Inter_500Medium",
     color: Colors.light.accent,
     textAlign: "center",
     textDecorationLine: "underline",

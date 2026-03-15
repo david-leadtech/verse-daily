@@ -160,15 +160,21 @@ const styles = StyleSheet.create({
   heroTitle: {
     fontSize: 32,
     fontFamily: "PlayfairDisplay_700Bold",
-    color: "#F5ECD7",
+    color: "#FFFFFF",
     lineHeight: 40,
     marginBottom: 8,
+    textShadowColor: "rgba(0, 0, 0, 0.5)",
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 4,
   },
   heroSubtitle: {
     fontSize: 15,
     fontFamily: "Inter_400Regular",
-    color: "rgba(245, 236, 215, 0.75)",
+    color: "rgba(255, 255, 255, 0.85)",
     lineHeight: 22,
+    textShadowColor: "rgba(0, 0, 0, 0.4)",
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 3,
   },
   comparisonSection: {
     flexDirection: "row",

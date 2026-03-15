@@ -152,15 +152,18 @@ const styles = StyleSheet.create({
   },
   imageOverlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(30, 12, 2, 0.55)",
+    backgroundColor: "rgba(20, 8, 2, 0.65)",
     borderRadius: 20,
   },
   verseText: {
     fontSize: 20,
     lineHeight: 32,
-    color: "#F5ECD7",
+    color: "#FFFFFF",
     fontFamily: "PlayfairDisplay_400Regular_Italic",
     letterSpacing: 0.3,
+    textShadowColor: "rgba(0, 0, 0, 0.5)",
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 3,
   },
   verseTextCompact: {
     fontSize: 16,
@@ -177,12 +180,15 @@ const styles = StyleSheet.create({
   },
   referenceText: {
     fontSize: 14,
-    color: "#E8D5A3",
+    color: "#FFFFFF",
     fontFamily: "Inter_600SemiBold",
+    textShadowColor: "rgba(0, 0, 0, 0.4)",
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
   },
   versionText: {
     fontSize: 12,
-    color: "rgba(245,236,215,0.5)",
+    color: "rgba(255,255,255,0.7)",
     fontFamily: "Inter_400Regular",
   },
   actions: {

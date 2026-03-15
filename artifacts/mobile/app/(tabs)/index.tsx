@@ -339,7 +339,7 @@ const styles = StyleSheet.create({
   },
   quickReadOverlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(30, 12, 2, 0.5)",
+    backgroundColor: "rgba(15, 6, 2, 0.65)",
     borderRadius: 18,
   },
   quickReadContent: {
@@ -351,13 +351,19 @@ const styles = StyleSheet.create({
   quickReadTitle: {
     fontSize: 16,
     fontFamily: "PlayfairDisplay_700Bold",
-    color: "#F5ECD7",
+    color: "#FFFFFF",
     lineHeight: 21,
+    textShadowColor: "rgba(0, 0, 0, 0.5)",
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 3,
   },
   quickReadSub: {
     fontSize: 12,
-    fontFamily: "Inter_400Regular",
-    color: "rgba(245,236,215,0.6)",
+    fontFamily: "Inter_500Medium",
+    color: "rgba(255,255,255,0.8)",
     marginTop: 2,
+    textShadowColor: "rgba(0, 0, 0, 0.4)",
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
   },
 });
