@@ -7,6 +7,7 @@ import {
   Pressable,
   Platform,
   Alert,
+  ImageBackground,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -64,12 +65,12 @@ export default function SubscriptionScreen() {
         contentContainerStyle={{ paddingBottom: (isWeb ? 34 : insets.bottom) + 20 }}
         showsVerticalScrollIndicator={false}
       >
-        <LinearGradient
-          colors={["#3C1A00", "#5C2D0E", "#8B4513"]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 0.5, y: 1 }}
+        <ImageBackground
+          source={require("@/assets/images/paywall-hero.png")}
           style={[styles.heroSection, { paddingTop: (isWeb ? 67 : insets.top) + 12 }]}
+          resizeMode="cover"
         >
+          <View style={styles.heroOverlay} />
           <Pressable
             onPress={() => router.back()}
             style={({ pressed }) => [styles.closeBtn, { opacity: pressed ? 0.7 : 1 }]}
@@ -77,15 +78,13 @@ export default function SubscriptionScreen() {
             <Feather name="x" size={24} color="#F5ECD7" />
           </Pressable>
 
-          <View style={styles.heroIcon}>
-            <Text style={styles.heroIconText}>✝</Text>
+          <View style={styles.heroTextContent}>
+            <Text style={styles.heroTitle}>Unlock Premium</Text>
+            <Text style={styles.heroSubtitle}>
+              Everything you need for a richer, more personal walk with Christ — every single day.
+            </Text>
           </View>
-
-          <Text style={styles.heroTitle}>Unlock Premium</Text>
-          <Text style={styles.heroSubtitle}>
-            Deepen your daily walk with Christ through exclusive content and features
-          </Text>
-        </LinearGradient>
+        </ImageBackground>
 
         <View style={styles.featuresSection}>
           {FEATURES.map((feature, i) => (
@@ -178,47 +177,41 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.light.background,
   },
   heroSection: {
-    alignItems: "center",
-    paddingHorizontal: 32,
-    paddingBottom: 40,
+    height: 260,
+    justifyContent: "flex-end",
+  },
+  heroOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(30, 12, 2, 0.55)",
   },
   closeBtn: {
-    alignSelf: "flex-end",
+    position: "absolute",
+    top: 52,
+    right: 20,
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "rgba(245,236,215,0.15)",
+    backgroundColor: "rgba(0,0,0,0.3)",
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 20,
+    zIndex: 10,
   },
-  heroIcon: {
-    width: 72,
-    height: 72,
-    borderRadius: 36,
-    backgroundColor: "rgba(197,150,58,0.15)",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 20,
-    borderWidth: 1,
-    borderColor: "rgba(197,150,58,0.25)",
-  },
-  heroIconText: {
-    fontSize: 36,
-    color: "#C5963A",
+  heroTextContent: {
+    paddingHorizontal: 28,
+    paddingBottom: 28,
+    zIndex: 2,
   },
   heroTitle: {
     fontSize: 28,
     fontFamily: "PlayfairDisplay_700Bold",
     color: "#F5ECD7",
-    marginBottom: 10,
+    marginBottom: 8,
   },
   heroSubtitle: {
     fontSize: 15,
     fontFamily: "Inter_400Regular",
-    color: "rgba(245,236,215,0.7)",
-    textAlign: "center",
-    lineHeight: 24,
+    color: "rgba(245,236,215,0.75)",
+    lineHeight: 22,
   },
   featuresSection: {
     paddingHorizontal: 24,

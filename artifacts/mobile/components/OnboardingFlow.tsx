@@ -7,13 +7,13 @@ import {
   Pressable,
   Platform,
   FlatList,
+  ImageBackground,
 } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
 import { Feather } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Haptics from "expo-haptics";
 
-const { width, height } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
 interface OnboardingFlowProps {
   onComplete: () => void;
@@ -21,28 +21,25 @@ interface OnboardingFlowProps {
 
 const SLIDES = [
   {
-    icon: "✝",
-    title: "Daily Scripture",
-    subtitle: "Begin each day\nwith God\u2019s Word",
+    image: require("@/assets/images/onboarding-1.png"),
+    eyebrow: "EVERY MORNING",
+    title: "Start your day\nwith His Word",
     description:
-      "Receive a carefully selected Bible verse every morning to guide, inspire, and strengthen your faith throughout the day.",
-    gradient: ["#3C1A00", "#5C2D0E", "#8B4513"] as [string, string, string],
+      "A hand-picked verse delivered to you each morning — because the best days begin with scripture, not scrolling.",
   },
   {
-    icon: "📖",
-    title: "Devotional Readings",
-    subtitle: "Deepen your\nunderstanding",
+    image: require("@/assets/images/onboarding-2.png"),
+    eyebrow: "GO DEEPER",
+    title: "Devotionals that\nspeak to your heart",
     description:
-      "Explore daily devotionals with rich reflections, spiritual insights, and practical applications to grow closer to Christ.",
-    gradient: ["#1E3A5F", "#2D5070", "#3C6A8A"] as [string, string, string],
+      "Short, honest reflections written for real life — for the days when you need peace, strength, or just a quiet moment with God.",
   },
   {
-    icon: "🕊",
-    title: "Save & Share",
-    subtitle: "Treasure His\npromises",
+    image: require("@/assets/images/onboarding-3.png"),
+    eyebrow: "YOUR JOURNEY",
+    title: "Build your own\nscripture collection",
     description:
-      "Save your favorite verses, share scripture with loved ones, and build a personal collection of God\u2019s promises.",
-    gradient: ["#5B3A20", "#8B4513", "#C5963A"] as [string, string, string],
+      "Save the verses that move you. Share them with the people you love. Come back to them whenever you need a reminder.",
   },
 ];
 
@@ -80,22 +77,21 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
         showsHorizontalScrollIndicator={false}
         keyExtractor={(_, i) => String(i)}
         renderItem={({ item }) => (
-          <LinearGradient
-            colors={item.gradient}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 0.5, y: 1 }}
+          <ImageBackground
+            source={item.image}
             style={[styles.slide, { width }]}
+            resizeMode="cover"
           >
-            <View style={[styles.slideContent, { paddingTop: (isWeb ? 67 : insets.top) + 40 }]}>
-              <View style={styles.iconContainer}>
-                <Text style={styles.slideIcon}>{item.icon}</Text>
-              </View>
+            <View style={styles.slideOverlay} />
 
-              <Text style={styles.slideTitle}>{item.title}</Text>
-              <Text style={styles.slideSubtitle}>{item.subtitle}</Text>
-              <Text style={styles.slideDescription}>{item.description}</Text>
+            <View style={[styles.slideContent, { paddingBottom: (isWeb ? 34 : insets.bottom) + 220 }]}>
+              <View style={styles.slideTextArea}>
+                <Text style={styles.eyebrow}>{item.eyebrow}</Text>
+                <Text style={styles.slideTitle}>{item.title}</Text>
+                <Text style={styles.slideDescription}>{item.description}</Text>
+              </View>
             </View>
-          </LinearGradient>
+          </ImageBackground>
         )}
       />
 
@@ -116,26 +112,19 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
             { opacity: pressed ? 0.9 : 1, transform: [{ scale: pressed ? 0.97 : 1 }] },
           ]}
         >
-          <LinearGradient
-            colors={["#C5963A", "#8B6914"]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={styles.nextButtonGradient}
-          >
-            <Text style={styles.nextButtonText}>
-              {currentIndex === SLIDES.length - 1 ? "Get Started" : "Continue"}
-            </Text>
-            <Feather
-              name={currentIndex === SLIDES.length - 1 ? "check" : "arrow-right"}
-              size={20}
-              color="#FFF"
-            />
-          </LinearGradient>
+          <Text style={styles.nextButtonText}>
+            {currentIndex === SLIDES.length - 1 ? "Get Started" : "Continue"}
+          </Text>
+          <Feather
+            name={currentIndex === SLIDES.length - 1 ? "check" : "arrow-right"}
+            size={20}
+            color="#3C1A00"
+          />
         </Pressable>
 
         {currentIndex < SLIDES.length - 1 && (
           <Pressable onPress={handleSkip} style={styles.skipButton}>
-            <Text style={styles.skipText}>Skip</Text>
+            <Text style={styles.skipText}>Skip for now</Text>
           </Pressable>
         )}
       </View>
@@ -146,55 +135,41 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#3C1A00",
+    backgroundColor: "#1A0E05",
   },
   slide: {
     flex: 1,
   },
+  slideOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(20, 10, 2, 0.45)",
+  },
   slideContent: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 40,
-    paddingBottom: 200,
+    justifyContent: "flex-end",
+    paddingHorizontal: 32,
   },
-  iconContainer: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: "rgba(197, 150, 58, 0.15)",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 32,
-    borderWidth: 1,
-    borderColor: "rgba(197, 150, 58, 0.25)",
+  slideTextArea: {
+    gap: 12,
   },
-  slideIcon: {
-    fontSize: 48,
-  },
-  slideTitle: {
-    fontSize: 16,
+  eyebrow: {
+    fontSize: 12,
     fontFamily: "Inter_600SemiBold",
     color: "#C5963A",
-    textTransform: "uppercase",
     letterSpacing: 3,
-    marginBottom: 12,
   },
-  slideSubtitle: {
-    fontSize: 34,
+  slideTitle: {
+    fontSize: 36,
     fontFamily: "PlayfairDisplay_700Bold",
     color: "#F5ECD7",
-    textAlign: "center",
-    lineHeight: 42,
-    marginBottom: 20,
+    lineHeight: 44,
   },
   slideDescription: {
     fontSize: 16,
     fontFamily: "Inter_400Regular",
-    color: "rgba(245, 236, 215, 0.7)",
-    textAlign: "center",
+    color: "rgba(245, 236, 215, 0.75)",
     lineHeight: 26,
-    maxWidth: 320,
+    maxWidth: 340,
   },
   footer: {
     position: "absolute",
@@ -203,7 +178,7 @@ const styles = StyleSheet.create({
     right: 0,
     paddingHorizontal: 32,
     alignItems: "center",
-    gap: 16,
+    gap: 14,
   },
   dots: {
     flexDirection: "row",
@@ -222,9 +197,7 @@ const styles = StyleSheet.create({
   nextButton: {
     width: "100%",
     borderRadius: 16,
-    overflow: "hidden",
-  },
-  nextButtonGradient: {
+    backgroundColor: "#C5963A",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
@@ -234,14 +207,14 @@ const styles = StyleSheet.create({
   nextButtonText: {
     fontSize: 18,
     fontFamily: "Inter_600SemiBold",
-    color: "#FFF",
+    color: "#3C1A00",
   },
   skipButton: {
-    paddingVertical: 8,
+    paddingVertical: 6,
   },
   skipText: {
-    fontSize: 15,
-    fontFamily: "Inter_500Medium",
-    color: "rgba(245, 236, 215, 0.5)",
+    fontSize: 14,
+    fontFamily: "Inter_400Regular",
+    color: "rgba(245, 236, 215, 0.45)",
   },
 });

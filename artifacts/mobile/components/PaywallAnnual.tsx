@@ -7,10 +7,10 @@ import {
   Pressable,
   Platform,
   Alert,
+  ImageBackground,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { LinearGradient } from "expo-linear-gradient";
 import * as Haptics from "expo-haptics";
 import Colors from "@/constants/colors";
 import { useSettings } from "@/contexts/SettingsContext";
@@ -35,8 +35,8 @@ export default function PaywallAnnual({ onClose }: PaywallAnnualProps) {
     }
     updateSettings({ isPremium: true });
     Alert.alert(
-      "Welcome to Premium!",
-      "Your annual subscription is now active. God bless your journey!",
+      "Welcome to the family!",
+      "Your annual plan is active. We pray this blesses every single day of your year ahead.",
       [{ text: "Amen!", onPress: onClose }]
     );
   };
@@ -47,74 +47,70 @@ export default function PaywallAnnual({ onClose }: PaywallAnnualProps) {
         contentContainerStyle={{ paddingBottom: (isWeb ? 34 : insets.bottom) + 20 }}
         showsVerticalScrollIndicator={false}
       >
-        <LinearGradient
-          colors={["#1E3A5F", "#2D5070", "#3C6A8A"]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 0.5, y: 1 }}
+        <ImageBackground
+          source={require("@/assets/images/paywall-hero.png")}
           style={[styles.heroSection, { paddingTop: (isWeb ? 67 : insets.top) + 12 }]}
+          resizeMode="cover"
         >
+          <View style={styles.heroOverlay} />
+
           <Pressable
             onPress={onClose}
             style={({ pressed }) => [styles.closeBtn, { opacity: pressed ? 0.7 : 1 }]}
           >
-            <Feather name="x" size={22} color="rgba(245,236,215,0.6)" />
+            <Feather name="x" size={22} color="rgba(245,236,215,0.7)" />
           </Pressable>
 
-          <Text style={styles.waitText}>Wait!</Text>
-          <Text style={styles.heroTitle}>Special Offer</Text>
-          <Text style={styles.heroSubtitle}>
-            Save {savingsPercent}% with our annual plan
-          </Text>
-        </LinearGradient>
+          <View style={styles.heroContent}>
+            <Text style={styles.heroWait}>Before you go...</Text>
+            <Text style={styles.heroTitle}>How about{"\n"}a better deal?</Text>
+            <Text style={styles.heroSubtitle}>
+              Save {savingsPercent}% with our annual plan — that's less than $6 a month.
+            </Text>
+          </View>
+        </ImageBackground>
 
         <View style={styles.comparisonSection}>
           <View style={styles.comparisonCard}>
-            <Text style={styles.comparisonLabel}>Weekly Plan</Text>
-            <Text style={styles.comparisonPrice}>${weeklyCostPerYear.toFixed(0)}/yr</Text>
-            <Text style={styles.comparisonSub}>${weeklyPrice}/week × 52 weeks</Text>
+            <Text style={styles.comparisonLabel}>Weekly</Text>
+            <Text style={styles.comparisonPriceStriked}>${weeklyCostPerYear.toFixed(0)}</Text>
+            <Text style={styles.comparisonSub}>per year</Text>
           </View>
 
           <View style={styles.vsCircle}>
-            <Text style={styles.vsText}>VS</Text>
+            <Feather name="arrow-right" size={14} color={Colors.light.accent} />
           </View>
 
           <View style={[styles.comparisonCard, styles.comparisonCardHighlight]}>
             <View style={styles.saveBadge}>
-              <Text style={styles.saveBadgeText}>SAVE {savingsPercent}%</Text>
+              <Text style={styles.saveBadgeText}>BEST VALUE</Text>
             </View>
-            <Text style={styles.comparisonLabel}>Annual Plan</Text>
+            <Text style={styles.comparisonLabel}>Annual</Text>
             <Text style={styles.comparisonPriceHighlight}>${annualPrice}</Text>
-            <Text style={styles.comparisonSub}>Just ${(annualPrice / 12).toFixed(2)}/month</Text>
+            <Text style={styles.comparisonSub}>${(annualPrice / 12).toFixed(2)}/mo</Text>
           </View>
         </View>
 
-        <View style={styles.testimonySection}>
-          <Text style={styles.testimonyQuote}>
-            {"\u201C"}For where your treasure is, there your heart will be also.{"\u201D"}
+        <View style={styles.quoteSection}>
+          <Text style={styles.quoteText}>
+            {"\u201C"}For where your treasure is,{"\n"}there your heart will be also.{"\u201D"}
           </Text>
-          <Text style={styles.testimonyRef}>Matthew 6:21</Text>
+          <Text style={styles.quoteRef}>— Matthew 6:21</Text>
         </View>
 
         <Pressable
           onPress={handleSubscribe}
           style={({ pressed }) => [
             styles.subscribeBtn,
-            { opacity: pressed ? 0.9 : 1, transform: [{ scale: pressed ? 0.98 : 1 }] },
+            { opacity: pressed ? 0.92 : 1, transform: [{ scale: pressed ? 0.98 : 1 }] },
           ]}
         >
-          <LinearGradient
-            colors={["#C5963A", "#8B6914"]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={styles.subscribeBtnGradient}
-          >
-            <Text style={styles.subscribeBtnText}>Get Annual Plan — ${annualPrice}</Text>
-            <Text style={styles.subscribeBtnSub}>Best value for your faith journey</Text>
-          </LinearGradient>
+          <Text style={styles.subscribeBtnText}>Get Annual for ${annualPrice}</Text>
+          <Text style={styles.subscribeBtnSub}>That's just ${(annualPrice / 12).toFixed(2)} a month</Text>
         </Pressable>
 
         <Pressable onPress={onClose} style={styles.noThanksBtn}>
-          <Text style={styles.noThanksText}>No thanks, continue without premium</Text>
+          <Text style={styles.noThanksText}>No thanks, I'll keep it free</Text>
         </Pressable>
 
         <Text style={styles.disclaimer}>
@@ -131,38 +127,48 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.light.background,
   },
   heroSection: {
-    alignItems: "center",
-    paddingHorizontal: 32,
-    paddingBottom: 36,
+    height: 280,
+    justifyContent: "flex-end",
+  },
+  heroOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(15, 30, 50, 0.6)",
   },
   closeBtn: {
-    alignSelf: "flex-end",
+    position: "absolute",
+    top: 52,
+    right: 20,
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: "rgba(245,236,215,0.1)",
+    backgroundColor: "rgba(0,0,0,0.3)",
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 12,
+    zIndex: 10,
   },
-  waitText: {
-    fontSize: 16,
+  heroContent: {
+    paddingHorizontal: 28,
+    paddingBottom: 28,
+    zIndex: 2,
+  },
+  heroWait: {
+    fontSize: 14,
     fontFamily: "Inter_600SemiBold",
     color: "#C5963A",
-    textTransform: "uppercase",
-    letterSpacing: 3,
-    marginBottom: 8,
+    marginBottom: 6,
   },
   heroTitle: {
     fontSize: 32,
     fontFamily: "PlayfairDisplay_700Bold",
     color: "#F5ECD7",
+    lineHeight: 40,
     marginBottom: 8,
   },
   heroSubtitle: {
-    fontSize: 16,
+    fontSize: 15,
     fontFamily: "Inter_400Regular",
-    color: "rgba(245, 236, 215, 0.7)",
+    color: "rgba(245, 236, 215, 0.75)",
+    lineHeight: 22,
   },
   comparisonSection: {
     flexDirection: "row",
@@ -177,7 +183,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 20,
     alignItems: "center",
-    gap: 6,
+    gap: 4,
     borderWidth: 1,
     borderColor: Colors.light.border,
   },
@@ -195,24 +201,25 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   saveBadgeText: {
-    fontSize: 11,
+    fontSize: 10,
     fontFamily: "Inter_700Bold",
     color: "#FFF",
-    letterSpacing: 0.5,
+    letterSpacing: 1,
   },
   comparisonLabel: {
     fontSize: 13,
     fontFamily: "Inter_500Medium",
     color: Colors.light.textSecondary,
+    marginTop: 4,
   },
-  comparisonPrice: {
+  comparisonPriceStriked: {
     fontSize: 22,
     fontFamily: "Inter_700Bold",
-    color: Colors.light.textSecondary,
+    color: Colors.light.tabIconDefault,
     textDecorationLine: "line-through",
   },
   comparisonPriceHighlight: {
-    fontSize: 28,
+    fontSize: 30,
     fontFamily: "PlayfairDisplay_700Bold",
     color: Colors.light.text,
   },
@@ -222,22 +229,17 @@ const styles = StyleSheet.create({
     color: Colors.light.textSecondary,
   },
   vsCircle: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    width: 32,
+    height: 32,
+    borderRadius: 16,
     backgroundColor: Colors.light.surfaceSecondary,
     alignItems: "center",
     justifyContent: "center",
-    marginHorizontal: -8,
+    marginHorizontal: -6,
     zIndex: 1,
   },
-  vsText: {
-    fontSize: 11,
-    fontFamily: "Inter_700Bold",
-    color: Colors.light.textSecondary,
-  },
-  testimonySection: {
-    marginHorizontal: 28,
+  quoteSection: {
+    marginHorizontal: 24,
     marginTop: 28,
     padding: 24,
     backgroundColor: Colors.light.parchment,
@@ -246,39 +248,37 @@ const styles = StyleSheet.create({
     borderLeftColor: Colors.light.accent,
     alignItems: "center",
   },
-  testimonyQuote: {
-    fontSize: 17,
+  quoteText: {
+    fontSize: 18,
     fontFamily: "PlayfairDisplay_400Regular_Italic",
     color: Colors.light.text,
     textAlign: "center",
     lineHeight: 28,
   },
-  testimonyRef: {
+  quoteRef: {
     fontSize: 13,
-    fontFamily: "Inter_600SemiBold",
+    fontFamily: "Inter_500Medium",
     color: Colors.light.accent,
     marginTop: 10,
   },
   subscribeBtn: {
-    marginHorizontal: 28,
+    marginHorizontal: 24,
     marginTop: 28,
     borderRadius: 16,
-    overflow: "hidden",
-  },
-  subscribeBtnGradient: {
+    backgroundColor: "#C5963A",
     paddingVertical: 18,
     alignItems: "center",
-    gap: 4,
+    gap: 3,
   },
   subscribeBtnText: {
     fontSize: 17,
     fontFamily: "Inter_700Bold",
-    color: "#FFF",
+    color: "#2C1810",
   },
   subscribeBtnSub: {
     fontSize: 12,
     fontFamily: "Inter_400Regular",
-    color: "rgba(255,255,255,0.7)",
+    color: "rgba(44, 24, 16, 0.6)",
   },
   noThanksBtn: {
     alignItems: "center",
@@ -288,7 +288,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: "Inter_400Regular",
     color: Colors.light.tabIconDefault,
-    textDecorationLine: "underline",
   },
   disclaimer: {
     fontSize: 11,

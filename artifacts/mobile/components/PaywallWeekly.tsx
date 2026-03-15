@@ -8,10 +8,10 @@ import {
   Platform,
   Alert,
   Switch,
+  ImageBackground,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { LinearGradient } from "expo-linear-gradient";
 import * as Haptics from "expo-haptics";
 import Colors from "@/constants/colors";
 import { useSettings } from "@/contexts/SettingsContext";
@@ -22,12 +22,11 @@ interface PaywallWeeklyProps {
 }
 
 const FEATURES = [
-  { icon: "book-open", text: "Unlimited devotionals & reflections" },
-  { icon: "bell-off", text: "Ad-free experience" },
-  { icon: "layers", text: "Multiple Bible translations" },
-  { icon: "image", text: "Premium verse wallpapers" },
-  { icon: "share-2", text: "Beautiful sharing templates" },
-  { icon: "heart", text: "Unlimited saved verses" },
+  { icon: "book-open", label: "Unlimited devotionals", sub: "Fresh content every day" },
+  { icon: "bell-off", label: "No ads, ever", sub: "Pure, focused reading" },
+  { icon: "layers", label: "All Bible translations", sub: "KJV, NIV, ESV & more" },
+  { icon: "heart", label: "Unlimited favorites", sub: "Save every verse that moves you" },
+  { icon: "image", label: "Verse wallpapers", sub: "Beautiful images with scripture" },
 ];
 
 export default function PaywallWeekly({ onClose, onSkipToAnnual }: PaywallWeeklyProps) {
@@ -42,10 +41,10 @@ export default function PaywallWeekly({ onClose, onSkipToAnnual }: PaywallWeekly
     }
     updateSettings({ isPremium: true });
     Alert.alert(
-      "Welcome to Premium!",
+      freeTrialEnabled ? "Your free trial has started!" : "Welcome to Premium!",
       freeTrialEnabled
-        ? "Your 3-day free trial has started. Enjoy all premium features!"
-        : "Thank you for your subscription. Enjoy all premium features!",
+        ? "You have 3 days to explore everything — no charge. We hope it blesses your journey."
+        : "Thank you for investing in your faith. We pray this blesses your daily walk.",
       [{ text: "Amen!", onPress: onClose }]
     );
   };
@@ -56,49 +55,54 @@ export default function PaywallWeekly({ onClose, onSkipToAnnual }: PaywallWeekly
         contentContainerStyle={{ paddingBottom: (isWeb ? 34 : insets.bottom) + 20 }}
         showsVerticalScrollIndicator={false}
       >
-        <LinearGradient
-          colors={["#3C1A00", "#5C2D0E", "#8B4513"]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 0.5, y: 1 }}
+        <ImageBackground
+          source={require("@/assets/images/paywall-hero.png")}
           style={[styles.heroSection, { paddingTop: (isWeb ? 67 : insets.top) + 12 }]}
+          resizeMode="cover"
         >
+          <View style={styles.heroOverlay} />
+
           <Pressable
             onPress={onSkipToAnnual}
             style={({ pressed }) => [styles.closeBtn, { opacity: pressed ? 0.7 : 1 }]}
           >
-            <Feather name="x" size={22} color="rgba(245,236,215,0.6)" />
+            <Feather name="x" size={22} color="rgba(245,236,215,0.7)" />
           </Pressable>
 
-          <View style={styles.heroIcon}>
-            <Text style={styles.heroIconText}>✝</Text>
+          <View style={styles.heroContent}>
+            <Text style={styles.heroEyebrow}>UNLOCK EVERYTHING</Text>
+            <Text style={styles.heroTitle}>Go deeper in{"\n"}your faith</Text>
+            <Text style={styles.heroSubtitle}>
+              Everything you need for a richer, more meaningful walk with Christ.
+            </Text>
           </View>
-
-          <Text style={styles.heroTitle}>Unlock the Full</Text>
-          <Text style={styles.heroTitleAccent}>Scripture Experience</Text>
-          <Text style={styles.heroSubtitle}>
-            Walk deeper with Christ every single day
-          </Text>
-        </LinearGradient>
+        </ImageBackground>
 
         <View style={styles.featuresSection}>
+          <Text style={styles.featuresSectionTitle}>What you'll get</Text>
           {FEATURES.map((feature, i) => (
             <View key={i} style={styles.featureRow}>
               <View style={styles.featureIcon}>
-                <Feather name={feature.icon as any} size={18} color={Colors.light.tint} />
+                <Feather name={feature.icon as any} size={18} color={Colors.light.accent} />
               </View>
-              <Text style={styles.featureText}>{feature.text}</Text>
+              <View style={styles.featureTextArea}>
+                <Text style={styles.featureLabel}>{feature.label}</Text>
+                <Text style={styles.featureSub}>{feature.sub}</Text>
+              </View>
             </View>
           ))}
         </View>
 
-        <View style={styles.trialToggleSection}>
+        <View style={styles.trialSection}>
           <View style={styles.trialToggle}>
             <View style={styles.trialToggleInfo}>
-              <Text style={styles.trialToggleTitle}>Free Trial</Text>
+              <Text style={styles.trialToggleTitle}>
+                {freeTrialEnabled ? "3-day free trial" : "No free trial"}
+              </Text>
               <Text style={styles.trialToggleDescription}>
                 {freeTrialEnabled
-                  ? "3 days free, then $9.99/week"
-                  : "Start immediately at $9.99/week"}
+                  ? "Try everything free — cancel anytime before it ends."
+                  : "Start your subscription right away at $9.99/week."}
               </Text>
             </View>
             <Switch
@@ -115,48 +119,34 @@ export default function PaywallWeekly({ onClose, onSkipToAnnual }: PaywallWeekly
           </View>
         </View>
 
-        <View style={styles.planCard}>
-          <View style={styles.planBadge}>
-            <Text style={styles.planBadgeText}>WEEKLY</Text>
-          </View>
-          <View style={styles.planContent}>
-            <View style={styles.planPricing}>
-              <Text style={styles.planPrice}>$9.99</Text>
-              <Text style={styles.planPeriod}>/week</Text>
+        <View style={styles.priceSection}>
+          <Text style={styles.priceAmount}>$9.99</Text>
+          <Text style={styles.pricePeriod}>/week</Text>
+          {freeTrialEnabled && (
+            <View style={styles.trialBadge}>
+              <Feather name="gift" size={13} color="#5B7D3A" />
+              <Text style={styles.trialBadgeText}>First 3 days free</Text>
             </View>
-            {freeTrialEnabled && (
-              <View style={styles.trialBadge}>
-                <Feather name="gift" size={14} color="#5B7D3A" />
-                <Text style={styles.trialBadgeText}>3 days free</Text>
-              </View>
-            )}
-          </View>
+          )}
         </View>
 
         <Pressable
           onPress={handleSubscribe}
           style={({ pressed }) => [
             styles.subscribeBtn,
-            { opacity: pressed ? 0.9 : 1, transform: [{ scale: pressed ? 0.98 : 1 }] },
+            { opacity: pressed ? 0.92 : 1, transform: [{ scale: pressed ? 0.98 : 1 }] },
           ]}
         >
-          <LinearGradient
-            colors={["#C5963A", "#8B6914"]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={styles.subscribeBtnGradient}
-          >
-            <Text style={styles.subscribeBtnText}>
-              {freeTrialEnabled ? "Start Free Trial" : "Subscribe Now"}
-            </Text>
-            {freeTrialEnabled && (
-              <Text style={styles.subscribeBtnSub}>3 days free, then $9.99/week</Text>
-            )}
-          </LinearGradient>
+          <Text style={styles.subscribeBtnText}>
+            {freeTrialEnabled ? "Start My Free Trial" : "Subscribe Now"}
+          </Text>
+          {freeTrialEnabled && (
+            <Text style={styles.subscribeBtnSub}>then $9.99/week · cancel anytime</Text>
+          )}
         </Pressable>
 
         <Text style={styles.disclaimer}>
-          Cancel anytime. No commitment required.{"\n"}By subscribing, you agree to our Terms of
+          Cancel anytime in your account settings.{"\n"}By subscribing, you agree to our Terms of
           Use and Privacy Policy.
         </Text>
       </ScrollView>
@@ -170,57 +160,63 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.light.background,
   },
   heroSection: {
-    alignItems: "center",
-    paddingHorizontal: 32,
-    paddingBottom: 40,
+    height: 300,
+    justifyContent: "flex-end",
+  },
+  heroOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(30, 12, 2, 0.55)",
   },
   closeBtn: {
-    alignSelf: "flex-end",
+    position: "absolute",
+    top: 52,
+    right: 20,
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: "rgba(245,236,215,0.1)",
+    backgroundColor: "rgba(0,0,0,0.3)",
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 16,
+    zIndex: 10,
   },
-  heroIcon: {
-    width: 72,
-    height: 72,
-    borderRadius: 36,
-    backgroundColor: "rgba(197, 150, 58, 0.15)",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 20,
-    borderWidth: 1,
-    borderColor: "rgba(197, 150, 58, 0.25)",
+  heroContent: {
+    paddingHorizontal: 28,
+    paddingBottom: 28,
+    zIndex: 2,
   },
-  heroIconText: {
-    fontSize: 36,
+  heroEyebrow: {
+    fontSize: 11,
+    fontFamily: "Inter_600SemiBold",
     color: "#C5963A",
+    letterSpacing: 2.5,
+    marginBottom: 8,
   },
   heroTitle: {
-    fontSize: 26,
+    fontSize: 32,
     fontFamily: "PlayfairDisplay_700Bold",
     color: "#F5ECD7",
-  },
-  heroTitleAccent: {
-    fontSize: 26,
-    fontFamily: "PlayfairDisplay_400Regular_Italic",
-    color: "#C5963A",
-    marginBottom: 10,
+    lineHeight: 40,
+    marginBottom: 8,
   },
   heroSubtitle: {
     fontSize: 15,
     fontFamily: "Inter_400Regular",
-    color: "rgba(245, 236, 215, 0.6)",
-    textAlign: "center",
+    color: "rgba(245, 236, 215, 0.75)",
+    lineHeight: 22,
   },
   featuresSection: {
-    paddingHorizontal: 28,
+    paddingHorizontal: 24,
     paddingTop: 28,
-    paddingBottom: 8,
-    gap: 14,
+    paddingBottom: 4,
+    gap: 16,
+  },
+  featuresSectionTitle: {
+    fontSize: 13,
+    fontFamily: "Inter_600SemiBold",
+    color: Colors.light.textSecondary,
+    textTransform: "uppercase",
+    letterSpacing: 1.5,
+    marginBottom: 4,
   },
   featureRow: {
     flexDirection: "row",
@@ -228,22 +224,31 @@ const styles = StyleSheet.create({
     gap: 14,
   },
   featureIcon: {
-    width: 40,
-    height: 40,
+    width: 42,
+    height: 42,
     borderRadius: 12,
-    backgroundColor: Colors.light.tint + "12",
+    backgroundColor: Colors.light.accent + "14",
     alignItems: "center",
     justifyContent: "center",
   },
-  featureText: {
+  featureTextArea: {
+    flex: 1,
+    gap: 2,
+  },
+  featureLabel: {
     fontSize: 15,
-    fontFamily: "Inter_500Medium",
+    fontFamily: "Inter_600SemiBold",
     color: Colors.light.text,
   },
-  trialToggleSection: {
-    paddingHorizontal: 28,
+  featureSub: {
+    fontSize: 13,
+    fontFamily: "Inter_400Regular",
+    color: Colors.light.textSecondary,
+  },
+  trialSection: {
+    paddingHorizontal: 24,
     paddingTop: 24,
-    paddingBottom: 16,
+    paddingBottom: 8,
   },
   trialToggle: {
     flexDirection: "row",
@@ -256,7 +261,7 @@ const styles = StyleSheet.create({
   },
   trialToggleInfo: {
     flex: 1,
-    gap: 4,
+    gap: 3,
   },
   trialToggleTitle: {
     fontSize: 16,
@@ -267,82 +272,60 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontFamily: "Inter_400Regular",
     color: Colors.light.textSecondary,
+    lineHeight: 18,
   },
-  planCard: {
-    marginHorizontal: 28,
-    borderRadius: 16,
-    borderWidth: 2,
-    borderColor: Colors.light.accent,
-    backgroundColor: Colors.light.surface,
-    overflow: "hidden",
-  },
-  planBadge: {
-    backgroundColor: Colors.light.accent,
-    paddingVertical: 6,
-    alignItems: "center",
-  },
-  planBadgeText: {
-    fontSize: 11,
-    fontFamily: "Inter_700Bold",
-    color: "#FFF",
-    textTransform: "uppercase",
-    letterSpacing: 1.5,
-  },
-  planContent: {
-    padding: 20,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  planPricing: {
+  priceSection: {
     flexDirection: "row",
     alignItems: "baseline",
+    justifyContent: "center",
+    paddingTop: 20,
+    paddingBottom: 4,
     gap: 4,
+    flexWrap: "wrap",
   },
-  planPrice: {
-    fontSize: 32,
+  priceAmount: {
+    fontSize: 36,
     fontFamily: "PlayfairDisplay_700Bold",
     color: Colors.light.text,
   },
-  planPeriod: {
-    fontSize: 16,
+  pricePeriod: {
+    fontSize: 18,
     fontFamily: "Inter_400Regular",
     color: Colors.light.textSecondary,
   },
   trialBadge: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 6,
-    backgroundColor: "#5B7D3A15",
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 10,
+    gap: 5,
+    backgroundColor: "#5B7D3A14",
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 8,
+    marginLeft: 8,
   },
   trialBadgeText: {
-    fontSize: 13,
+    fontSize: 12,
     fontFamily: "Inter_600SemiBold",
     color: "#5B7D3A",
   },
   subscribeBtn: {
-    marginHorizontal: 28,
-    marginTop: 24,
+    marginHorizontal: 24,
+    marginTop: 16,
     borderRadius: 16,
-    overflow: "hidden",
-  },
-  subscribeBtnGradient: {
+    backgroundColor: "#C5963A",
     paddingVertical: 18,
     alignItems: "center",
-    gap: 4,
+    gap: 3,
   },
   subscribeBtnText: {
     fontSize: 18,
     fontFamily: "Inter_700Bold",
-    color: "#FFF",
+    color: "#2C1810",
   },
   subscribeBtnSub: {
     fontSize: 12,
     fontFamily: "Inter_400Regular",
-    color: "rgba(255,255,255,0.7)",
+    color: "rgba(44, 24, 16, 0.6)",
   },
   disclaimer: {
     fontSize: 11,
@@ -350,7 +333,7 @@ const styles = StyleSheet.create({
     color: Colors.light.tabIconDefault,
     textAlign: "center",
     paddingHorizontal: 40,
-    paddingTop: 16,
+    paddingTop: 14,
     lineHeight: 17,
   },
 });

@@ -1,39 +1,46 @@
 import React, { useEffect, useRef } from "react";
-import { StyleSheet, Text, View, Animated, Dimensions } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
+import { StyleSheet, Text, View, Animated, Dimensions, ImageBackground } from "react-native";
 
 const { width, height } = Dimensions.get("window");
 
 export default function SplashLoader() {
   const fadeAnim = useRef(new Animated.Value(0)).current;
-  const scaleAnim = useRef(new Animated.Value(0.8)).current;
-  const pulseAnim = useRef(new Animated.Value(1)).current;
+  const scaleAnim = useRef(new Animated.Value(0.85)).current;
+  const subtitleFade = useRef(new Animated.Value(0)).current;
+  const dotOpacity = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
-    Animated.parallel([
-      Animated.timing(fadeAnim, {
+    Animated.sequence([
+      Animated.parallel([
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 900,
+          useNativeDriver: true,
+        }),
+        Animated.spring(scaleAnim, {
+          toValue: 1,
+          tension: 40,
+          friction: 7,
+          useNativeDriver: true,
+        }),
+      ]),
+      Animated.timing(subtitleFade, {
         toValue: 1,
-        duration: 800,
-        useNativeDriver: true,
-      }),
-      Animated.spring(scaleAnim, {
-        toValue: 1,
-        tension: 50,
-        friction: 7,
+        duration: 600,
         useNativeDriver: true,
       }),
     ]).start();
 
     Animated.loop(
       Animated.sequence([
-        Animated.timing(pulseAnim, {
-          toValue: 0.4,
-          duration: 1200,
+        Animated.timing(dotOpacity, {
+          toValue: 0.3,
+          duration: 900,
           useNativeDriver: true,
         }),
-        Animated.timing(pulseAnim, {
+        Animated.timing(dotOpacity, {
           toValue: 1,
-          duration: 1200,
+          duration: 900,
           useNativeDriver: true,
         }),
       ])
@@ -41,92 +48,103 @@ export default function SplashLoader() {
   }, []);
 
   return (
-    <LinearGradient
-      colors={["#3C1A00", "#5C2D0E", "#8B4513"]}
-      start={{ x: 0, y: 0 }}
-      end={{ x: 0.5, y: 1 }}
+    <ImageBackground
+      source={require("@/assets/images/splash-bg.png")}
       style={styles.container}
+      resizeMode="cover"
     >
+      <View style={styles.overlay} />
+
       <Animated.View
         style={[
           styles.content,
           { opacity: fadeAnim, transform: [{ scale: scaleAnim }] },
         ]}
       >
-        <View style={styles.crossContainer}>
-          <Text style={styles.crossIcon}>✝</Text>
-        </View>
+        <Text style={styles.crossIcon}>✝</Text>
 
         <Text style={styles.title}>Bible Verse</Text>
         <Text style={styles.titleAccent}>Daily</Text>
 
-        <Animated.View style={[styles.loadingDots, { opacity: pulseAnim }]}>
+        <Animated.View style={[styles.loadingDots, { opacity: dotOpacity }]}>
           <View style={styles.dot} />
           <View style={styles.dot} />
           <View style={styles.dot} />
         </Animated.View>
-
-        <Text style={styles.tagline}>
-          His word is a lamp unto your feet
-        </Text>
       </Animated.View>
-    </LinearGradient>
+
+      <Animated.View style={[styles.bottomSection, { opacity: subtitleFade }]}>
+        <Text style={styles.tagline}>
+          Thy word is a lamp unto my feet,{"\n"}and a light unto my path.
+        </Text>
+        <Text style={styles.taglineRef}>Psalm 119:105</Text>
+      </Animated.View>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(30, 12, 2, 0.65)",
   },
   content: {
-    alignItems: "center",
-    gap: 8,
-  },
-  crossContainer: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: "rgba(197, 150, 58, 0.2)",
+    flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 20,
-    borderWidth: 1,
-    borderColor: "rgba(197, 150, 58, 0.3)",
+    paddingBottom: 80,
   },
   crossIcon: {
-    fontSize: 40,
+    fontSize: 52,
     color: "#C5963A",
+    marginBottom: 16,
   },
   title: {
-    fontSize: 36,
+    fontSize: 42,
     fontFamily: "PlayfairDisplay_700Bold",
     color: "#F5ECD7",
     letterSpacing: 1,
   },
   titleAccent: {
-    fontSize: 28,
+    fontSize: 30,
     fontFamily: "PlayfairDisplay_400Regular_Italic",
     color: "#C5963A",
-    marginTop: -4,
+    marginTop: -2,
   },
   loadingDots: {
     flexDirection: "row",
-    gap: 8,
-    marginTop: 32,
+    gap: 10,
+    marginTop: 36,
   },
   dot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
+    width: 6,
+    height: 6,
+    borderRadius: 3,
     backgroundColor: "#C5963A",
   },
+  bottomSection: {
+    position: "absolute",
+    bottom: 60,
+    left: 0,
+    right: 0,
+    alignItems: "center",
+    paddingHorizontal: 40,
+  },
   tagline: {
-    fontSize: 14,
-    fontFamily: "Inter_400Regular",
-    color: "rgba(245, 236, 215, 0.6)",
-    marginTop: 12,
-    fontStyle: "italic",
+    fontSize: 15,
+    fontFamily: "PlayfairDisplay_400Regular_Italic",
+    color: "rgba(245, 236, 215, 0.8)",
+    textAlign: "center",
+    lineHeight: 24,
+  },
+  taglineRef: {
+    fontSize: 12,
+    fontFamily: "Inter_500Medium",
+    color: "#C5963A",
+    marginTop: 8,
+    letterSpacing: 1,
   },
 });

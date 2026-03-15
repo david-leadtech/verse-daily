@@ -8,8 +8,8 @@ import {
   Platform,
   ActivityIndicator,
   Pressable,
+  ImageBackground,
 } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
 import { Feather } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -53,6 +53,8 @@ export default function HomeScreen() {
     day: "numeric",
   });
 
+  const greetingMessage = getGreetingMessage();
+
   return (
     <View style={styles.container}>
       <ScrollView
@@ -67,7 +69,7 @@ export default function HomeScreen() {
       >
         <View style={styles.header}>
           <View>
-            <Text style={styles.greeting}>Good {getGreeting()}</Text>
+            <Text style={styles.greeting}>{greetingMessage.greeting}</Text>
             <Text style={styles.dateText}>{dateString}</Text>
           </View>
           <Pressable
@@ -78,16 +80,19 @@ export default function HomeScreen() {
           </Pressable>
         </View>
 
-        <SectionHeader title="Verse of the Day" />
+        <Text style={styles.dailyMessage}>{greetingMessage.message}</Text>
+
+        <SectionHeader title="Today's Verse" />
         {dailyLoading ? (
           <View style={styles.loadingCard}>
             <ActivityIndicator size="small" color={Colors.light.accent} />
+            <Text style={styles.loadingText}>Finding today's verse for you...</Text>
           </View>
         ) : dailyError ? (
           <Pressable onPress={() => refetchDaily()} style={styles.loadingCard}>
-            <Feather name="wifi-off" size={32} color={Colors.light.tabIconDefault} />
-            <Text style={styles.emptyText}>Could not load verse</Text>
-            <Text style={[styles.emptyText, { color: Colors.light.tint, fontSize: 13 }]}>Tap to retry</Text>
+            <Feather name="wifi-off" size={28} color={Colors.light.tabIconDefault} />
+            <Text style={styles.emptyText}>Couldn't load your verse right now</Text>
+            <Text style={styles.retryText}>Tap to try again</Text>
           </Pressable>
         ) : dailyData?.verse ? (
           <View style={styles.dailyVerseContainer}>
@@ -98,25 +103,26 @@ export default function HomeScreen() {
               verseNumber={dailyData.verse.verseNumber}
               text={dailyData.verse.text}
               version={dailyData.verse.version}
-              gradientIndex={today.getDate() % 8}
+              gradientIndex={today.getDate() % 4}
+              useImage
             />
             {dailyData.reflection && (
               <View style={styles.reflectionContainer}>
-                <Feather name="message-circle" size={16} color={Colors.light.accent} />
+                <Text style={styles.reflectionLabel}>Reflection</Text>
                 <Text style={styles.reflectionText}>{dailyData.reflection}</Text>
               </View>
             )}
           </View>
         ) : (
           <View style={styles.loadingCard}>
-            <Feather name="book-open" size={32} color={Colors.light.tabIconDefault} />
-            <Text style={styles.emptyText}>No verse available today</Text>
+            <Feather name="book-open" size={28} color={Colors.light.tabIconDefault} />
+            <Text style={styles.emptyText}>No verse for today yet — check back soon!</Text>
           </View>
         )}
 
-        <View style={{ height: 24 }} />
+        <View style={{ height: 28 }} />
         <SectionHeader
-          title="Devotionals"
+          title="For You"
           actionText="See all"
           onAction={() => router.push("/(tabs)/explore")}
         />
@@ -126,9 +132,9 @@ export default function HomeScreen() {
           </View>
         ) : devotionalsError ? (
           <Pressable onPress={() => refetchDevotionals()} style={styles.loadingCard}>
-            <Feather name="wifi-off" size={32} color={Colors.light.tabIconDefault} />
-            <Text style={styles.emptyText}>Could not load devotionals</Text>
-            <Text style={[styles.emptyText, { color: Colors.light.tint, fontSize: 13 }]}>Tap to retry</Text>
+            <Feather name="wifi-off" size={28} color={Colors.light.tabIconDefault} />
+            <Text style={styles.emptyText}>Couldn't load devotionals</Text>
+            <Text style={styles.retryText}>Tap to try again</Text>
           </Pressable>
         ) : (
           <View style={styles.devotionalsList}>
@@ -149,14 +155,14 @@ export default function HomeScreen() {
           </View>
         )}
 
-        <View style={{ height: 24 }} />
+        <View style={{ height: 28 }} />
         <SectionHeader title="Quick Read" />
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.quickReadScroll}
         >
-          {quickReadTopics.map((topic) => (
+          {quickReadTopics.map((topic, index) => (
             <Pressable
               key={topic.name}
               onPress={() =>
@@ -167,18 +173,22 @@ export default function HomeScreen() {
               }
               style={({ pressed }) => [{ opacity: pressed ? 0.9 : 1 }]}
             >
-              <LinearGradient
-                colors={topic.colors as [string, string]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
+              <ImageBackground
+                source={topic.image}
                 style={styles.quickReadCard}
+                imageStyle={styles.quickReadImage}
+                resizeMode="cover"
               >
-                <Feather name={topic.icon as any} size={24} color="#F5ECD7" />
-                <Text style={styles.quickReadTitle}>{topic.name}</Text>
-                <Text style={styles.quickReadSub}>
-                  {topic.book} {topic.chapter}
-                </Text>
-              </LinearGradient>
+                <View style={styles.quickReadOverlay} />
+                <View style={styles.quickReadContent}>
+                  <Feather name={topic.icon as any} size={20} color="#E8D5A3" />
+                  <View style={{ flex: 1 }} />
+                  <Text style={styles.quickReadTitle}>{topic.name}</Text>
+                  <Text style={styles.quickReadSub}>
+                    {topic.book} {topic.chapter}
+                  </Text>
+                </View>
+              </ImageBackground>
             </Pressable>
           ))}
         </ScrollView>
@@ -187,19 +197,32 @@ export default function HomeScreen() {
   );
 }
 
-function getGreeting(): string {
+function getGreetingMessage(): { greeting: string; message: string } {
   const hour = new Date().getHours();
-  if (hour < 12) return "Morning";
-  if (hour < 17) return "Afternoon";
-  return "Evening";
+  if (hour < 12) {
+    return {
+      greeting: "Good Morning",
+      message: "Start your day with a moment of peace. Here's a verse to carry with you today.",
+    };
+  }
+  if (hour < 17) {
+    return {
+      greeting: "Good Afternoon",
+      message: "Take a pause. Let God's Word refresh your spirit for the rest of the day.",
+    };
+  }
+  return {
+    greeting: "Good Evening",
+    message: "Wind down with tonight's scripture. Let His words bring you peace as you rest.",
+  };
 }
 
 const quickReadTopics = [
-  { name: "Psalms of Peace", book: "Psalms", chapter: 23, icon: "sun", colors: ["#8B4513", "#6B3410"] },
-  { name: "Love Chapter", book: "1 Corinthians", chapter: 13, icon: "heart", colors: ["#8B2252", "#6B3410"] },
-  { name: "Creation", book: "Genesis", chapter: 1, icon: "globe", colors: ["#5B7D3A", "#3C5A20"] },
-  { name: "Faith Heroes", book: "Hebrews", chapter: 11, icon: "shield", colors: ["#C5963A", "#8B6914"] },
-  { name: "Beatitudes", book: "Matthew", chapter: 5, icon: "star", colors: ["#1E3A5F", "#2D5070"] },
+  { name: "Psalms of\nPeace", book: "Psalms", chapter: 23, icon: "sun", image: require("@/assets/images/onboarding-1.png") },
+  { name: "The Love\nChapter", book: "1 Corinthians", chapter: 13, icon: "heart", image: require("@/assets/images/onboarding-3.png") },
+  { name: "In the\nBeginning", book: "Genesis", chapter: 1, icon: "globe", image: require("@/assets/images/splash-bg.png") },
+  { name: "Heroes of\nFaith", book: "Hebrews", chapter: 11, icon: "shield", image: require("@/assets/images/daily-verse-bg.png") },
+  { name: "The\nBeatitudes", book: "Matthew", chapter: 5, icon: "star", image: require("@/assets/images/onboarding-2.png") },
 ];
 
 const styles = StyleSheet.create({
@@ -215,7 +238,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: 20,
-    marginBottom: 24,
+    marginBottom: 6,
   },
   greeting: {
     fontSize: 28,
@@ -226,7 +249,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: "Inter_400Regular",
     color: Colors.light.textSecondary,
-    marginTop: 4,
+    marginTop: 3,
   },
   settingsBtn: {
     width: 44,
@@ -236,25 +259,40 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  dailyMessage: {
+    fontSize: 15,
+    fontFamily: "Inter_400Regular",
+    color: Colors.light.textSecondary,
+    paddingHorizontal: 20,
+    lineHeight: 23,
+    marginBottom: 24,
+    fontStyle: "italic",
+  },
   dailyVerseContainer: {
     paddingHorizontal: 20,
-    gap: 12,
+    gap: 14,
   },
   reflectionContainer: {
-    flexDirection: "row",
-    gap: 10,
-    backgroundColor: Colors.light.surface,
-    borderRadius: 14,
-    padding: 16,
-    borderWidth: 1,
-    borderColor: Colors.light.borderLight,
+    backgroundColor: Colors.light.parchment,
+    borderRadius: 16,
+    padding: 18,
+    gap: 8,
+    borderLeftWidth: 3,
+    borderLeftColor: Colors.light.accent,
+  },
+  reflectionLabel: {
+    fontSize: 11,
+    fontFamily: "Inter_600SemiBold",
+    color: Colors.light.accent,
+    textTransform: "uppercase",
+    letterSpacing: 1.5,
   },
   reflectionText: {
     flex: 1,
     fontSize: 14,
-    lineHeight: 22,
+    lineHeight: 23,
     fontFamily: "Inter_400Regular",
-    color: Colors.light.textSecondary,
+    color: Colors.light.text,
     fontStyle: "italic",
   },
   loadingCard: {
@@ -264,12 +302,23 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
-    gap: 12,
+    gap: 10,
+  },
+  loadingText: {
+    fontSize: 14,
+    fontFamily: "Inter_400Regular",
+    color: Colors.light.textSecondary,
+    fontStyle: "italic",
   },
   emptyText: {
     fontSize: 14,
     fontFamily: "Inter_400Regular",
     color: Colors.light.textSecondary,
+  },
+  retryText: {
+    fontSize: 13,
+    fontFamily: "Inter_500Medium",
+    color: Colors.light.accent,
   },
   devotionalsList: {
     paddingHorizontal: 20,
@@ -281,21 +330,35 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   quickReadCard: {
-    width: 140,
-    height: 140,
+    width: 150,
+    height: 180,
     borderRadius: 18,
+    overflow: "hidden",
+  },
+  quickReadImage: {
+    borderRadius: 18,
+  },
+  quickReadOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(30, 12, 2, 0.5)",
+    borderRadius: 18,
+  },
+  quickReadContent: {
+    flex: 1,
     padding: 16,
+    zIndex: 2,
     justifyContent: "space-between",
   },
   quickReadTitle: {
-    fontSize: 15,
+    fontSize: 16,
     fontFamily: "PlayfairDisplay_700Bold",
     color: "#F5ECD7",
-    lineHeight: 20,
+    lineHeight: 21,
   },
   quickReadSub: {
     fontSize: 12,
     fontFamily: "Inter_400Regular",
-    color: "rgba(245,236,215,0.7)",
+    color: "rgba(245,236,215,0.6)",
+    marginTop: 2,
   },
 });

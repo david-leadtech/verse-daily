@@ -1,8 +1,7 @@
 import React from "react";
-import { StyleSheet, Text, View, Pressable, Share, Platform } from "react-native";
+import { StyleSheet, Text, View, Pressable, Share, Platform, ImageBackground } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
-import GradientCard from "./GradientCard";
 import { useFavorites } from "@/contexts/FavoritesContext";
 
 interface VerseCardProps {
@@ -16,7 +15,15 @@ interface VerseCardProps {
   showActions?: boolean;
   compact?: boolean;
   onPress?: () => void;
+  useImage?: boolean;
 }
+
+const CARD_IMAGES = [
+  require("@/assets/images/onboarding-1.png"),
+  require("@/assets/images/onboarding-3.png"),
+  require("@/assets/images/splash-bg.png"),
+  require("@/assets/images/daily-verse-bg.png"),
+];
 
 export default function VerseCard({
   id,
@@ -29,6 +36,7 @@ export default function VerseCard({
   showActions = true,
   compact = false,
   onPress,
+  useImage = false,
 }: VerseCardProps) {
   const { isFavorite, toggleFavorite } = useFavorites();
   const saved = isFavorite(id);
@@ -46,48 +54,80 @@ export default function VerseCard({
     }
     try {
       await Share.share({
-        message: `"${text}"\n\n- ${book} ${chapter}:${verseNumber} (${version})`,
+        message: `"${text}"\n\n— ${book} ${chapter}:${verseNumber} (${version})`,
       });
     } catch (_e) {}
   };
 
+  const cardContent = (
+    <View style={[styles.container, compact && styles.containerCompact]}>
+      <Text style={[styles.verseText, compact && styles.verseTextCompact]}>
+        {`\u201C${text}\u201D`}
+      </Text>
+      <View style={styles.footer}>
+        <View style={styles.reference}>
+          <Text style={styles.referenceText}>
+            {book} {chapter}:{verseNumber}
+          </Text>
+          <Text style={styles.versionText}>{version}</Text>
+        </View>
+        {showActions && (
+          <View style={styles.actions}>
+            <Pressable
+              onPress={handleFavorite}
+              hitSlop={12}
+              style={({ pressed }) => [styles.actionBtn, { opacity: pressed ? 0.7 : 1 }]}
+            >
+              <Feather
+                name="heart"
+                size={20}
+                color={saved ? "#C5963A" : "rgba(245,236,215,0.5)"}
+              />
+            </Pressable>
+            <Pressable
+              onPress={handleShare}
+              hitSlop={12}
+              style={({ pressed }) => [styles.actionBtn, { opacity: pressed ? 0.7 : 1 }]}
+            >
+              <Feather name="share" size={20} color="rgba(245,236,215,0.5)" />
+            </Pressable>
+          </View>
+        )}
+      </View>
+    </View>
+  );
+
+  if (useImage) {
+    const imageSource = CARD_IMAGES[gradientIndex % CARD_IMAGES.length];
+    const wrapper = (
+      <ImageBackground
+        source={imageSource}
+        style={styles.imageCard}
+        imageStyle={styles.imageBorder}
+        resizeMode="cover"
+      >
+        <View style={styles.imageOverlay} />
+        {cardContent}
+      </ImageBackground>
+    );
+
+    if (onPress) {
+      return (
+        <Pressable
+          onPress={onPress}
+          style={({ pressed }) => [{ opacity: pressed ? 0.95 : 1, transform: [{ scale: pressed ? 0.98 : 1 }] }]}
+        >
+          {wrapper}
+        </Pressable>
+      );
+    }
+    return wrapper;
+  }
+
+  const GradientCard = require("./GradientCard").default;
   return (
     <GradientCard gradientIndex={gradientIndex} onPress={onPress}>
-      <View style={[styles.container, compact && styles.containerCompact]}>
-        <Text style={[styles.verseText, compact && styles.verseTextCompact]}>
-          {`\u201C${text}\u201D`}
-        </Text>
-        <View style={styles.footer}>
-          <View style={styles.reference}>
-            <Text style={styles.referenceText}>
-              {book} {chapter}:{verseNumber}
-            </Text>
-            <Text style={styles.versionText}>{version}</Text>
-          </View>
-          {showActions && (
-            <View style={styles.actions}>
-              <Pressable
-                onPress={handleFavorite}
-                hitSlop={12}
-                style={({ pressed }) => [styles.actionBtn, { opacity: pressed ? 0.7 : 1 }]}
-              >
-                <Feather
-                  name="heart"
-                  size={20}
-                  color={saved ? "#C5963A" : "rgba(245,236,215,0.5)"}
-                />
-              </Pressable>
-              <Pressable
-                onPress={handleShare}
-                hitSlop={12}
-                style={({ pressed }) => [styles.actionBtn, { opacity: pressed ? 0.7 : 1 }]}
-              >
-                <Feather name="share" size={20} color="rgba(245,236,215,0.5)" />
-              </Pressable>
-            </View>
-          )}
-        </View>
-      </View>
+      {cardContent}
     </GradientCard>
   );
 }
@@ -97,10 +137,23 @@ const styles = StyleSheet.create({
     padding: 28,
     minHeight: 200,
     justifyContent: "space-between",
+    zIndex: 2,
   },
   containerCompact: {
     padding: 20,
     minHeight: 140,
+  },
+  imageCard: {
+    borderRadius: 20,
+    overflow: "hidden",
+  },
+  imageBorder: {
+    borderRadius: 20,
+  },
+  imageOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(30, 12, 2, 0.55)",
+    borderRadius: 20,
   },
   verseText: {
     fontSize: 20,
