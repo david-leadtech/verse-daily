@@ -28,7 +28,8 @@ pnpm workspace monorepo using TypeScript. Each package manages its own dependenc
 artifacts-monorepo/
 ├── artifacts/              # Deployable applications
 │   ├── api-server/         # Express API server (port 8080)
-│   └── mobile/             # Expo React Native app
+│   ├── flutter-app/        # Flutter (Dart) mobile app — iOS/Android native
+│   └── mobile/             # Expo React Native app (legacy, being replaced by flutter-app)
 ├── lib/                    # Shared libraries
 │   ├── api-spec/           # OpenAPI spec + Orval codegen config
 │   ├── api-client-react/   # Generated React Query hooks
@@ -107,6 +108,74 @@ Expo React Native app with file-based routing (expo-router).
 - Warm brown gradient cards (no purple/indigo)
 - Liquid glass tab bar on iOS 26+, classic blur tab bar fallback
 - Web platform insets handled (67px top, 34px bottom)
+
+### `artifacts/flutter-app` (Bible Verse Daily — Flutter)
+
+Flutter (Dart) native mobile app migrated from the Expo React Native version. Targets iOS and Android natively.
+
+**Architecture:**
+- **State management**: Provider (ChangeNotifier) — `FavoritesProvider`, `SettingsProvider`, `OnboardingProvider`
+- **API**: `ApiService` class using `package:http` — connects to the same Express API server
+- **Persistence**: `SharedPreferences` (equivalent to AsyncStorage)
+- **Fonts**: Google Fonts package — Playfair Display + Inter
+- **Icons**: `feather_icons` package (same icon set as Expo version)
+
+**App Flow (AppGate):**
+- Splash → Onboarding (3 slides) → Divine Offer → Weekly Paywall → Annual Paywall → Main App
+- Returning users skip to main app via SharedPreferences
+
+**Directory structure:**
+```text
+artifacts/flutter-app/
+├── lib/
+│   ├── main.dart                    # Entry point, providers, MaterialApp
+│   ├── theme/
+│   │   ├── colors.dart              # AppColors (all color constants + gradient presets)
+│   │   └── app_theme.dart           # AppTheme (TextStyle helpers, ThemeData)
+│   ├── models/
+│   │   ├── verse.dart               # Verse, DailyVerseResponse, VersesResponse
+│   │   ├── devotional.dart          # Devotional, DevotionalsResponse
+│   │   ├── book.dart                # BibleBook, BooksResponse
+│   │   └── favorite_verse.dart      # FavoriteVerse (with JSON serialization)
+│   ├── services/
+│   │   └── api_service.dart         # HTTP client for all API endpoints
+│   ├── providers/
+│   │   ├── favorites_provider.dart  # Favorites state + SharedPreferences persistence
+│   │   ├── settings_provider.dart   # Settings state (notifications, Bible version, premium)
+│   │   └── onboarding_provider.dart # Onboarding completion tracking
+│   ├── screens/
+│   │   ├── app_gate.dart            # Gate flow controller (splash → onboarding → app)
+│   │   ├── app_shell.dart           # Main tab navigation shell
+│   │   ├── splash_screen.dart       # Animated splash with fade-in
+│   │   ├── onboarding_screen.dart   # 3-slide onboarding with animations
+│   │   ├── divine_offer_screen.dart # Animated reveal screen
+│   │   ├── paywall_weekly_screen.dart
+│   │   ├── paywall_annual_screen.dart
+│   │   ├── home_screen.dart         # Today tab (daily verse, devotionals, quick reads)
+│   │   ├── explore_screen.dart      # Explore tab (devotionals with category filter)
+│   │   ├── bible_screen.dart        # Bible tab (book → chapter → verses)
+│   │   ├── favorites_screen.dart    # Favorites tab
+│   │   ├── settings_screen.dart
+│   │   ├── devotional_detail_screen.dart
+│   │   └── subscription_screen.dart
+│   └── widgets/
+│       ├── gradient_card.dart       # 8-preset gradient card
+│       ├── verse_card.dart          # Verse display with favorite/share actions
+│       ├── devotional_card.dart     # Devotional list item with category styling
+│       ├── section_header.dart      # Section title with optional action
+│       └── error_fallback.dart      # Error/loading state widget
+├── assets/images/                   # All image assets (copied from Expo app)
+├── pubspec.yaml                     # Flutter dependencies
+└── analysis_options.yaml            # Lint rules
+```
+
+**API Base URL:** Configured via `--dart-define=API_BASE_URL=...` at build time. Defaults to `https://bible-verse-daily.replit.app`.
+
+**Build commands:**
+```bash
+flutter pub get
+flutter run --dart-define=API_BASE_URL=https://your-api-domain.com
+```
 
 ### `lib/db` (`@workspace/db`)
 
