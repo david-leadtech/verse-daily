@@ -14,7 +14,8 @@ import {
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { Animated, StyleSheet } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -58,17 +59,31 @@ type AppPhase = "splash" | "onboarding" | "divine-offer" | "paywall-weekly" | "p
 function AppGate() {
   const { hasCompletedOnboarding, completeOnboarding } = useOnboarding();
   const [phase, setPhase] = useState<AppPhase>("splash");
-  const splashDoneRef = React.useRef(false);
-  const dataReadyRef = React.useRef(false);
+  const splashDoneRef = useRef(false);
+  const dataReadyRef = useRef(false);
+  const [showSplashOverlay, setShowSplashOverlay] = useState(false);
+  const splashFadeOut = useRef(new Animated.Value(1)).current;
+
+  const transitionFromSplash = React.useCallback((nextPhase: AppPhase) => {
+    setShowSplashOverlay(true);
+    setPhase(nextPhase);
+    Animated.timing(splashFadeOut, {
+      toValue: 0,
+      duration: 600,
+      useNativeDriver: true,
+    }).start(() => {
+      setShowSplashOverlay(false);
+    });
+  }, [splashFadeOut]);
 
   const tryTransition = React.useCallback(() => {
     if (!splashDoneRef.current || !dataReadyRef.current) return;
     if (hasCompletedOnboarding) {
-      setPhase("app");
+      transitionFromSplash("app");
     } else {
-      setPhase("onboarding");
+      transitionFromSplash("onboarding");
     }
-  }, [hasCompletedOnboarding]);
+  }, [hasCompletedOnboarding, transitionFromSplash]);
 
   useEffect(() => {
     if (hasCompletedOnboarding === null) return;
@@ -81,50 +96,69 @@ function AppGate() {
     tryTransition();
   }, [tryTransition]);
 
-  if (phase === "splash") {
-    return <SplashLoader onAnimationComplete={handleSplashComplete} />;
-  }
+  const renderContent = () => {
+    if (phase === "splash") {
+      return <SplashLoader onAnimationComplete={handleSplashComplete} />;
+    }
 
-  if (phase === "onboarding") {
-    return (
-      <OnboardingFlow
-        onComplete={() => setPhase("divine-offer")}
-      />
-    );
-  }
+    if (phase === "onboarding") {
+      return (
+        <OnboardingFlow
+          onComplete={() => setPhase("divine-offer")}
+        />
+      );
+    }
 
-  if (phase === "divine-offer") {
-    return (
-      <DivineOfferReveal
-        onContinue={() => setPhase("paywall-weekly")}
-      />
-    );
-  }
+    if (phase === "divine-offer") {
+      return (
+        <DivineOfferReveal
+          onContinue={() => setPhase("paywall-weekly")}
+        />
+      );
+    }
 
-  if (phase === "paywall-weekly") {
-    return (
-      <PaywallWeekly
-        onClose={() => {
-          completeOnboarding();
-          setPhase("app");
-        }}
-        onSkipToAnnual={() => setPhase("paywall-annual")}
-      />
-    );
-  }
+    if (phase === "paywall-weekly") {
+      return (
+        <PaywallWeekly
+          onClose={() => {
+            completeOnboarding();
+            setPhase("app");
+          }}
+          onSkipToAnnual={() => setPhase("paywall-annual")}
+        />
+      );
+    }
 
-  if (phase === "paywall-annual") {
-    return (
-      <PaywallAnnual
-        onClose={() => {
-          completeOnboarding();
-          setPhase("app");
-        }}
-      />
-    );
-  }
+    if (phase === "paywall-annual") {
+      return (
+        <PaywallAnnual
+          onClose={() => {
+            completeOnboarding();
+            setPhase("app");
+          }}
+        />
+      );
+    }
 
-  return <RootLayoutNav />;
+    return <RootLayoutNav />;
+  };
+
+  return (
+    <>
+      {renderContent()}
+      {showSplashOverlay && (
+        <Animated.View
+          style={[
+            StyleSheet.absoluteFillObject,
+            { opacity: splashFadeOut, zIndex: 100 },
+          ]}
+          pointerEvents="none"
+        >
+          <SplashLoader />
+        </Animated.View>
+      )}
+    </>
+  );
 }
 
 export default function RootLayout() {
