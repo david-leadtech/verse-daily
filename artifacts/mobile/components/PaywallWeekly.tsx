@@ -48,13 +48,13 @@ export default function PaywallWeekly({ onClose, onSkipToAnnual }: PaywallWeekly
     Alert.alert(
       freeTrialEnabled ? "Your free trial has started!" : "Welcome to Premium!",
       freeTrialEnabled
-        ? "You have 7 days to explore everything — no charge. We hope it blesses your journey."
+        ? "You have 3 days to explore everything — no charge. We hope it blesses your journey."
         : "Thank you for investing in your faith. We pray this blesses your daily walk.",
       [{ text: "Amen!", onPress: onClose }]
     );
   };
 
-  const trialEndDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString("en-US", {
+  const trialEndDate = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
     year: "numeric",

@@ -26,48 +26,31 @@ export default function DivineOfferReveal({ onContinue }: DivineOfferRevealProps
   const bottomInset = isWeb ? 34 : insets.bottom;
 
   const glowOpacity = useRef(new Animated.Value(0)).current;
-  const rayScale = useRef(new Animated.Value(0.3)).current;
-  const rayOpacity = useRef(new Animated.Value(0)).current;
-  const cardTranslateY = useRef(new Animated.Value(-height * 0.5)).current;
+  const cardTranslateY = useRef(new Animated.Value(-120)).current;
   const cardOpacity = useRef(new Animated.Value(0)).current;
-  const cardScale = useRef(new Animated.Value(0.85)).current;
-  const shimmerAnim = useRef(new Animated.Value(0)).current;
-  const bottomFade = useRef(new Animated.Value(0)).current;
-  const crossScale = useRef(new Animated.Value(0)).current;
   const crossOpacity = useRef(new Animated.Value(0)).current;
+  const crossScale = useRef(new Animated.Value(0.5)).current;
+  const bottomFade = useRef(new Animated.Value(0)).current;
+  const shimmerAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    Animated.sequence([
+    Animated.stagger(100, [
       Animated.parallel([
-        Animated.timing(glowOpacity, { toValue: 1, duration: 800, useNativeDriver: true }),
-        Animated.timing(rayOpacity, { toValue: 0.6, duration: 1000, useNativeDriver: true }),
-        Animated.spring(rayScale, { toValue: 1, tension: 20, friction: 6, useNativeDriver: true }),
+        Animated.timing(glowOpacity, { toValue: 1, duration: 400, useNativeDriver: true }),
+        Animated.timing(crossOpacity, { toValue: 1, duration: 350, useNativeDriver: true }),
+        Animated.timing(crossScale, { toValue: 1, duration: 350, useNativeDriver: true }),
       ]),
-      Animated.delay(200),
       Animated.parallel([
-        Animated.timing(crossOpacity, { toValue: 1, duration: 400, useNativeDriver: true }),
-        Animated.spring(crossScale, { toValue: 1, tension: 50, friction: 7, useNativeDriver: true }),
+        Animated.timing(cardTranslateY, { toValue: 0, duration: 450, useNativeDriver: true }),
+        Animated.timing(cardOpacity, { toValue: 1, duration: 400, useNativeDriver: true }),
       ]),
-      Animated.delay(100),
-      Animated.parallel([
-        Animated.spring(cardTranslateY, { toValue: 0, tension: 30, friction: 8, useNativeDriver: true }),
-        Animated.timing(cardOpacity, { toValue: 1, duration: 600, useNativeDriver: true }),
-        Animated.spring(cardScale, { toValue: 1, tension: 40, friction: 7, useNativeDriver: true }),
-      ]),
-      Animated.timing(bottomFade, { toValue: 1, duration: 500, useNativeDriver: true }),
+      Animated.timing(bottomFade, { toValue: 1, duration: 300, useNativeDriver: true }),
     ]).start();
 
     Animated.loop(
       Animated.sequence([
-        Animated.timing(shimmerAnim, { toValue: 1, duration: 2500, useNativeDriver: true }),
-        Animated.timing(shimmerAnim, { toValue: 0, duration: 2500, useNativeDriver: true }),
-      ])
-    ).start();
-
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(glowOpacity, { toValue: 0.6, duration: 2000, useNativeDriver: true }),
-        Animated.timing(glowOpacity, { toValue: 1, duration: 2000, useNativeDriver: true }),
+        Animated.timing(shimmerAnim, { toValue: 1, duration: 2000, useNativeDriver: true }),
+        Animated.timing(shimmerAnim, { toValue: 0, duration: 2000, useNativeDriver: true }),
       ])
     ).start();
   }, []);
@@ -81,7 +64,7 @@ export default function DivineOfferReveal({ onContinue }: DivineOfferRevealProps
 
   const shimmerOpacity = shimmerAnim.interpolate({
     inputRange: [0, 0.5, 1],
-    outputRange: [0.3, 0.7, 0.3],
+    outputRange: [0.3, 0.8, 0.3],
   });
 
   return (
@@ -92,26 +75,9 @@ export default function DivineOfferReveal({ onContinue }: DivineOfferRevealProps
     >
       <View style={styles.darkOverlay} />
 
-      <Animated.View
-        style={[
-          styles.lightRays,
-          {
-            opacity: rayOpacity,
-            transform: [{ scale: rayScale }],
-          },
-        ]}
-      >
-        <LinearGradient
-          colors={["rgba(197, 150, 58, 0.5)", "rgba(197, 150, 58, 0.15)", "transparent"]}
-          style={styles.rayGradient}
-          start={{ x: 0.5, y: 0 }}
-          end={{ x: 0.5, y: 1 }}
-        />
-      </Animated.View>
-
       <Animated.View style={[styles.glowCircle, { opacity: glowOpacity }]}>
         <LinearGradient
-          colors={["rgba(197, 150, 58, 0.35)", "rgba(197, 150, 58, 0.08)", "transparent"]}
+          colors={["rgba(197, 150, 58, 0.4)", "rgba(197, 150, 58, 0.1)", "transparent"]}
           style={styles.glowGradientInner}
           start={{ x: 0.5, y: 0 }}
           end={{ x: 0.5, y: 1 }}
@@ -132,7 +98,7 @@ export default function DivineOfferReveal({ onContinue }: DivineOfferRevealProps
           styles.offerCard,
           {
             opacity: cardOpacity,
-            transform: [{ translateY: cardTranslateY }, { scale: cardScale }],
+            transform: [{ translateY: cardTranslateY }],
           },
         ]}
       >
@@ -143,7 +109,7 @@ export default function DivineOfferReveal({ onContinue }: DivineOfferRevealProps
           <Animated.View style={[styles.shimmerBar, { opacity: shimmerOpacity }]} />
 
           <Text style={styles.giftEyebrow}>A GIFT FROM ABOVE</Text>
-          <Text style={styles.giftTitle}>7 Days Free</Text>
+          <Text style={styles.giftTitle}>3 Days Free</Text>
           <Text style={styles.giftSubtitle}>
             Experience the full scripture journey{"\n"}before you commit — no charge.
           </Text>
@@ -169,7 +135,7 @@ export default function DivineOfferReveal({ onContinue }: DivineOfferRevealProps
 
           <View style={styles.priceBadge}>
             <Text style={styles.priceStrikethrough}>$9.99/week</Text>
-            <Text style={styles.priceFree}>FREE for 7 days</Text>
+            <Text style={styles.priceFree}>FREE for 3 days</Text>
           </View>
         </LinearGradient>
       </Animated.View>
@@ -205,24 +171,14 @@ const styles = StyleSheet.create({
   },
   darkOverlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(10, 5, 2, 0.75)",
-  },
-  lightRays: {
-    position: "absolute",
-    top: -60,
-    left: -width * 0.3,
-    right: -width * 0.3,
-    height: height * 0.55,
-  },
-  rayGradient: {
-    flex: 1,
+    backgroundColor: "rgba(10, 5, 2, 0.78)",
   },
   glowCircle: {
     position: "absolute",
     top: -20,
-    left: width * 0.1,
-    right: width * 0.1,
-    height: height * 0.35,
+    left: width * 0.05,
+    right: width * 0.05,
+    height: height * 0.3,
   },
   glowGradientInner: {
     flex: 1,
@@ -232,12 +188,12 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: height * 0.1,
     alignSelf: "center",
-    fontSize: 52,
+    fontSize: 48,
     color: "#C5963A",
   },
   offerCard: {
     position: "absolute",
-    top: height * 0.2,
+    top: height * 0.19,
     left: 24,
     right: 24,
     borderRadius: 24,
@@ -245,7 +201,7 @@ const styles = StyleSheet.create({
     elevation: 12,
   },
   cardGradient: {
-    padding: 28,
+    padding: 26,
     alignItems: "center",
   },
   shimmerBar: {
@@ -261,33 +217,33 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_600SemiBold",
     color: "#8B4513",
     letterSpacing: 3,
-    marginBottom: 8,
+    marginBottom: 6,
   },
   giftTitle: {
-    fontSize: 36,
+    fontSize: 34,
     fontFamily: "PlayfairDisplay_700Bold",
     color: "#2C1810",
-    marginBottom: 8,
+    marginBottom: 6,
   },
   giftSubtitle: {
     fontSize: 14,
     fontFamily: "Inter_400Regular",
     color: "#7A6B5D",
     textAlign: "center",
-    lineHeight: 22,
-    marginBottom: 16,
+    lineHeight: 21,
+    marginBottom: 14,
   },
   divider: {
-    width: 60,
+    width: 50,
     height: 1,
     backgroundColor: "#D4C4A8",
-    marginBottom: 18,
+    marginBottom: 14,
   },
   benefitRow: {
     flexDirection: "row",
     alignItems: "center",
     gap: 12,
-    marginBottom: 12,
+    marginBottom: 10,
     width: "100%",
     paddingHorizontal: 8,
   },
@@ -297,11 +253,11 @@ const styles = StyleSheet.create({
     color: "#3C1A00",
   },
   priceBadge: {
-    marginTop: 8,
+    marginTop: 6,
     backgroundColor: "rgba(197, 150, 58, 0.12)",
     borderRadius: 12,
     paddingHorizontal: 20,
-    paddingVertical: 12,
+    paddingVertical: 10,
     alignItems: "center",
     gap: 2,
     width: "100%",
