@@ -59,6 +59,7 @@ class BibleVerseDailyApp extends StatelessWidget {
         switch (routeSettings.name) {
           case '/settings':
             return MaterialPageRoute(
+              fullscreenDialog: true,
               builder: (_) => SettingsScreen(
                 onBack: () => Navigator.of(_).pop(),
                 onOpenSubscription: () {
