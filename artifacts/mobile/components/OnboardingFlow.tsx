@@ -10,10 +10,11 @@ import {
   ImageBackground,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Haptics from "expo-haptics";
 
-const { width } = Dimensions.get("window");
+const { width, height } = Dimensions.get("window");
 
 interface OnboardingFlowProps {
   onComplete: () => void;
@@ -22,24 +23,24 @@ interface OnboardingFlowProps {
 const SLIDES = [
   {
     image: require("@/assets/images/onboarding-1.png"),
-    eyebrow: "EVERY MORNING",
-    title: "Start your day\nwith His Word",
+    eyebrow: "HIS WORD AWAITS",
+    title: "Be still, and\nknow He is God",
     description:
-      "A hand-picked verse delivered to you each morning — because the best days begin with scripture, not scrolling.",
+      "Each morning, a verse chosen just for you — a quiet moment with the One who knows your heart before you speak.",
   },
   {
     image: require("@/assets/images/onboarding-2.png"),
-    eyebrow: "GO DEEPER",
-    title: "Devotionals that\nspeak to your heart",
+    eyebrow: "DRAW NEAR",
+    title: "Let His presence\nfill your day",
     description:
-      "Short, honest reflections written for real life — for the days when you need peace, strength, or just a quiet moment with God.",
+      "Devotionals that speak to what you're really going through — because God meets you right where you are, not where you think you should be.",
   },
   {
     image: require("@/assets/images/onboarding-3.png"),
-    eyebrow: "YOUR JOURNEY",
-    title: "Build your own\nscripture collection",
+    eyebrow: "REMEMBER HIS PROMISES",
+    title: "Hold on to the\nverses that hold you",
     description:
-      "Save the verses that move you. Share them with the people you love. Come back to them whenever you need a reminder.",
+      "Save the words that brought you strength, comfort, or tears. Build a collection of God's promises that you can return to whenever your soul needs them.",
   },
 ];
 
@@ -48,6 +49,8 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
   const isWeb = Platform.OS === "web";
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatListRef = useRef<FlatList>(null);
+  const topInset = isWeb ? 67 : insets.top;
+  const bottomInset = isWeb ? 34 : insets.bottom;
 
   const handleNext = () => {
     if (Platform.OS !== "web") {
@@ -82,15 +85,11 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
             style={[styles.slide, { width }]}
             resizeMode="cover"
           >
-            <View style={styles.slideOverlay} />
-
-            <View style={[styles.slideContent, { paddingBottom: (isWeb ? 34 : insets.bottom) + 220 }]}>
-              <View style={styles.slideTextArea}>
-                <Text style={styles.eyebrow}>{item.eyebrow}</Text>
-                <Text style={styles.slideTitle}>{item.title}</Text>
-                <Text style={styles.slideDescription}>{item.description}</Text>
-              </View>
-            </View>
+            <LinearGradient
+              colors={["transparent", "rgba(10, 5, 2, 0.35)", "rgba(10, 5, 2, 0.92)"]}
+              locations={[0, 0.4, 0.75]}
+              style={StyleSheet.absoluteFillObject}
+            />
           </ImageBackground>
         )}
       />
@@ -98,13 +97,25 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
       {currentIndex < SLIDES.length - 1 && (
         <Pressable
           onPress={handleSkip}
-          style={[styles.skipBtn, { top: (isWeb ? 67 : insets.top) + 12 }]}
+          style={[styles.skipBtn, { top: topInset + 12 }]}
         >
           <Text style={styles.skipText}>Skip</Text>
         </Pressable>
       )}
 
-      <View style={[styles.footer, { paddingBottom: (isWeb ? 34 : insets.bottom) + 20 }]}>
+      <View
+        style={[
+          styles.bottomContent,
+          { paddingBottom: bottomInset + 100 },
+        ]}
+        pointerEvents="none"
+      >
+        <Text style={styles.eyebrow}>{SLIDES[currentIndex].eyebrow}</Text>
+        <Text style={styles.slideTitle}>{SLIDES[currentIndex].title}</Text>
+        <Text style={styles.slideDescription}>{SLIDES[currentIndex].description}</Text>
+      </View>
+
+      <View style={[styles.footer, { paddingBottom: bottomInset + 16 }]}>
         <View style={styles.dots}>
           {SLIDES.map((_, i) => (
             <View
@@ -122,7 +133,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
           ]}
         >
           <Text style={styles.nextButtonText}>
-            {currentIndex === SLIDES.length - 1 ? "Get Started" : "Continue"}
+            {currentIndex === SLIDES.length - 1 ? "Begin My Journey" : "Continue"}
           </Text>
           <Feather
             name={currentIndex === SLIDES.length - 1 ? "check" : "arrow-right"}
@@ -138,64 +149,60 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#1A0E05",
+    backgroundColor: "#0A0502",
   },
   slide: {
     flex: 1,
   },
-  slideOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(20, 10, 2, 0.45)",
-  },
-  slideContent: {
-    flex: 1,
-    justifyContent: "flex-end",
-    paddingHorizontal: 32,
-  },
-  slideTextArea: {
-    gap: 12,
+  bottomContent: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    paddingHorizontal: 28,
+    gap: 10,
   },
   eyebrow: {
-    fontSize: 12,
+    fontSize: 11,
     fontFamily: "Inter_600SemiBold",
     color: "#C5963A",
     letterSpacing: 3,
   },
   slideTitle: {
-    fontSize: 36,
+    fontSize: 34,
     fontFamily: "PlayfairDisplay_700Bold",
     color: "#F5ECD7",
-    lineHeight: 44,
+    lineHeight: 42,
   },
   slideDescription: {
-    fontSize: 16,
+    fontSize: 15,
     fontFamily: "Inter_400Regular",
-    color: "rgba(245, 236, 215, 0.75)",
-    lineHeight: 26,
-    maxWidth: 340,
+    color: "rgba(245, 236, 215, 0.7)",
+    lineHeight: 24,
+    maxWidth: 330,
   },
   skipBtn: {
     position: "absolute",
-    left: 24,
+    right: 20,
     zIndex: 20,
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 20,
-    backgroundColor: "rgba(0,0,0,0.25)",
+    backgroundColor: "rgba(0,0,0,0.3)",
   },
   skipText: {
-    fontSize: 15,
+    fontSize: 14,
     fontFamily: "Inter_500Medium",
-    color: "rgba(245, 236, 215, 0.75)",
+    color: "rgba(245, 236, 215, 0.7)",
   },
   footer: {
     position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
-    paddingHorizontal: 32,
+    paddingHorizontal: 28,
     alignItems: "center",
-    gap: 14,
+    gap: 12,
   },
   dots: {
     flexDirection: "row",

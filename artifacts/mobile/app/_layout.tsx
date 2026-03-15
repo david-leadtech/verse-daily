@@ -57,23 +57,31 @@ type AppPhase = "splash" | "onboarding" | "paywall-weekly" | "paywall-annual" | 
 function AppGate() {
   const { hasCompletedOnboarding, completeOnboarding } = useOnboarding();
   const [phase, setPhase] = useState<AppPhase>("splash");
+  const splashDoneRef = React.useRef(false);
+  const dataReadyRef = React.useRef(false);
+
+  const tryTransition = React.useCallback(() => {
+    if (!splashDoneRef.current || !dataReadyRef.current) return;
+    if (hasCompletedOnboarding) {
+      setPhase("app");
+    } else {
+      setPhase("onboarding");
+    }
+  }, [hasCompletedOnboarding]);
 
   useEffect(() => {
     if (hasCompletedOnboarding === null) return;
+    dataReadyRef.current = true;
+    tryTransition();
+  }, [hasCompletedOnboarding, tryTransition]);
 
-    const timer = setTimeout(() => {
-      if (hasCompletedOnboarding) {
-        setPhase("app");
-      } else {
-        setPhase("onboarding");
-      }
-    }, 2200);
-
-    return () => clearTimeout(timer);
-  }, [hasCompletedOnboarding]);
+  const handleSplashComplete = React.useCallback(() => {
+    splashDoneRef.current = true;
+    tryTransition();
+  }, [tryTransition]);
 
   if (phase === "splash") {
-    return <SplashLoader />;
+    return <SplashLoader onAnimationComplete={handleSplashComplete} />;
   }
 
   if (phase === "onboarding") {

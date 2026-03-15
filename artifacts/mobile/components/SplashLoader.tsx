@@ -3,7 +3,11 @@ import { StyleSheet, Text, View, Animated, Dimensions, ImageBackground, Platform
 
 const { width, height } = Dimensions.get("window");
 
-export default function SplashLoader() {
+interface SplashLoaderProps {
+  onAnimationComplete?: () => void;
+}
+
+export default function SplashLoader({ onAnimationComplete }: SplashLoaderProps) {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(0.85)).current;
   const subtitleFade = useRef(new Animated.Value(0)).current;
@@ -29,7 +33,11 @@ export default function SplashLoader() {
         duration: 600,
         useNativeDriver: true,
       }),
-    ]).start();
+    ]).start(() => {
+      setTimeout(() => {
+        onAnimationComplete?.();
+      }, 800);
+    });
 
     Animated.loop(
       Animated.sequence([
