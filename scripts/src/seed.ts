@@ -1,6 +1,113 @@
-import { db } from "@workspace/db";
+import { db, eq, and, sql } from "@workspace/db";
 import { versesTable, booksTable, devotionalsTable, dailyVersesTable } from "@workspace/db/schema";
-import { sql } from "drizzle-orm";
+
+const GITHUB_FILE_NAMES: Record<string, string> = {
+  "1 Samuel": "1Samuel",
+  "2 Samuel": "2Samuel",
+  "1 Kings": "1Kings",
+  "2 Kings": "2Kings",
+  "1 Chronicles": "1Chronicles",
+  "2 Chronicles": "2Chronicles",
+  "Song of Solomon": "SongofSolomon",
+  "1 Corinthians": "1Corinthians",
+  "2 Corinthians": "2Corinthians",
+  "1 Thessalonians": "1Thessalonians",
+  "2 Thessalonians": "2Thessalonians",
+  "1 Timothy": "1Timothy",
+  "2 Timothy": "2Timothy",
+  "1 Peter": "1Peter",
+  "2 Peter": "2Peter",
+  "1 John": "1John",
+  "2 John": "2John",
+  "3 John": "3John",
+};
+
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+interface BibleBookJSON {
+  book: string;
+  chapters: Array<{
+    chapter: number;
+    verses: Array<{ verse: string; text: string }>;
+  }>;
+}
+
+async function downloadFullBible(books: Array<{ name: string; chapters: number }>) {
+  console.log("\nDownloading full KJV Bible...");
+  let totalInserted = 0;
+  let errors: string[] = [];
+
+  for (const book of books) {
+    const githubName = GITHUB_FILE_NAMES[book.name] || book.name;
+    const url = `https://raw.githubusercontent.com/aruljohn/Bible-kjv/master/${githubName}.json`;
+
+    try {
+      const res = await fetch(url, { signal: AbortSignal.timeout(30000) });
+      if (!res.ok) {
+        errors.push(`${book.name}: HTTP ${res.status}`);
+        console.log(`  ✗ ${book.name} (HTTP ${res.status})`);
+        continue;
+      }
+
+      const data = (await res.json()) as BibleBookJSON;
+
+      if (!data.chapters || data.chapters.length === 0) {
+        errors.push(`${book.name}: no chapters`);
+        console.log(`  ✗ ${book.name} (no chapters)`);
+        continue;
+      }
+
+      const allVerses: Array<{
+        book: string;
+        chapter: number;
+        verseNumber: number;
+        text: string;
+        version: string;
+      }> = [];
+
+      for (const ch of data.chapters) {
+        for (const v of ch.verses) {
+          allVerses.push({
+            book: book.name,
+            chapter: ch.chapter,
+            verseNumber: parseInt(v.verse, 10),
+            text: v.text.trim(),
+            version: "KJV",
+          });
+        }
+      }
+
+      await db.delete(versesTable).where(eq(versesTable.book, book.name));
+
+      const BATCH_SIZE = 500;
+      for (let i = 0; i < allVerses.length; i += BATCH_SIZE) {
+        const batch = allVerses.slice(i, i + BATCH_SIZE);
+        await db.insert(versesTable).values(batch);
+      }
+
+      totalInserted += allVerses.length;
+      console.log(`  ✓ ${book.name}: ${data.chapters.length} chapters, ${allVerses.length} verses`);
+
+      await sleep(100);
+    } catch (err: any) {
+      errors.push(`${book.name}: ${err.message}`);
+      console.log(`  ✗ ${book.name}: ${err.message}`);
+      await sleep(500);
+    }
+  }
+
+  const finalCount = await db.select({ count: sql<number>`count(*)` }).from(versesTable);
+  console.log(`\nBible download complete!`);
+  console.log(`Total verses inserted: ${totalInserted}`);
+  console.log(`Total verses in database: ${Number(finalCount[0]?.count ?? 0)}`);
+
+  if (errors.length > 0) {
+    console.log(`\nErrors (${errors.length}):`);
+    errors.forEach((e) => console.log(`  - ${e}`));
+  }
+}
 
 async function seed() {
   console.log("Seeding database...");
@@ -82,108 +189,6 @@ async function seed() {
   await db.insert(booksTable).values(books);
   console.log(`Inserted ${books.length} books`);
 
-  const verses = [
-    { book: "Genesis", chapter: 1, verseNumber: 1, text: "In the beginning God created the heaven and the earth.", version: "KJV" },
-    { book: "Genesis", chapter: 1, verseNumber: 2, text: "And the earth was without form, and void; and darkness was upon the face of the deep. And the Spirit of God moved upon the face of the waters.", version: "KJV" },
-    { book: "Genesis", chapter: 1, verseNumber: 3, text: "And God said, Let there be light: and there was light.", version: "KJV" },
-    { book: "Genesis", chapter: 1, verseNumber: 4, text: "And God saw the light, that it was good: and God divided the light from the darkness.", version: "KJV" },
-    { book: "Genesis", chapter: 1, verseNumber: 5, text: "And God called the light Day, and the darkness he called Night. And the evening and the morning were the first day.", version: "KJV" },
-    { book: "Psalms", chapter: 23, verseNumber: 1, text: "The Lord is my shepherd; I shall not want.", version: "KJV" },
-    { book: "Psalms", chapter: 23, verseNumber: 2, text: "He maketh me to lie down in green pastures: he leadeth me beside the still waters.", version: "KJV" },
-    { book: "Psalms", chapter: 23, verseNumber: 3, text: "He restoreth my soul: he leadeth me in the paths of righteousness for his name's sake.", version: "KJV" },
-    { book: "Psalms", chapter: 23, verseNumber: 4, text: "Yea, though I walk through the valley of the shadow of death, I will fear no evil: for thou art with me; thy rod and thy staff they comfort me.", version: "KJV" },
-    { book: "Psalms", chapter: 23, verseNumber: 5, text: "Thou preparest a table before me in the presence of mine enemies: thou anointest my head with oil; my cup runneth over.", version: "KJV" },
-    { book: "Psalms", chapter: 23, verseNumber: 6, text: "Surely goodness and mercy shall follow me all the days of my life: and I will dwell in the house of the Lord for ever.", version: "KJV" },
-    { book: "Psalms", chapter: 46, verseNumber: 10, text: "Be still, and know that I am God: I will be exalted among the heathen, I will be exalted in the earth.", version: "KJV" },
-    { book: "Psalms", chapter: 119, verseNumber: 105, text: "Thy word is a lamp unto my feet, and a light unto my path.", version: "KJV" },
-    { book: "Psalms", chapter: 27, verseNumber: 1, text: "The Lord is my light and my salvation; whom shall I fear? the Lord is the strength of my life; of whom shall I be afraid?", version: "KJV" },
-    { book: "Psalms", chapter: 34, verseNumber: 8, text: "O taste and see that the Lord is good: blessed is the man that trusteth in him.", version: "KJV" },
-    { book: "Psalms", chapter: 37, verseNumber: 4, text: "Delight thyself also in the Lord: and he shall give thee the desires of thine heart.", version: "KJV" },
-    { book: "Psalms", chapter: 91, verseNumber: 1, text: "He that dwelleth in the secret place of the most High shall abide under the shadow of the Almighty.", version: "KJV" },
-    { book: "Psalms", chapter: 91, verseNumber: 2, text: "I will say of the Lord, He is my refuge and my fortress: my God; in him will I trust.", version: "KJV" },
-    { book: "Proverbs", chapter: 3, verseNumber: 5, text: "Trust in the Lord with all thine heart; and lean not unto thine own understanding.", version: "KJV" },
-    { book: "Proverbs", chapter: 3, verseNumber: 6, text: "In all thy ways acknowledge him, and he shall direct thy paths.", version: "KJV" },
-    { book: "Proverbs", chapter: 4, verseNumber: 23, text: "Keep thy heart with all diligence; for out of it are the issues of life.", version: "KJV" },
-    { book: "Proverbs", chapter: 16, verseNumber: 3, text: "Commit thy works unto the Lord, and thy thoughts shall be established.", version: "KJV" },
-    { book: "Isaiah", chapter: 40, verseNumber: 31, text: "But they that wait upon the Lord shall renew their strength; they shall mount up with wings as eagles; they shall run, and not be weary; and they shall walk, and not faint.", version: "KJV" },
-    { book: "Isaiah", chapter: 41, verseNumber: 10, text: "Fear thou not; for I am with thee: be not dismayed; for I am thy God: I will strengthen thee; yea, I will help thee; yea, I will uphold thee with the right hand of my righteousness.", version: "KJV" },
-    { book: "Isaiah", chapter: 43, verseNumber: 2, text: "When thou passest through the waters, I will be with thee; and through the rivers, they shall not overflow thee: when thou walkest through the fire, thou shalt not be burned; neither shall the flame kindle upon thee.", version: "KJV" },
-    { book: "Jeremiah", chapter: 29, verseNumber: 11, text: "For I know the thoughts that I think toward you, saith the Lord, thoughts of peace, and not of evil, to give you an expected end.", version: "KJV" },
-    { book: "Jeremiah", chapter: 33, verseNumber: 3, text: "Call unto me, and I will answer thee, and shew thee great and mighty things, which thou knowest not.", version: "KJV" },
-    { book: "Lamentations", chapter: 3, verseNumber: 22, text: "It is of the Lord's mercies that we are not consumed, because his compassions fail not.", version: "KJV" },
-    { book: "Lamentations", chapter: 3, verseNumber: 23, text: "They are new every morning: great is thy faithfulness.", version: "KJV" },
-    { book: "Matthew", chapter: 5, verseNumber: 4, text: "Blessed are they that mourn: for they shall be comforted.", version: "KJV" },
-    { book: "Matthew", chapter: 6, verseNumber: 33, text: "But seek ye first the kingdom of God, and his righteousness; and all these things shall be added unto you.", version: "KJV" },
-    { book: "Matthew", chapter: 11, verseNumber: 28, text: "Come unto me, all ye that labour and are heavy laden, and I will give you rest.", version: "KJV" },
-    { book: "Matthew", chapter: 11, verseNumber: 29, text: "Take my yoke upon you, and learn of me; for I am meek and lowly in heart: and ye shall find rest unto your souls.", version: "KJV" },
-    { book: "Matthew", chapter: 28, verseNumber: 20, text: "Teaching them to observe all things whatsoever I have commanded you: and, lo, I am with you always, even unto the end of the world. Amen.", version: "KJV" },
-    { book: "John", chapter: 3, verseNumber: 16, text: "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.", version: "KJV" },
-    { book: "John", chapter: 8, verseNumber: 32, text: "And ye shall know the truth, and the truth shall make you free.", version: "KJV" },
-    { book: "John", chapter: 14, verseNumber: 6, text: "Jesus saith unto him, I am the way, the truth, and the life: no man cometh unto the Father, but by me.", version: "KJV" },
-    { book: "John", chapter: 14, verseNumber: 27, text: "Peace I leave with you, my peace I give unto you: not as the world giveth, give I unto you. Let not your heart be troubled, neither let it be afraid.", version: "KJV" },
-    { book: "John", chapter: 16, verseNumber: 33, text: "These things I have spoken unto you, that in me ye might have peace. In the world ye shall have tribulation: but be of good cheer; I have overcome the world.", version: "KJV" },
-    { book: "Romans", chapter: 8, verseNumber: 28, text: "And we know that all things work together for good to them that love God, to them who are the called according to his purpose.", version: "KJV" },
-    { book: "Romans", chapter: 8, verseNumber: 31, text: "What shall we then say to these things? If God be for us, who can be against us?", version: "KJV" },
-    { book: "Romans", chapter: 8, verseNumber: 38, text: "For I am persuaded, that neither death, nor life, nor angels, nor principalities, nor powers, nor things present, nor things to come.", version: "KJV" },
-    { book: "Romans", chapter: 8, verseNumber: 39, text: "Nor height, nor depth, nor any other creature, shall be able to separate us from the love of God, which is in Christ Jesus our Lord.", version: "KJV" },
-    { book: "Romans", chapter: 12, verseNumber: 2, text: "And be not conformed to this world: but be ye transformed by the renewing of your mind, that ye may prove what is that good, and acceptable, and perfect, will of God.", version: "KJV" },
-    { book: "1 Corinthians", chapter: 13, verseNumber: 4, text: "Charity suffereth long, and is kind; charity envieth not; charity vaunteth not itself, is not puffed up.", version: "KJV" },
-    { book: "1 Corinthians", chapter: 13, verseNumber: 13, text: "And now abideth faith, hope, charity, these three; but the greatest of these is charity.", version: "KJV" },
-    { book: "2 Corinthians", chapter: 5, verseNumber: 7, text: "For we walk by faith, not by sight.", version: "KJV" },
-    { book: "2 Corinthians", chapter: 12, verseNumber: 9, text: "And he said unto me, My grace is sufficient for thee: for my strength is made perfect in weakness.", version: "KJV" },
-    { book: "Galatians", chapter: 5, verseNumber: 22, text: "But the fruit of the Spirit is love, joy, peace, longsuffering, gentleness, goodness, faith.", version: "KJV" },
-    { book: "Ephesians", chapter: 2, verseNumber: 8, text: "For by grace are ye saved through faith; and that not of yourselves: it is the gift of God.", version: "KJV" },
-    { book: "Ephesians", chapter: 3, verseNumber: 20, text: "Now unto him that is able to do exceeding abundantly above all that we ask or think, according to the power that worketh in us.", version: "KJV" },
-    { book: "Ephesians", chapter: 6, verseNumber: 10, text: "Finally, my brethren, be strong in the Lord, and in the power of his might.", version: "KJV" },
-    { book: "Philippians", chapter: 4, verseNumber: 6, text: "Be careful for nothing; but in every thing by prayer and supplication with thanksgiving let your requests be made known unto God.", version: "KJV" },
-    { book: "Philippians", chapter: 4, verseNumber: 7, text: "And the peace of God, which passeth all understanding, shall keep your hearts and minds through Christ Jesus.", version: "KJV" },
-    { book: "Philippians", chapter: 4, verseNumber: 13, text: "I can do all things through Christ which strengtheneth me.", version: "KJV" },
-    { book: "Colossians", chapter: 3, verseNumber: 23, text: "And whatsoever ye do, do it heartily, as to the Lord, and not unto men.", version: "KJV" },
-    { book: "2 Timothy", chapter: 1, verseNumber: 7, text: "For God hath not given us the spirit of fear; but of power, and of love, and of a sound mind.", version: "KJV" },
-    { book: "Hebrews", chapter: 11, verseNumber: 1, text: "Now faith is the substance of things hoped for, the evidence of things not seen.", version: "KJV" },
-    { book: "Hebrews", chapter: 12, verseNumber: 2, text: "Looking unto Jesus the author and finisher of our faith; who for the joy that was set before him endured the cross, despising the shame, and is set down at the right hand of the throne of God.", version: "KJV" },
-    { book: "Hebrews", chapter: 13, verseNumber: 5, text: "Let your conversation be without covetousness; and be content with such things as ye have: for he hath said, I will never leave thee, nor forsake thee.", version: "KJV" },
-    { book: "James", chapter: 1, verseNumber: 5, text: "If any of you lack wisdom, let him ask of God, that giveth to all men liberally, and upbraideth not; and it shall be given him.", version: "KJV" },
-    { book: "1 Peter", chapter: 5, verseNumber: 7, text: "Casting all your care upon him; for he careth for you.", version: "KJV" },
-    { book: "1 John", chapter: 4, verseNumber: 19, text: "We love him, because he first loved us.", version: "KJV" },
-    { book: "Revelation", chapter: 21, verseNumber: 4, text: "And God shall wipe away all tears from their eyes; and there shall be no more death, neither sorrow, nor crying, neither shall there be any more pain: for the former things are passed away.", version: "KJV" },
-    { book: "Deuteronomy", chapter: 31, verseNumber: 6, text: "Be strong and of a good courage, fear not, nor be afraid of them: for the Lord thy God, he it is that doth go with thee; he will not fail thee, nor forsake thee.", version: "KJV" },
-    { book: "Joshua", chapter: 1, verseNumber: 9, text: "Have not I commanded thee? Be strong and of a good courage; be not afraid, neither be thou dismayed: for the Lord thy God is with thee whithersoever thou goest.", version: "KJV" },
-    { book: "Psalms", chapter: 46, verseNumber: 1, text: "God is our refuge and strength, a very present help in trouble.", version: "KJV" },
-    { book: "Psalms", chapter: 55, verseNumber: 22, text: "Cast thy burden upon the Lord, and he shall sustain thee: he shall never suffer the righteous to be moved.", version: "KJV" },
-    { book: "Psalms", chapter: 62, verseNumber: 1, text: "Truly my soul waiteth upon God: from him cometh my salvation.", version: "KJV" },
-    { book: "Psalms", chapter: 100, verseNumber: 4, text: "Enter into his gates with thanksgiving, and into his courts with praise: be thankful unto him, and bless his name.", version: "KJV" },
-    { book: "Psalms", chapter: 103, verseNumber: 1, text: "Bless the Lord, O my soul: and all that is within me, bless his holy name.", version: "KJV" },
-    { book: "Psalms", chapter: 118, verseNumber: 24, text: "This is the day which the Lord hath made; we will rejoice and be glad in it.", version: "KJV" },
-    { book: "Psalms", chapter: 121, verseNumber: 1, text: "I will lift up mine eyes unto the hills, from whence cometh my help.", version: "KJV" },
-    { book: "Psalms", chapter: 121, verseNumber: 2, text: "My help cometh from the Lord, which made heaven and earth.", version: "KJV" },
-    { book: "Psalms", chapter: 139, verseNumber: 14, text: "I will praise thee; for I am fearfully and wonderfully made: marvellous are thy works; and that my soul knoweth right well.", version: "KJV" },
-    { book: "Psalms", chapter: 143, verseNumber: 8, text: "Cause me to hear thy lovingkindness in the morning; for in thee do I trust: cause me to know the way wherein I should walk; for I lift up my soul unto thee.", version: "KJV" },
-    { book: "Proverbs", chapter: 18, verseNumber: 10, text: "The name of the Lord is a strong tower: the righteous runneth into it, and is safe.", version: "KJV" },
-    { book: "Isaiah", chapter: 26, verseNumber: 3, text: "Thou wilt keep him in perfect peace, whose mind is stayed on thee: because he trusteth in thee.", version: "KJV" },
-    { book: "Isaiah", chapter: 40, verseNumber: 29, text: "He giveth power to the faint; and to them that have no might he increaseth strength.", version: "KJV" },
-    { book: "Nahum", chapter: 1, verseNumber: 7, text: "The Lord is good, a strong hold in the day of trouble; and he knoweth them that trust in him.", version: "KJV" },
-    { book: "Zephaniah", chapter: 3, verseNumber: 17, text: "The Lord thy God in the midst of thee is mighty; he will save, he will rejoice over thee with joy; he will rest in his love, he will joy over thee with singing.", version: "KJV" },
-    { book: "Matthew", chapter: 7, verseNumber: 7, text: "Ask, and it shall be given you; seek, and ye shall find; knock, and it shall be opened unto you.", version: "KJV" },
-    { book: "Mark", chapter: 11, verseNumber: 24, text: "Therefore I say unto you, What things soever ye desire, when ye pray, believe that ye receive them, and ye shall have them.", version: "KJV" },
-    { book: "Luke", chapter: 1, verseNumber: 37, text: "For with God nothing shall be impossible.", version: "KJV" },
-    { book: "John", chapter: 10, verseNumber: 10, text: "The thief cometh not, but for to steal, and to kill, and to destroy: I am come that they might have life, and that they might have it more abundantly.", version: "KJV" },
-    { book: "John", chapter: 15, verseNumber: 5, text: "I am the vine, ye are the branches: He that abideth in me, and I in him, the same bringeth forth much fruit: for without me ye can do nothing.", version: "KJV" },
-    { book: "Romans", chapter: 5, verseNumber: 8, text: "But God commendeth his love toward us, in that, while we were yet sinners, Christ died for us.", version: "KJV" },
-    { book: "Romans", chapter: 15, verseNumber: 13, text: "Now the God of hope fill you with all joy and peace in believing, that ye may abound in hope, through the power of the Holy Ghost.", version: "KJV" },
-    { book: "Galatians", chapter: 2, verseNumber: 20, text: "I am crucified with Christ: nevertheless I live; yet not I, but Christ liveth in me: and the life which I now live in the flesh I live by the faith of the Son of God, who loved me, and gave himself for me.", version: "KJV" },
-    { book: "Philippians", chapter: 1, verseNumber: 6, text: "Being confident of this very thing, that he which hath begun a good work in you will perform it until the day of Jesus Christ.", version: "KJV" },
-    { book: "1 Thessalonians", chapter: 5, verseNumber: 16, text: "Rejoice evermore.", version: "KJV" },
-    { book: "1 Thessalonians", chapter: 5, verseNumber: 17, text: "Pray without ceasing.", version: "KJV" },
-    { book: "1 Thessalonians", chapter: 5, verseNumber: 18, text: "In every thing give thanks: for this is the will of God in Christ Jesus concerning you.", version: "KJV" },
-    { book: "James", chapter: 4, verseNumber: 8, text: "Draw nigh to God, and he will draw nigh to you.", version: "KJV" },
-    { book: "1 John", chapter: 1, verseNumber: 9, text: "If we confess our sins, he is faithful and just to forgive us our sins, and to cleanse us from all unrighteousness.", version: "KJV" },
-    { book: "Revelation", chapter: 3, verseNumber: 20, text: "Behold, I stand at the door, and knock: if any man hear my voice, and open the door, I will come in to him, and will sup with him, and he with me.", version: "KJV" },
-  ];
-
-  await db.insert(versesTable).values(verses);
-  console.log(`Inserted ${verses.length} verses`);
-
   const devotionals = [
     {
       title: "Finding Peace in the Storm",
@@ -205,74 +210,74 @@ async function seed() {
     },
     {
       title: "Walking by Faith",
-      content: "Faith is not the absence of doubt — it's choosing to trust God despite our doubts. Abraham didn't have a GPS showing him exactly where God was leading. He simply obeyed and took the next step.\n\nWalking by faith means making decisions based on God's promises rather than our circumstances. It means looking beyond what our eyes can see to what our hearts know to be true about God's character.\n\nFaith is like a muscle — it grows stronger through exercise. Each time you choose to trust God in a small thing, you're building the faith you'll need for bigger challenges ahead.\n\nWhat step of faith is God asking you to take today? It might be small — a prayer of surrender, a word of encouragement to someone, a decision to forgive. Whatever it is, know that God goes before you.\n\nPrayer: God, increase my faith. Help me to see with spiritual eyes and walk in obedience to Your leading. I choose to trust You today, even when I can't see the full picture. Amen.",
+      content: "Faith is not the absence of questions — it's the decision to trust God even when we don't have all the answers. The Bible tells us to walk by faith, not by sight. But what does that look like in everyday life?\n\nIt looks like trusting God with your finances when the numbers don't add up. It looks like believing in His plan when your own plans have fallen apart. It looks like choosing hope when the world gives you every reason to despair.\n\nAbraham walked by faith when he left his homeland without knowing where he was going. Moses walked by faith when he stood before Pharaoh with nothing but a staff and a word from God. And we are called to walk that same road of faith today.\n\nThe beautiful thing about faith is that it grows. Every step you take in trust becomes the foundation for the next one.\n\nPrayer: God, increase my faith today. Help me to trust You more deeply and walk more boldly. When I cannot see the path ahead, let me rest in the knowledge that You can. Amen.",
       verseReference: "2 Corinthians 5:7",
       verseText: "For we walk by faith, not by sight.",
       category: "Faith",
-      readTime: 4,
+      readTime: 5,
       date: "2026-03-13",
     },
     {
-      title: "The Power of Gratitude",
-      content: "Gratitude transforms our perspective. When we focus on what we have rather than what we lack, something shifts in our hearts. Problems don't disappear, but they take their proper place under the shadow of God's goodness.\n\nThe apostle Paul wrote about giving thanks \"in every thing\" — not for every thing, but in every thing. There's a difference. We don't thank God for suffering, but we can thank Him in the midst of suffering because we know He is still good, still sovereign, still working.\n\nScientific research confirms what Scripture has taught for millennia: grateful people are happier, healthier, and more resilient. But for believers, gratitude goes deeper than psychology — it's an act of worship.\n\nToday, try this: before your feet hit the floor in the morning, name three things you're grateful for. Watch how it changes the trajectory of your day.\n\nPrayer: Lord, open my eyes to Your blessings today. Give me a heart of gratitude that overflows into worship. Help me to find reasons to give thanks, even in difficult seasons. Amen.",
-      verseReference: "1 Thessalonians 5:18",
-      verseText: "In every thing give thanks: for this is the will of God in Christ Jesus concerning you.",
-      category: "Gratitude",
-      readTime: 5,
+      title: "The Gift of Grace",
+      content: "Grace. It's one of the most powerful words in the Christian vocabulary, yet one of the hardest to truly grasp. Grace is getting what we don't deserve — the unmerited favor of a holy God poured out on imperfect people.\n\nWe live in a world that operates on merit. You earn your salary. You earn your grades. You earn respect. But grace shatters that system entirely. You cannot earn God's love. You already have it.\n\nEphesians 2:8 reminds us that salvation is a gift — not something we can achieve through our own efforts. This truth should humble us and free us at the same time. We don't have to perform for God's approval. We don't have to be perfect to be loved.\n\nLet grace wash over you today. Receive it. Rest in it. And then extend it to others.\n\nPrayer: Heavenly Father, thank You for the gift of grace that I could never earn or deserve. Help me to live in the freedom of Your grace and to show that same grace to everyone I meet today. Amen.",
+      verseReference: "Ephesians 2:8",
+      verseText: "For by grace are ye saved through faith; and that not of yourselves: it is the gift of God.",
+      category: "Grace",
+      readTime: 4,
       date: "2026-03-12",
     },
     {
-      title: "God's Unfailing Love",
-      content: "In a world where love is often conditional, God's love stands apart. It's not based on our performance, our worthiness, or our ability to earn it. It simply is — constant, unchanging, and freely given.\n\nRomans 8 paints one of the most beautiful pictures of God's love in all of Scripture. Nothing — not death, not life, not angels, not demons, not the present, not the future — can separate us from His love.\n\nThink about that for a moment. There is literally nothing you can do to make God love you less. And there's nothing you can do to make Him love you more. His love is complete, perfect, and unshakeable.\n\nIf you're struggling to feel loved today, remember that God's love isn't a feeling — it's a fact. It was proven at the cross and sealed by the resurrection.\n\nPrayer: Thank You, Father, for Your incredible love. Help me to truly grasp how wide, how long, how high, and how deep Your love is for me. Let Your love be the foundation of everything I do today. Amen.",
-      verseReference: "Romans 8:38-39",
-      verseText: "For I am persuaded, that neither death, nor life, nor angels, nor principalities, nor powers, nor things present, nor things to come, Nor height, nor depth, nor any other creature, shall be able to separate us from the love of God, which is in Christ Jesus our Lord.",
-      category: "Love",
-      readTime: 4,
+      title: "Trusting God's Timing",
+      content: "Waiting is hard. Whether you're waiting for a prayer to be answered, a door to open, or a season to change, the waiting can feel endless. But God's timing is perfect — even when it doesn't align with our timeline.\n\nIsaiah 40:31 promises that those who wait upon the Lord will renew their strength. Notice it doesn't say \"those who rush ahead\" or \"those who figure it out on their own.\" There is supernatural strength available to those who are willing to wait.\n\nGod is not slow. He is not forgetful. He is sovereign and intentional. Every delay has a purpose. Every waiting season is producing something in you that couldn't be produced any other way — patience, character, endurance, and a deeper dependence on Him.\n\nToday, choose to trust His timing. Release your grip on the calendar and let God be God.\n\nPrayer: Lord, I surrender my timeline to You. Give me patience in the waiting and peace in the not knowing. I trust that Your timing is perfect. Amen.",
+      verseReference: "Isaiah 40:31",
+      verseText: "But they that wait upon the Lord shall renew their strength; they shall mount up with wings as eagles; they shall run, and not be weary; and they shall walk, and not faint.",
+      category: "Trust",
+      readTime: 5,
       date: "2026-03-11",
     },
     {
-      title: "Trusting God's Plan",
-      content: "Jeremiah 29:11 is one of the most quoted verses in the Bible, and for good reason. But to truly understand it, we need context. These words were written to people in exile — people who had lost everything and were living in a foreign land.\n\nGod's promise of a future and a hope came not in the midst of prosperity, but in the midst of pain. And notice: He didn't promise immediate rescue. He told them to settle in, build houses, plant gardens, and seek the welfare of the city where they were.\n\nSometimes God's plan involves waiting seasons. Sometimes His \"expected end\" takes longer than we'd like. But His plans are always good — always rooted in His love and wisdom.\n\nIf you're in a waiting season today, take heart. God hasn't forgotten His promises to you. He is working behind the scenes in ways you cannot yet see.\n\nPrayer: Lord, I trust Your plan for my life, even when I can't understand it. Give me patience in the waiting and faith to believe that Your timing is perfect. Amen.",
-      verseReference: "Jeremiah 29:11",
-      verseText: "For I know the thoughts that I think toward you, saith the Lord, thoughts of peace, and not of evil, to give you an expected end.",
-      category: "Trust",
-      readTime: 5,
+      title: "The Power of Prayer",
+      content: "Prayer is not a last resort — it's the first response of a heart that knows God. James tells us that if we lack wisdom, we should ask God, who gives generously without finding fault. What an invitation!\n\nPrayer changes things. But more importantly, prayer changes us. When we come before God with our needs, our fears, our gratitude, and our worship, something shifts inside us. We remember who He is. We remember who we are in Him.\n\nYou don't need fancy words to pray. You don't need to pray for a certain amount of time. You just need an honest heart and a willingness to talk to the One who already knows everything about you and loves you completely.\n\nMake prayer your first language today. Before you text a friend, text God (so to speak). Before you Google the answer, ask the One who knows all things.\n\nPrayer: Father, teach me to pray. Help me to come to You first in every situation. Thank You that You hear me, You know me, and You answer in Your perfect way. Amen.",
+      verseReference: "James 1:5",
+      verseText: "If any of you lack wisdom, let him ask of God, that giveth to all men liberally, and upbraideth not; and it shall be given him.",
+      category: "Prayer",
+      readTime: 4,
       date: "2026-03-10",
     },
     {
-      title: "Renewing Your Mind",
-      content: "Our thoughts shape our lives. What we think about determines how we feel, and how we feel influences what we do. That's why Paul's instruction to \"be transformed by the renewing of your mind\" is so revolutionary.\n\nRenewing your mind isn't a one-time event — it's a daily practice. It means intentionally replacing lies with truth, fear with faith, and worry with worship. It means filling your mind with Scripture until God's truth becomes your default thought pattern.\n\nThe world constantly tries to conform us to its patterns — through social media, news, entertainment, and cultural pressure. But we're called to a different standard. We're called to think God's thoughts after Him.\n\nStart small. Memorize one verse this week. When an anxious thought comes, replace it with a truth from God's Word. Over time, you'll notice a transformation that goes far beyond positive thinking.\n\nPrayer: Father, renew my mind today. Replace every lie I've believed with Your truth. Help me to take every thought captive and make it obedient to Christ. Transform me from the inside out. Amen.",
-      verseReference: "Romans 12:2",
-      verseText: "And be not conformed to this world: but be ye transformed by the renewing of your mind, that ye may prove what is that good, and acceptable, and perfect, will of God.",
-      category: "Growth",
-      readTime: 5,
+      title: "God's Unfailing Love",
+      content: "In a world where love often feels conditional — based on performance, appearance, or what you can offer — God's love stands in stunning contrast. His love is unfailing, unconditional, and unending.\n\nRomans 8:38-39 declares that nothing can separate us from the love of God. Not death. Not life. Not angels or demons. Not the present or the future. Not height or depth. Not anything in all creation. Nothing.\n\nLet that sink in for a moment. There is nothing you could do to make God love you more. And there is nothing you could do to make God love you less. His love is not a reward for your goodness — it's a reflection of His nature.\n\nWhatever you're carrying today — guilt, shame, fear, doubt — bring it to the One whose love covers it all.\n\nPrayer: Lord, help me to truly believe in Your unfailing love. Remove the lies that tell me I'm not enough and replace them with the truth of who I am in You. I receive Your love today. Amen.",
+      verseReference: "Romans 8:38-39",
+      verseText: "For I am persuaded, that neither death, nor life, nor angels, nor principalities, nor powers, nor things present, nor things to come, nor height, nor depth, nor any other creature, shall be able to separate us from the love of God, which is in Christ Jesus our Lord.",
+      category: "Love",
+      readTime: 4,
       date: "2026-03-09",
     },
     {
-      title: "Rest for the Weary",
-      content: "In our culture of hustle and constant productivity, rest can feel like a luxury we can't afford. But Jesus extends an invitation that challenges our busy lives: \"Come unto me, all ye that labour and are heavy laden, and I will give you rest.\"\n\nThis isn't just physical rest — though our bodies certainly need it. This is soul rest. It's the deep peace that comes from laying down our burdens at the feet of Jesus and trusting Him with the outcomes.\n\nSo many of us carry weights we were never meant to bear — the weight of others' expectations, the weight of past regrets, the weight of future anxieties. Jesus invites us to exchange our heavy yoke for His light one.\n\nToday, give yourself permission to rest. Not because you've earned it, but because Jesus invites you to it. Sabbath isn't a reward for the productive — it's a gift for the weary.\n\nPrayer: Jesus, I come to You today with all my weariness. I lay down my burdens and receive Your rest. Teach me to walk in Your yoke, which is easy and light. Refresh my soul today. Amen.",
-      verseReference: "Matthew 11:28",
-      verseText: "Come unto me, all ye that labour and are heavy laden, and I will give you rest.",
-      category: "Rest",
-      readTime: 4,
+      title: "Living with Purpose",
+      content: "You are not an accident. You are not a cosmic coincidence. You were created with intention, designed with purpose, and placed in this moment in history for a reason.\n\nPhilippians 1:6 assures us that God, who began a good work in us, will carry it on to completion. He's not finished with you yet. Every experience you've had — every joy, every heartbreak, every triumph, every failure — is being woven into a story only you can tell.\n\nPurpose doesn't always mean doing something grand in the world's eyes. Sometimes purpose looks like being faithful in the small things. Loving your neighbor. Being honest at work. Raising your children with patience. Showing kindness to a stranger.\n\nToday, walk in the confidence that your life matters. God has a purpose for this day, and He's inviting you to be part of it.\n\nPrayer: God, reveal Your purpose for my life today. Help me to see the opportunities You've placed before me and give me the courage to walk in them. I trust that You are completing the good work You started in me. Amen.",
+      verseReference: "Philippians 1:6",
+      verseText: "Being confident of this very thing, that he which hath begun a good work in you will perform it until the day of Jesus Christ.",
+      category: "Purpose",
+      readTime: 5,
       date: "2026-03-08",
     },
     {
-      title: "Courage for Today",
-      content: "Fear is one of the most common human experiences. We fear failure, rejection, the unknown, loss, and a hundred other things. But throughout Scripture, God's most repeated command is this: \"Fear not.\"\n\nGod doesn't tell us not to fear because there's nothing to be afraid of. He tells us not to fear because He is with us. His presence is the antidote to our fear.\n\nJoshua faced an overwhelming task — leading an entire nation into enemy territory. God's encouragement to him was simple but profound: \"Be strong and of a good courage... for the Lord thy God is with thee whithersoever thou goest.\"\n\nThe same God who parted the Red Sea, who shut the mouths of lions, who raised Jesus from the dead — that God is with you today. Whatever you're facing, you don't face it alone.\n\nPrayer: Lord, I confess my fears to You. Replace them with the courage that comes from knowing You are with me. Help me to step forward in faith, trusting in Your power and presence. Amen.",
-      verseReference: "Joshua 1:9",
-      verseText: "Have not I commanded thee? Be strong and of a good courage; be not afraid, neither be thou dismayed: for the Lord thy God is with thee whithersoever thou goest.",
+      title: "Overcoming Fear",
+      content: "Fear is one of the enemy's favorite tools. It whispers lies in the dark: \"You're not enough.\" \"What if it all falls apart?\" \"You can't do this.\" But God's Word speaks a different truth.\n\n2 Timothy 1:7 tells us that God has not given us a spirit of fear, but of power, love, and a sound mind. Fear does not come from God. It is not His voice, and it is not your destiny.\n\nEvery time fear rises up, you have a choice: believe the fear or believe the Father. And every time you choose faith over fear, you grow stronger. The fears don't necessarily go away, but they lose their grip on you.\n\nRemember: courage is not the absence of fear. Courage is moving forward in spite of it, knowing that the God who goes before you is greater than anything that stands against you.\n\nPrayer: Lord, I reject the spirit of fear and receive Your spirit of power, love, and a sound mind. Help me to face today's challenges with courage and confidence in You. Amen.",
+      verseReference: "2 Timothy 1:7",
+      verseText: "For God hath not given us the spirit of fear; but of power, and of love, and of a sound mind.",
       category: "Courage",
-      readTime: 4,
+      readTime: 5,
       date: "2026-03-07",
     },
     {
-      title: "The Shepherd's Care",
-      content: "Psalm 23 is perhaps the most beloved passage in all of Scripture. David, himself a shepherd, understood the intimate care a shepherd has for his sheep. And he saw that same care — multiplied infinitely — in God's relationship with His people.\n\n\"The Lord is my shepherd; I shall not want.\" This isn't a promise of material abundance. It's a declaration of complete trust. When the Lord is your shepherd, you have everything you truly need.\n\nGreen pastures, still waters, restored souls — these aren't just poetic images. They're descriptions of what happens when we allow God to lead us. He takes us to places of nourishment, peace, and healing.\n\nEven in the valley of the shadow of death, the shepherd's presence brings comfort. His rod protects; His staff guides. And at the end of the journey? Goodness and mercy follow us all the days of our lives.\n\nPrayer: Lord, You are my shepherd. I trust You to lead me, protect me, and provide for me. Help me to follow where You lead, even through dark valleys, knowing that You are with me. Amen.",
-      verseReference: "Psalms 23:1",
-      verseText: "The Lord is my shepherd; I shall not want.",
-      category: "Trust",
-      readTime: 5,
+      title: "Gratitude Changes Everything",
+      content: "There's something transformative about gratitude. When we choose to give thanks — even in difficult circumstances — our perspective shifts. Problems that seemed insurmountable begin to shrink in the light of God's goodness.\n\n1 Thessalonians 5:16-18 gives us three short but powerful commands: Rejoice always. Pray continually. Give thanks in all circumstances. Notice it says \"in\" all circumstances, not \"for\" all circumstances. We don't have to be thankful for the pain, but we can be thankful in the pain, because we know God is with us.\n\nGratitude is a discipline that becomes a delight. Start small. Thank God for your next breath. For the sunlight. For the people He's placed in your life. Watch how a grateful heart changes the way you see everything.\n\nPrayer: Father, forgive me for the times I've focused on what I lack instead of what I have. Open my eyes to Your blessings today. Fill my heart with genuine gratitude and let it overflow to everyone around me. Amen.",
+      verseReference: "1 Thessalonians 5:16-18",
+      verseText: "Rejoice evermore. Pray without ceasing. In every thing give thanks: for this is the will of God in Christ Jesus concerning you.",
+      category: "Gratitude",
+      readTime: 4,
       date: "2026-03-06",
     },
   ];
@@ -280,11 +285,14 @@ async function seed() {
   await db.insert(devotionalsTable).values(devotionals);
   console.log(`Inserted ${devotionals.length} devotionals`);
 
-  console.log("Seeding complete!");
-  process.exit(0);
+  await downloadFullBible(books);
+
+  console.log("\nSeeding complete!");
 }
 
-seed().catch((error) => {
-  console.error("Seed failed:", error);
-  process.exit(1);
-});
+seed()
+  .then(() => process.exit(0))
+  .catch((err) => {
+    console.error("Seed error:", err);
+    process.exit(1);
+  });
