@@ -12,26 +12,15 @@ class OnboardingProvider extends ChangeNotifier {
   }
 
   Future<void> _loadOnboardingState() async {
-    bool resolved = false;
     try {
       final prefs = await SharedPreferences.getInstance();
       final value = prefs.getString(_storageKey);
-      resolved = true;
       _hasCompletedOnboarding = value == 'true';
-      notifyListeners();
-    } catch (_) {
-      if (!resolved) {
-        _hasCompletedOnboarding = false;
-        notifyListeners();
-      }
+    } catch (e) {
+      debugPrint('OnboardingProvider: failed to load state: $e');
+      _hasCompletedOnboarding = false;
     }
-
-    Future.delayed(const Duration(seconds: 2), () {
-      if (_hasCompletedOnboarding == null) {
-        _hasCompletedOnboarding = false;
-        notifyListeners();
-      }
-    });
+    notifyListeners();
   }
 
   Future<void> completeOnboarding() async {
@@ -40,6 +29,8 @@ class OnboardingProvider extends ChangeNotifier {
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString(_storageKey, 'true');
-    } catch (_) {}
+    } catch (e) {
+      debugPrint('OnboardingProvider: failed to persist state: $e');
+    }
   }
 }

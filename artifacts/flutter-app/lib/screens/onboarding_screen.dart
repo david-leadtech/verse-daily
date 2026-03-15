@@ -13,12 +13,11 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen>
-    with TickerProviderStateMixin {
+    with SingleTickerProviderStateMixin {
   int _currentIndex = 0;
   bool _isAnimating = false;
 
   late final AnimationController _textFadeController;
-  late final AnimationController _imageController;
   late final Animation<double> _textFade;
   late final Animation<Offset> _textSlide;
   late final Animation<Offset> _eyebrowSlide;
@@ -57,10 +56,6 @@ class _OnboardingScreenState extends State<OnboardingScreen>
       vsync: this,
       duration: const Duration(milliseconds: 400),
     );
-    _imageController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 450),
-    );
 
     _textFade = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(parent: _textFadeController, curve: Curves.easeOut),
@@ -84,7 +79,6 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   @override
   void dispose() {
     _textFadeController.dispose();
-    _imageController.dispose();
     super.dispose();
   }
 

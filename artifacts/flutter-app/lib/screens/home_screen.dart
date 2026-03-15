@@ -36,7 +36,6 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _dailyError = false;
   bool _devotionalsLoading = true;
   bool _devotionalsError = false;
-  bool _refreshing = false;
 
   @override
   void initState() {
@@ -59,7 +58,8 @@ class _HomeScreenState extends State<HomeScreen> {
         _dailyData = data;
         _dailyLoading = false;
       });
-    } catch (_) {
+    } catch (e) {
+      debugPrint('HomeScreen: failed to load daily verse: $e');
       if (mounted) setState(() {
         _dailyLoading = false;
         _dailyError = true;
@@ -78,7 +78,8 @@ class _HomeScreenState extends State<HomeScreen> {
         _devotionals = data.devotionals;
         _devotionalsLoading = false;
       });
-    } catch (_) {
+    } catch (e) {
+      debugPrint('HomeScreen: failed to load devotionals: $e');
       if (mounted) setState(() {
         _devotionalsLoading = false;
         _devotionalsError = true;
@@ -87,9 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _onRefresh() async {
-    setState(() => _refreshing = true);
     await _loadData();
-    if (mounted) setState(() => _refreshing = false);
   }
 
   @override

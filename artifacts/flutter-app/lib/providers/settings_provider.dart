@@ -7,6 +7,7 @@ class SettingsProvider extends ChangeNotifier {
   bool _notificationsEnabled = true;
   String _notificationTime = '08:00';
   bool _isPremium = false;
+  double _fontSize = 16.0;
 
   static const _storageKey = '@bible_settings';
 
@@ -14,6 +15,7 @@ class SettingsProvider extends ChangeNotifier {
   bool get notificationsEnabled => _notificationsEnabled;
   String get notificationTime => _notificationTime;
   bool get isPremium => _isPremium;
+  double get fontSize => _fontSize;
 
   SettingsProvider() {
     _loadSettings();
@@ -30,9 +32,12 @@ class SettingsProvider extends ChangeNotifier {
             parsed['notificationsEnabled'] as bool? ?? true;
         _notificationTime = parsed['notificationTime'] as String? ?? '08:00';
         _isPremium = parsed['isPremium'] as bool? ?? false;
+        _fontSize = (parsed['fontSize'] as num?)?.toDouble() ?? 16.0;
         notifyListeners();
       }
-    } catch (_) {}
+    } catch (e) {
+      debugPrint('SettingsProvider: failed to load settings: $e');
+    }
   }
 
   Future<void> _persistSettings() async {
@@ -45,9 +50,12 @@ class SettingsProvider extends ChangeNotifier {
           'notificationsEnabled': _notificationsEnabled,
           'notificationTime': _notificationTime,
           'isPremium': _isPremium,
+          'fontSize': _fontSize,
         }),
       );
-    } catch (_) {}
+    } catch (e) {
+      debugPrint('SettingsProvider: failed to persist settings: $e');
+    }
   }
 
   void updateSettings({
@@ -55,6 +63,7 @@ class SettingsProvider extends ChangeNotifier {
     bool? notificationsEnabled,
     String? notificationTime,
     bool? isPremium,
+    double? fontSize,
   }) {
     if (bibleVersion != null) _bibleVersion = bibleVersion;
     if (notificationsEnabled != null) {
@@ -62,6 +71,7 @@ class SettingsProvider extends ChangeNotifier {
     }
     if (notificationTime != null) _notificationTime = notificationTime;
     if (isPremium != null) _isPremium = isPremium;
+    if (fontSize != null) _fontSize = fontSize;
     notifyListeners();
     _persistSettings();
   }

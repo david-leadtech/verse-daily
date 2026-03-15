@@ -91,6 +91,72 @@ class SettingsScreen extends StatelessWidget {
                   ),
                 ]),
                 const SizedBox(height: 28),
+                _sectionTitle('Reading'),
+                _card([
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              width: 36,
+                              height: 36,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: AppColors.olive.withOpacity(0.08),
+                              ),
+                              child: const Icon(FeatherIcons.type,
+                                  size: 18, color: AppColors.olive),
+                            ),
+                            const SizedBox(width: 14),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Font Size',
+                                      style: AppTheme.interMedium(16)),
+                                  const SizedBox(height: 2),
+                                  Text(
+                                    '${settings.fontSize.round()}px',
+                                    style: AppTheme.interRegular(13).copyWith(
+                                      color: AppColors.textSecondary,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        Row(
+                          children: [
+                            Text('A',
+                                style: AppTheme.interMedium(12)
+                                    .copyWith(color: AppColors.textSecondary)),
+                            Expanded(
+                              child: Slider(
+                                value: settings.fontSize,
+                                min: 12.0,
+                                max: 24.0,
+                                divisions: 6,
+                                activeColor: AppColors.accent,
+                                inactiveColor: AppColors.border,
+                                onChanged: (val) => settings.updateSettings(
+                                    fontSize: val),
+                              ),
+                            ),
+                            Text('A',
+                                style: AppTheme.interMedium(20)
+                                    .copyWith(color: AppColors.textSecondary)),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ]),
+                const SizedBox(height: 28),
                 _sectionTitle('Premium'),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),

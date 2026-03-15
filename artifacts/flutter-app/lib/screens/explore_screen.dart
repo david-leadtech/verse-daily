@@ -27,13 +27,23 @@ class ExploreScreen extends StatefulWidget {
 
 class _ExploreScreenState extends State<ExploreScreen> {
   String _selectedCategory = 'All';
+  String _searchQuery = '';
   List<Devotional> _devotionals = [];
   bool _loading = true;
+  final _searchController = TextEditingController();
+  final _searchFocusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
     _loadDevotionals();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    _searchFocusNode.dispose();
+    super.dispose();
   }
 
   Future<void> _loadDevotionals() async {
@@ -47,7 +57,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
         _devotionals = data.devotionals;
         _loading = false;
       });
-    } catch (_) {
+    } catch (e) {
+      debugPrint('ExploreScreen: failed to load devotionals: $e');
       if (mounted) setState(() => _loading = false);
     }
   }
@@ -57,9 +68,23 @@ class _ExploreScreenState extends State<ExploreScreen> {
     _loadDevotionals();
   }
 
+  void _onSearchChanged(String query) {
+    setState(() => _searchQuery = query.toLowerCase());
+  }
+
+  List<Devotional> get _filteredDevotionals {
+    if (_searchQuery.isEmpty) return _devotionals;
+    return _devotionals.where((dev) {
+      return dev.title.toLowerCase().contains(_searchQuery) ||
+          dev.category.toLowerCase().contains(_searchQuery) ||
+          dev.verseReference.toLowerCase().contains(_searchQuery);
+    }).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     final topPadding = MediaQuery.of(context).padding.top;
+    final filtered = _filteredDevotionals;
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -74,11 +99,57 @@ class _ExploreScreenState extends State<ExploreScreen> {
             child: Text('Devotionals', style: AppTheme.playfairBold(28)),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(20, 4, 20, 20),
+            padding: const EdgeInsets.fromLTRB(20, 4, 20, 16),
             child: Text(
               'Daily reflections to deepen your faith',
               style: AppTheme.playfairItalic(14).copyWith(
                 color: AppColors.textSecondary,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
+            child: Container(
+              decoration: BoxDecoration(
+                color: AppColors.surfaceSecondary,
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: AppColors.border),
+              ),
+              child: TextField(
+                controller: _searchController,
+                focusNode: _searchFocusNode,
+                onChanged: _onSearchChanged,
+                style: AppTheme.interRegular(15),
+                decoration: InputDecoration(
+                  hintText: 'Search devotionals...',
+                  hintStyle: AppTheme.interRegular(15).copyWith(
+                    color: AppColors.tabIconDefault,
+                  ),
+                  prefixIcon: const Icon(
+                    FeatherIcons.search,
+                    size: 18,
+                    color: AppColors.tabIconDefault,
+                  ),
+                  suffixIcon: _searchQuery.isNotEmpty
+                      ? GestureDetector(
+                          onTap: () {
+                            _searchController.clear();
+                            _onSearchChanged('');
+                            _searchFocusNode.unfocus();
+                          },
+                          child: const Icon(
+                            FeatherIcons.x,
+                            size: 18,
+                            color: AppColors.tabIconDefault,
+                          ),
+                        )
+                      : null,
+                  border: InputBorder.none,
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 14,
+                  ),
+                ),
               ),
             ),
           ),
@@ -130,11 +201,11 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 ),
               ),
             )
-          else if (_devotionals.isNotEmpty)
+          else if (filtered.isNotEmpty)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
-                children: _devotionals
+                children: filtered
                     .map(
                       (dev) => Padding(
                         padding: const EdgeInsets.only(bottom: 10),
@@ -159,15 +230,21 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   const Icon(FeatherIcons.bookOpen,
                       size: 48, color: AppColors.tabIconDefault),
                   const SizedBox(height: 12),
-                  Text('No devotionals found',
-                      style: AppTheme.playfairBold(18)),
+                  Text(
+                    _searchQuery.isNotEmpty
+                        ? 'No results found'
+                        : 'No devotionals found',
+                    style: AppTheme.playfairBold(18),
+                  ),
                   const SizedBox(height: 8),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 40),
                     child: Text(
-                      _selectedCategory != 'All'
-                          ? 'No devotionals in the "$_selectedCategory" category yet.'
-                          : 'Check back soon for new devotionals.',
+                      _searchQuery.isNotEmpty
+                          ? 'Try a different search term or browse by category.'
+                          : _selectedCategory != 'All'
+                              ? 'No devotionals in the "$_selectedCategory" category yet.'
+                              : 'Check back soon for new devotionals.',
                       textAlign: TextAlign.center,
                       style: AppTheme.interRegular(14).copyWith(
                         color: AppColors.textSecondary,

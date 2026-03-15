@@ -50,7 +50,9 @@ class _BibleScreenState extends State<BibleScreen> {
     try {
       final data = await widget.apiService.getBooks();
       if (mounted) setState(() => _books = data.books);
-    } catch (_) {}
+    } catch (e) {
+      debugPrint('BibleScreen: failed to load books: $e');
+    }
   }
 
   Future<void> _loadVerses() async {
@@ -66,7 +68,8 @@ class _BibleScreenState extends State<BibleScreen> {
         _verses = data.verses;
         _versesLoading = false;
       });
-    } catch (_) {
+    } catch (e) {
+      debugPrint('BibleScreen: failed to load verses: $e');
       if (mounted) setState(() => _versesLoading = false);
     }
   }

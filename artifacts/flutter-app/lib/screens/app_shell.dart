@@ -7,9 +7,6 @@ import 'home_screen.dart';
 import 'explore_screen.dart';
 import 'bible_screen.dart';
 import 'favorites_screen.dart';
-import 'settings_screen.dart';
-import 'devotional_detail_screen.dart';
-import 'subscription_screen.dart';
 
 class AppShell extends StatefulWidget {
   final ApiService apiService;
@@ -20,36 +17,25 @@ class AppShell extends StatefulWidget {
   State<AppShell> createState() => _AppShellState();
 }
 
-enum _OverlayScreen { none, settings, devotionalDetail, subscription }
-
 class _AppShellState extends State<AppShell> {
   int _currentTab = 0;
-  _OverlayScreen _overlayScreen = _OverlayScreen.none;
-  int? _devotionalId;
 
   String? _bibleBook;
   int? _bibleChapter;
 
   void _switchTab(int index) {
-    setState(() {
-      _currentTab = index;
-      _overlayScreen = _OverlayScreen.none;
-    });
+    setState(() => _currentTab = index);
   }
 
   void _openDevotional(int id) {
-    setState(() {
-      _devotionalId = id;
-      _overlayScreen = _OverlayScreen.devotionalDetail;
-    });
+    Navigator.of(context).pushNamed(
+      '/devotional',
+      arguments: {'id': id},
+    );
   }
 
   void _openSettings() {
-    setState(() => _overlayScreen = _OverlayScreen.settings);
-  }
-
-  void _openSubscription() {
-    setState(() => _overlayScreen = _OverlayScreen.subscription);
+    Navigator.of(context).pushNamed('/settings');
   }
 
   void _openBibleChapter(String book, int chapter) {
@@ -57,36 +43,11 @@ class _AppShellState extends State<AppShell> {
       _bibleBook = book;
       _bibleChapter = chapter;
       _currentTab = 2;
-      _overlayScreen = _OverlayScreen.none;
     });
-  }
-
-  void _closeOverlay() {
-    setState(() => _overlayScreen = _OverlayScreen.none);
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_overlayScreen == _OverlayScreen.settings) {
-      return SettingsScreen(
-        onBack: _closeOverlay,
-        onOpenSubscription: _openSubscription,
-      );
-    }
-
-    if (_overlayScreen == _OverlayScreen.devotionalDetail &&
-        _devotionalId != null) {
-      return DevotionalDetailScreen(
-        devotionalId: _devotionalId!,
-        apiService: widget.apiService,
-        onBack: _closeOverlay,
-      );
-    }
-
-    if (_overlayScreen == _OverlayScreen.subscription) {
-      return SubscriptionScreen(onBack: _closeOverlay);
-    }
-
     return Scaffold(
       body: IndexedStack(
         index: _currentTab,

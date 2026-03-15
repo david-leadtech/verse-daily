@@ -23,7 +23,9 @@ class FavoritesProvider extends ChangeNotifier {
             parsed.map((e) => FavoriteVerse.fromJson(e)).toList();
         notifyListeners();
       }
-    } catch (_) {}
+    } catch (e) {
+      debugPrint('FavoritesProvider: failed to load favorites: $e');
+    }
   }
 
   Future<void> _persistFavorites() async {
@@ -33,7 +35,9 @@ class FavoritesProvider extends ChangeNotifier {
         _storageKey,
         jsonEncode(_favorites.map((f) => f.toJson()).toList()),
       );
-    } catch (_) {}
+    } catch (e) {
+      debugPrint('FavoritesProvider: failed to persist favorites: $e');
+    }
   }
 
   bool isFavorite(int verseId) {

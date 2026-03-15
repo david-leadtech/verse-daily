@@ -8,6 +8,9 @@ import 'providers/favorites_provider.dart';
 import 'providers/settings_provider.dart';
 import 'providers/onboarding_provider.dart';
 import 'screens/app_gate.dart';
+import 'screens/settings_screen.dart';
+import 'screens/devotional_detail_screen.dart';
+import 'screens/subscription_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,6 +55,40 @@ class BibleVerseDailyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       home: AppGate(apiService: apiService),
+      onGenerateRoute: (routeSettings) {
+        switch (routeSettings.name) {
+          case '/settings':
+            return MaterialPageRoute(
+              builder: (_) => SettingsScreen(
+                onBack: () => Navigator.of(_).pop(),
+                onOpenSubscription: () {
+                  Navigator.of(_).pushNamed('/subscription');
+                },
+              ),
+              settings: routeSettings,
+            );
+          case '/devotional':
+            final args = routeSettings.arguments as Map<String, dynamic>;
+            final devotionalId = args['id'] as int;
+            return MaterialPageRoute(
+              builder: (_) => DevotionalDetailScreen(
+                devotionalId: devotionalId,
+                apiService: apiService,
+                onBack: () => Navigator.of(_).pop(),
+              ),
+              settings: routeSettings,
+            );
+          case '/subscription':
+            return MaterialPageRoute(
+              builder: (_) => SubscriptionScreen(
+                onBack: () => Navigator.of(_).pop(),
+              ),
+              settings: routeSettings,
+            );
+          default:
+            return null;
+        }
+      },
     );
   }
 }

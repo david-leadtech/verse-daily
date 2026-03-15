@@ -52,7 +52,8 @@ class _DevotionalDetailScreenState extends State<DevotionalDetailScreen> {
         _devotional = data;
         _loading = false;
       });
-    } catch (_) {
+    } catch (e) {
+      debugPrint('DevotionalDetailScreen: failed to load devotional: $e');
       if (mounted) setState(() => _loading = false);
     }
   }
