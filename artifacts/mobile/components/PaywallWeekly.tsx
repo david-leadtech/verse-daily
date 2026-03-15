@@ -3,12 +3,10 @@ import {
   StyleSheet,
   Text,
   View,
-  ScrollView,
   Pressable,
   Platform,
   Alert,
   Switch,
-  ImageBackground,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -20,14 +18,6 @@ interface PaywallWeeklyProps {
   onClose: () => void;
   onSkipToAnnual: () => void;
 }
-
-const FEATURES = [
-  { icon: "book-open", label: "Unlimited devotionals", sub: "Fresh content every day" },
-  { icon: "bell-off", label: "No ads, ever", sub: "Pure, focused reading" },
-  { icon: "layers", label: "All Bible translations", sub: "KJV, NIV, ESV & more" },
-  { icon: "heart", label: "Unlimited favorites", sub: "Save every verse that moves you" },
-  { icon: "image", label: "Verse wallpapers", sub: "Beautiful images with scripture" },
-];
 
 export default function PaywallWeekly({ onClose, onSkipToAnnual }: PaywallWeeklyProps) {
   const insets = useSafeAreaInsets();
@@ -49,107 +39,114 @@ export default function PaywallWeekly({ onClose, onSkipToAnnual }: PaywallWeekly
     );
   };
 
+  const todayDate = new Date().toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+
+  const trialEndDate = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+
   return (
-    <View style={styles.container}>
-      <ScrollView
-        contentContainerStyle={{ paddingBottom: (isWeb ? 34 : insets.bottom) + 20 }}
-        showsVerticalScrollIndicator={false}
-      >
-        <ImageBackground
-          source={require("@/assets/images/paywall-hero.png")}
-          style={[styles.heroSection, { paddingTop: (isWeb ? 67 : insets.top) + 12 }]}
-          resizeMode="cover"
+    <View style={[styles.container, { paddingTop: (isWeb ? 67 : insets.top) + 8, paddingBottom: (isWeb ? 34 : insets.bottom) + 12 }]}>
+      <View style={styles.topBar}>
+        <Pressable onPress={onSkipToAnnual} style={styles.restoreBtn}>
+          <Text style={styles.restoreText}>Restore purchase</Text>
+        </Pressable>
+        <Pressable
+          onPress={onSkipToAnnual}
+          style={({ pressed }) => [styles.closeBtn, { opacity: pressed ? 0.7 : 1 }]}
         >
-          <View style={styles.heroOverlay} />
+          <Feather name="x" size={20} color={Colors.light.textSecondary} />
+        </Pressable>
+      </View>
 
-          <Pressable
-            onPress={onSkipToAnnual}
-            style={({ pressed }) => [styles.closeBtn, { opacity: pressed ? 0.7 : 1 }]}
-          >
-            <Feather name="x" size={22} color="rgba(245,236,215,0.7)" />
-          </Pressable>
+      <View style={styles.heroSection}>
+        <Text style={styles.heroTitle}>Unlock the Full</Text>
+        <Text style={styles.heroTitleAccent}>Scripture Experience</Text>
+        <Text style={styles.heroSubtitle}>
+          Everything you need for a deeper, more meaningful walk with Christ — every single day.
+        </Text>
+      </View>
 
-          <View style={styles.heroContent}>
-            <Text style={styles.heroEyebrow}>UNLOCK EVERYTHING</Text>
-            <Text style={styles.heroTitle}>Go deeper in{"\n"}your faith</Text>
-            <Text style={styles.heroSubtitle}>
-              Everything you need for a richer, more meaningful walk with Christ.
+      <View style={styles.featuresCard}>
+        <Text style={styles.featuresText}>
+          Unlimited Devotionals, No Ads, All Bible Translations, Verse Wallpapers & More!{"\n"}
+          {freeTrialEnabled ? "Free for 3 days, then $9.99/week" : "$9.99/week"}
+        </Text>
+      </View>
+
+      <Pressable
+        onPress={() => {
+          setFreeTrialEnabled(!freeTrialEnabled);
+          if (Platform.OS !== "web") {
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          }
+        }}
+        style={styles.trialToggleRow}
+      >
+        <Text style={styles.trialToggleLabel}>Free Trial Enabled</Text>
+        <View style={[styles.checkbox, freeTrialEnabled && styles.checkboxActive]}>
+          {freeTrialEnabled && <Feather name="check" size={16} color="#FFF" />}
+        </View>
+      </Pressable>
+
+      <View style={styles.pricingBreakdown}>
+        <View style={styles.pricingRow}>
+          <View style={styles.pricingLeft}>
+            <View style={[styles.pricingDot, { backgroundColor: Colors.light.accent }]} />
+            <View>
+              <Text style={styles.pricingLabel}>Today</Text>
+              <Text style={styles.pricingDueDate}>Due {trialEndDate}</Text>
+            </View>
+          </View>
+          <View style={styles.pricingRight}>
+            <Text style={[styles.pricingStatus, { color: freeTrialEnabled ? "#5B7D3A" : Colors.light.text }]}>
+              {freeTrialEnabled ? "Free" : "$9.99"}
+            </Text>
+            <Text style={styles.pricingAmount}>
+              {freeTrialEnabled ? "$0.00" : "$9.99"}
             </Text>
           </View>
-        </ImageBackground>
-
-        <View style={styles.featuresSection}>
-          <Text style={styles.featuresSectionTitle}>What you'll get</Text>
-          {FEATURES.map((feature, i) => (
-            <View key={i} style={styles.featureRow}>
-              <View style={styles.featureIcon}>
-                <Feather name={feature.icon as any} size={18} color={Colors.light.accent} />
-              </View>
-              <View style={styles.featureTextArea}>
-                <Text style={styles.featureLabel}>{feature.label}</Text>
-                <Text style={styles.featureSub}>{feature.sub}</Text>
-              </View>
-            </View>
-          ))}
         </View>
-
-        <View style={styles.trialSection}>
-          <View style={styles.trialToggle}>
-            <View style={styles.trialToggleInfo}>
-              <Text style={styles.trialToggleTitle}>
-                {freeTrialEnabled ? "3-day free trial" : "No free trial"}
-              </Text>
-              <Text style={styles.trialToggleDescription}>
-                {freeTrialEnabled
-                  ? "Try everything free — cancel anytime before it ends."
-                  : "Start your subscription right away at $9.99/week."}
-              </Text>
+        {freeTrialEnabled && (
+          <View style={[styles.pricingRow, { marginTop: 2 }]}>
+            <View style={styles.pricingLeft}>
+              <View style={[styles.pricingDot, { backgroundColor: Colors.light.border }]} />
+              <Text style={styles.pricingDueDate}>Then weekly</Text>
             </View>
-            <Switch
-              value={freeTrialEnabled}
-              onValueChange={(val) => {
-                setFreeTrialEnabled(val);
-                if (Platform.OS !== "web") {
-                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-                }
-              }}
-              trackColor={{ false: Colors.light.border, true: Colors.light.accent }}
-              thumbColor={freeTrialEnabled ? "#FFF" : "#f4f3f4"}
-            />
+            <View style={styles.pricingRight}>
+              <Text style={styles.pricingAmount}>$9.99</Text>
+            </View>
           </View>
-        </View>
+        )}
+      </View>
 
-        <View style={styles.priceSection}>
-          <Text style={styles.priceAmount}>$9.99</Text>
-          <Text style={styles.pricePeriod}>/week</Text>
-          {freeTrialEnabled && (
-            <View style={styles.trialBadge}>
-              <Feather name="gift" size={13} color="#5B7D3A" />
-              <Text style={styles.trialBadgeText}>First 3 days free</Text>
-            </View>
-          )}
-        </View>
+      <View style={{ flex: 1 }} />
 
-        <Pressable
-          onPress={handleSubscribe}
-          style={({ pressed }) => [
-            styles.subscribeBtn,
-            { opacity: pressed ? 0.92 : 1, transform: [{ scale: pressed ? 0.98 : 1 }] },
-          ]}
-        >
-          <Text style={styles.subscribeBtnText}>
-            {freeTrialEnabled ? "Start My Free Trial" : "Subscribe Now"}
-          </Text>
-          {freeTrialEnabled && (
-            <Text style={styles.subscribeBtnSub}>then $9.99/week · cancel anytime</Text>
-          )}
-        </Pressable>
-
-        <Text style={styles.disclaimer}>
-          Cancel anytime in your account settings.{"\n"}By subscribing, you agree to our Terms of
-          Use and Privacy Policy.
+      <Pressable
+        onPress={handleSubscribe}
+        style={({ pressed }) => [
+          styles.subscribeBtn,
+          { opacity: pressed ? 0.92 : 1, transform: [{ scale: pressed ? 0.98 : 1 }] },
+        ]}
+      >
+        <Text style={styles.subscribeBtnText}>
+          {freeTrialEnabled ? "Try Free" : "Subscribe Now"}
         </Text>
-      </ScrollView>
+      </Pressable>
+
+      <View style={styles.footerLinks}>
+        <Feather name="lock" size={12} color={Colors.light.tabIconDefault} />
+        <Text style={styles.securedText}>Secured with Apple</Text>
+      </View>
+      <Pressable>
+        <Text style={styles.termsText}>Terms & Conditions</Text>
+      </Pressable>
     </View>
   );
 }
@@ -158,182 +155,165 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.light.background,
+    paddingHorizontal: 24,
   },
-  heroSection: {
-    height: 300,
-    justifyContent: "flex-end",
+  topBar: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 20,
   },
-  heroOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(30, 12, 2, 0.55)",
+  restoreBtn: {},
+  restoreText: {
+    fontSize: 14,
+    fontFamily: "Inter_500Medium",
+    color: Colors.light.accent,
   },
   closeBtn: {
-    position: "absolute",
-    top: 52,
-    right: 20,
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: "rgba(0,0,0,0.3)",
+    width: 32,
+    height: 32,
+    borderRadius: 16,
     alignItems: "center",
     justifyContent: "center",
-    zIndex: 10,
   },
-  heroContent: {
-    paddingHorizontal: 28,
-    paddingBottom: 28,
-    zIndex: 2,
-  },
-  heroEyebrow: {
-    fontSize: 11,
-    fontFamily: "Inter_600SemiBold",
-    color: "#C5963A",
-    letterSpacing: 2.5,
-    marginBottom: 8,
+  heroSection: {
+    alignItems: "center",
+    marginBottom: 28,
   },
   heroTitle: {
-    fontSize: 32,
+    fontSize: 28,
     fontFamily: "PlayfairDisplay_700Bold",
-    color: "#F5ECD7",
-    lineHeight: 40,
-    marginBottom: 8,
+    color: Colors.light.accent,
+    textAlign: "center",
+  },
+  heroTitleAccent: {
+    fontSize: 28,
+    fontFamily: "PlayfairDisplay_700Bold",
+    color: Colors.light.accent,
+    textAlign: "center",
+    marginBottom: 10,
   },
   heroSubtitle: {
-    fontSize: 15,
+    fontSize: 14,
     fontFamily: "Inter_400Regular",
-    color: "rgba(245, 236, 215, 0.75)",
+    color: Colors.light.textSecondary,
+    textAlign: "center",
     lineHeight: 22,
+    maxWidth: 320,
   },
-  featuresSection: {
-    paddingHorizontal: 24,
-    paddingTop: 28,
-    paddingBottom: 4,
-    gap: 16,
+  featuresCard: {
+    backgroundColor: Colors.light.surfaceSecondary,
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 16,
   },
-  featuresSectionTitle: {
-    fontSize: 13,
-    fontFamily: "Inter_600SemiBold",
-    color: Colors.light.textSecondary,
-    textTransform: "uppercase",
-    letterSpacing: 1.5,
-    marginBottom: 4,
-  },
-  featureRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 14,
-  },
-  featureIcon: {
-    width: 42,
-    height: 42,
-    borderRadius: 12,
-    backgroundColor: Colors.light.accent + "14",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  featureTextArea: {
-    flex: 1,
-    gap: 2,
-  },
-  featureLabel: {
+  featuresText: {
     fontSize: 15,
-    fontFamily: "Inter_600SemiBold",
-    color: Colors.light.text,
-  },
-  featureSub: {
-    fontSize: 13,
     fontFamily: "Inter_400Regular",
     color: Colors.light.textSecondary,
+    lineHeight: 24,
+    textAlign: "center",
   },
-  trialSection: {
-    paddingHorizontal: 24,
-    paddingTop: 24,
-    paddingBottom: 8,
-  },
-  trialToggle: {
+  trialToggleRow: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
     backgroundColor: Colors.light.surface,
     borderRadius: 16,
     padding: 18,
     borderWidth: 1,
     borderColor: Colors.light.border,
+    marginBottom: 16,
   },
-  trialToggleInfo: {
-    flex: 1,
-    gap: 3,
-  },
-  trialToggleTitle: {
+  trialToggleLabel: {
     fontSize: 16,
     fontFamily: "Inter_600SemiBold",
     color: Colors.light.text,
   },
-  trialToggleDescription: {
+  checkbox: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    borderWidth: 2,
+    borderColor: Colors.light.border,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  checkboxActive: {
+    backgroundColor: Colors.light.accent,
+    borderColor: Colors.light.accent,
+  },
+  pricingBreakdown: {
+    gap: 12,
+    paddingHorizontal: 4,
+  },
+  pricingRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  pricingLeft: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+  },
+  pricingDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+  },
+  pricingLabel: {
+    fontSize: 15,
+    fontFamily: "Inter_600SemiBold",
+    color: Colors.light.text,
+  },
+  pricingDueDate: {
     fontSize: 13,
     fontFamily: "Inter_400Regular",
     color: Colors.light.textSecondary,
-    lineHeight: 18,
   },
-  priceSection: {
-    flexDirection: "row",
-    alignItems: "baseline",
-    justifyContent: "center",
-    paddingTop: 20,
-    paddingBottom: 4,
-    gap: 4,
-    flexWrap: "wrap",
+  pricingRight: {
+    alignItems: "flex-end",
+    gap: 1,
   },
-  priceAmount: {
-    fontSize: 36,
-    fontFamily: "PlayfairDisplay_700Bold",
-    color: Colors.light.text,
+  pricingStatus: {
+    fontSize: 15,
+    fontFamily: "Inter_700Bold",
   },
-  pricePeriod: {
-    fontSize: 18,
+  pricingAmount: {
+    fontSize: 13,
     fontFamily: "Inter_400Regular",
     color: Colors.light.textSecondary,
   },
-  trialBadge: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 5,
-    backgroundColor: "#5B7D3A14",
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 8,
-    marginLeft: 8,
-  },
-  trialBadgeText: {
-    fontSize: 12,
-    fontFamily: "Inter_600SemiBold",
-    color: "#5B7D3A",
-  },
   subscribeBtn: {
-    marginHorizontal: 24,
-    marginTop: 16,
     borderRadius: 16,
-    backgroundColor: "#C5963A",
+    backgroundColor: Colors.light.accent,
     paddingVertical: 18,
     alignItems: "center",
-    gap: 3,
+    marginBottom: 14,
   },
   subscribeBtnText: {
     fontSize: 18,
     fontFamily: "Inter_700Bold",
-    color: "#2C1810",
+    color: "#FFF",
   },
-  subscribeBtnSub: {
-    fontSize: 12,
-    fontFamily: "Inter_400Regular",
-    color: "rgba(44, 24, 16, 0.6)",
+  footerLinks: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 6,
+    marginBottom: 4,
   },
-  disclaimer: {
-    fontSize: 11,
+  securedText: {
+    fontSize: 13,
     fontFamily: "Inter_400Regular",
     color: Colors.light.tabIconDefault,
+  },
+  termsText: {
+    fontSize: 13,
+    fontFamily: "Inter_400Regular",
+    color: Colors.light.accent,
     textAlign: "center",
-    paddingHorizontal: 40,
-    paddingTop: 14,
-    lineHeight: 17,
+    textDecorationLine: "underline",
   },
 });

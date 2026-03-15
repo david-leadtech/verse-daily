@@ -95,6 +95,15 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
         )}
       />
 
+      {currentIndex < SLIDES.length - 1 && (
+        <Pressable
+          onPress={handleSkip}
+          style={[styles.skipBtn, { top: (isWeb ? 67 : insets.top) + 12 }]}
+        >
+          <Text style={styles.skipText}>Skip</Text>
+        </Pressable>
+      )}
+
       <View style={[styles.footer, { paddingBottom: (isWeb ? 34 : insets.bottom) + 20 }]}>
         <View style={styles.dots}>
           {SLIDES.map((_, i) => (
@@ -121,12 +130,6 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
             color="#3C1A00"
           />
         </Pressable>
-
-        {currentIndex < SLIDES.length - 1 && (
-          <Pressable onPress={handleSkip} style={styles.skipButton}>
-            <Text style={styles.skipText}>Skip for now</Text>
-          </Pressable>
-        )}
       </View>
     </View>
   );
@@ -171,6 +174,20 @@ const styles = StyleSheet.create({
     lineHeight: 26,
     maxWidth: 340,
   },
+  skipBtn: {
+    position: "absolute",
+    left: 24,
+    zIndex: 20,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+    backgroundColor: "rgba(0,0,0,0.25)",
+  },
+  skipText: {
+    fontSize: 15,
+    fontFamily: "Inter_500Medium",
+    color: "rgba(245, 236, 215, 0.75)",
+  },
   footer: {
     position: "absolute",
     bottom: 0,
@@ -208,13 +225,5 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: "Inter_600SemiBold",
     color: "#3C1A00",
-  },
-  skipButton: {
-    paddingVertical: 6,
-  },
-  skipText: {
-    fontSize: 14,
-    fontFamily: "Inter_400Regular",
-    color: "rgba(245, 236, 215, 0.45)",
   },
 });
