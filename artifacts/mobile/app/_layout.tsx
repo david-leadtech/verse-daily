@@ -93,9 +93,19 @@ function AppGate() {
   }, [hasCompletedOnboarding, tryTransition]);
 
   const handleSplashComplete = React.useCallback(() => {
+    if (splashDoneRef.current) return;
     splashDoneRef.current = true;
     tryTransition();
   }, [tryTransition]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (!splashDoneRef.current) {
+        handleSplashComplete();
+      }
+    }, 4000);
+    return () => clearTimeout(timeout);
+  }, [handleSplashComplete]);
 
   const renderContent = () => {
     if (phase === "splash") {

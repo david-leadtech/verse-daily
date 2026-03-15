@@ -14,14 +14,23 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
   const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState<boolean | null>(null);
 
   useEffect(() => {
+    let resolved = false;
     (async () => {
       try {
         const value = await AsyncStorage.getItem(STORAGE_KEY);
+        resolved = true;
         setHasCompletedOnboarding(value === "true");
       } catch {
+        resolved = true;
         setHasCompletedOnboarding(false);
       }
     })();
+    const timeout = setTimeout(() => {
+      if (!resolved) {
+        setHasCompletedOnboarding(false);
+      }
+    }, 2000);
+    return () => clearTimeout(timeout);
   }, []);
 
   const completeOnboarding = useCallback(() => {
