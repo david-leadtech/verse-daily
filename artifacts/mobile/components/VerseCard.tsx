@@ -72,9 +72,9 @@ export default function VerseCard({
                 style={({ pressed }) => [styles.actionBtn, { opacity: pressed ? 0.7 : 1 }]}
               >
                 <Feather
-                  name={saved ? "heart" : "heart"}
+                  name="heart"
                   size={20}
-                  color={saved ? "#FCD34D" : "rgba(255,255,255,0.7)"}
+                  color={saved ? "#C5963A" : "rgba(245,236,215,0.5)"}
                 />
               </Pressable>
               <Pressable
@@ -82,7 +82,7 @@ export default function VerseCard({
                 hitSlop={12}
                 style={({ pressed }) => [styles.actionBtn, { opacity: pressed ? 0.7 : 1 }]}
               >
-                <Feather name="share" size={20} color="rgba(255,255,255,0.7)" />
+                <Feather name="share" size={20} color="rgba(245,236,215,0.5)" />
               </Pressable>
             </View>
           )}
@@ -104,14 +104,14 @@ const styles = StyleSheet.create({
   },
   verseText: {
     fontSize: 20,
-    lineHeight: 30,
-    color: "#FFFFFF",
-    fontFamily: "Inter_500Medium",
+    lineHeight: 32,
+    color: "#F5ECD7",
+    fontFamily: "PlayfairDisplay_400Regular_Italic",
     letterSpacing: 0.3,
   },
   verseTextCompact: {
     fontSize: 16,
-    lineHeight: 24,
+    lineHeight: 26,
   },
   footer: {
     flexDirection: "row",
@@ -124,12 +124,12 @@ const styles = StyleSheet.create({
   },
   referenceText: {
     fontSize: 14,
-    color: "rgba(255,255,255,0.9)",
+    color: "#E8D5A3",
     fontFamily: "Inter_600SemiBold",
   },
   versionText: {
     fontSize: 12,
-    color: "rgba(255,255,255,0.6)",
+    color: "rgba(245,236,215,0.5)",
     fontFamily: "Inter_400Regular",
   },
   actions: {
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: "rgba(255,255,255,0.15)",
+    backgroundColor: "rgba(245,236,215,0.1)",
     alignItems: "center",
     justifyContent: "center",
   },

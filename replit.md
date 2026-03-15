@@ -4,7 +4,7 @@
 
 pnpm workspace monorepo using TypeScript. Each package manages its own dependencies.
 
-**Bible Verse Daily** — A mobile-first Bible Verse of the Day app built with Expo React Native, Express API backend, and PostgreSQL. Features daily verse delivery, devotional readings, Bible book/chapter reader, favorites with persistence, and a premium subscription paywall.
+**Bible Verse Daily** — A mobile-first Bible Verse of the Day app built with Expo React Native, Express API backend, and PostgreSQL. Features daily verse delivery, devotional readings, Bible book/chapter reader, favorites with persistence, animated splash screen, 3-slide onboarding flow, and a dual-tier subscription paywall. Styled with a warm biblical parchment theme.
 
 ## Stack
 
@@ -18,8 +18,9 @@ pnpm workspace monorepo using TypeScript. Each package manages its own dependenc
 - **API codegen**: Orval (from OpenAPI spec)
 - **Build**: esbuild (CJS bundle)
 - **Mobile**: Expo SDK 53, React Native, Expo Router (file-based routing)
-- **UI**: Inter font family, deep indigo/purple (#7C3AED) primary, amber (#F59E0B) accent
-- **State**: React Query (server), AsyncStorage (local favorites/settings)
+- **Fonts**: Playfair Display (serif, for headings/verses) + Inter (sans-serif, for body)
+- **UI**: Biblical warm palette — tint: #8B4513 (saddle brown), accent: #C5963A (gold), background: #FDF8F0 (cream parchment)
+- **State**: React Query (server), AsyncStorage (local favorites/settings/onboarding)
 
 ## Structure
 
@@ -71,28 +72,39 @@ Express 5 API server. Routes live in `src/routes/` and use `@workspace/api-zod` 
 
 Expo React Native app with file-based routing (expo-router).
 
+**App Flow (AppGate in _layout.tsx):**
+- Splash (2.2s) → Onboarding (3 slides, new installs only) → Weekly Paywall → Annual Paywall (fallback) → App
+- Returning users skip directly from splash to app via AsyncStorage-persisted OnboardingContext
+
 **Screens:**
-- `app/(tabs)/index.tsx` — Today/Home: greeting, daily verse gradient card, reflection, devotionals preview
+- `app/(tabs)/index.tsx` — Today/Home: greeting, daily verse gradient card, reflection, devotionals preview, quick-read topics
 - `app/(tabs)/explore.tsx` — Devotionals list with category filter chips
 - `app/(tabs)/bible.tsx` — Bible reader: book picker → chapter picker → verse list
 - `app/(tabs)/favorites.tsx` — Saved verses with gradient cards, empty state
 - `app/settings.tsx` — Preferences (notifications, Bible version), premium upsell, about links
 - `app/devotional/[id].tsx` — Devotional detail with gradient hero, verse quote, content
-- `app/subscription.tsx` — Premium paywall with Monthly ($4.99), Annual ($29.99), Lifetime ($79.99) plans
+- `app/subscription.tsx` — Premium paywall with Weekly ($9.99) and Annual ($69.99) plans
 
 **Components:**
-- `components/GradientCard.tsx` — 8-preset gradient verse card with favorite/share actions
-- `components/VerseCard.tsx` — Compact verse display for lists
-- `components/DevotionalCard.tsx` — Devotional list item with category icon
-- `components/SectionHeader.tsx` — Reusable section title with optional action
+- `components/SplashLoader.tsx` — Animated splash with cross icon, pulsing dots, dark brown gradient
+- `components/OnboardingFlow.tsx` — 3 slides: Daily Scripture, Devotional Readings, Save & Share
+- `components/PaywallWeekly.tsx` — $9.99/week plan with 3-day free trial toggle (Switch), feature list
+- `components/PaywallAnnual.tsx` — $69.99/year fallback with savings comparison, Matthew 6:21 quote
+- `components/GradientCard.tsx` — 8-preset warm brown gradient card
+- `components/VerseCard.tsx` — Verse display with Playfair Display italic text, favorite/share actions
+- `components/DevotionalCard.tsx` — Devotional list item with category icon (warm biblical colors)
+- `components/SectionHeader.tsx` — Reusable section title with Playfair Display bold
 
 **Contexts:**
 - `contexts/FavoritesContext.tsx` — AsyncStorage-persisted favorites list
 - `contexts/SettingsContext.tsx` — Settings (notifications, Bible version, premium status)
+- `contexts/OnboardingContext.tsx` — Onboarding completion state persisted in AsyncStorage
 
 **Design:**
-- Primary: #7C3AED (indigo-purple), Accent: #F59E0B (amber)
-- Inter font family (400/500/600/700)
+- Tint: #8B4513 (saddle brown), Accent: #C5963A (gold), Background: #FDF8F0, Parchment: #F5ECD7
+- Playfair Display 700Bold for headings, 400Regular_Italic for verse text
+- Inter 400-700 for body text
+- Warm brown gradient cards (no purple/indigo)
 - Liquid glass tab bar on iOS 26+, classic blur tab bar fallback
 - Web platform insets handled (67px top, 34px bottom)
 

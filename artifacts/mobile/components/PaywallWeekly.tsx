@@ -7,31 +7,22 @@ import {
   Pressable,
   Platform,
   Alert,
+  Switch,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import * as Haptics from "expo-haptics";
 import Colors from "@/constants/colors";
 import { useSettings } from "@/contexts/SettingsContext";
 
-interface PlanOption {
-  id: string;
-  name: string;
-  price: string;
-  period: string;
-  savings?: string;
-  popular?: boolean;
+interface PaywallWeeklyProps {
+  onClose: () => void;
+  onSkipToAnnual: () => void;
 }
 
-const PLANS: PlanOption[] = [
-  { id: "weekly", name: "Weekly", price: "$9.99", period: "/week" },
-  { id: "yearly", name: "Annual", price: "$69.99", period: "/year", savings: "Save 87%", popular: true },
-];
-
 const FEATURES = [
-  { icon: "book-open", text: "All devotionals & reflections" },
+  { icon: "book-open", text: "Unlimited devotionals & reflections" },
   { icon: "bell-off", text: "Ad-free experience" },
   { icon: "layers", text: "Multiple Bible translations" },
   { icon: "image", text: "Premium verse wallpapers" },
@@ -39,12 +30,11 @@ const FEATURES = [
   { icon: "heart", text: "Unlimited saved verses" },
 ];
 
-export default function SubscriptionScreen() {
+export default function PaywallWeekly({ onClose, onSkipToAnnual }: PaywallWeeklyProps) {
   const insets = useSafeAreaInsets();
-  const router = useRouter();
   const isWeb = Platform.OS === "web";
   const { updateSettings } = useSettings();
-  const [selectedPlan, setSelectedPlan] = useState("yearly");
+  const [freeTrialEnabled, setFreeTrialEnabled] = useState(true);
 
   const handleSubscribe = () => {
     if (Platform.OS !== "web") {
@@ -53,8 +43,10 @@ export default function SubscriptionScreen() {
     updateSettings({ isPremium: true });
     Alert.alert(
       "Welcome to Premium!",
-      "Thank you for supporting our mission. Enjoy all premium features.",
-      [{ text: "Amen!", onPress: () => router.back() }]
+      freeTrialEnabled
+        ? "Your 3-day free trial has started. Enjoy all premium features!"
+        : "Thank you for your subscription. Enjoy all premium features!",
+      [{ text: "Amen!", onPress: onClose }]
     );
   };
 
@@ -71,19 +63,20 @@ export default function SubscriptionScreen() {
           style={[styles.heroSection, { paddingTop: (isWeb ? 67 : insets.top) + 12 }]}
         >
           <Pressable
-            onPress={() => router.back()}
+            onPress={onSkipToAnnual}
             style={({ pressed }) => [styles.closeBtn, { opacity: pressed ? 0.7 : 1 }]}
           >
-            <Feather name="x" size={24} color="#F5ECD7" />
+            <Feather name="x" size={22} color="rgba(245,236,215,0.6)" />
           </Pressable>
 
           <View style={styles.heroIcon}>
             <Text style={styles.heroIconText}>✝</Text>
           </View>
 
-          <Text style={styles.heroTitle}>Unlock Premium</Text>
+          <Text style={styles.heroTitle}>Unlock the Full</Text>
+          <Text style={styles.heroTitleAccent}>Scripture Experience</Text>
           <Text style={styles.heroSubtitle}>
-            Deepen your daily walk with Christ through exclusive content and features
+            Walk deeper with Christ every single day
           </Text>
         </LinearGradient>
 
@@ -98,52 +91,46 @@ export default function SubscriptionScreen() {
           ))}
         </View>
 
-        <View style={styles.plansSection}>
-          {PLANS.map((plan) => (
-            <Pressable
-              key={plan.id}
-              onPress={() => {
-                setSelectedPlan(plan.id);
+        <View style={styles.trialToggleSection}>
+          <View style={styles.trialToggle}>
+            <View style={styles.trialToggleInfo}>
+              <Text style={styles.trialToggleTitle}>Free Trial</Text>
+              <Text style={styles.trialToggleDescription}>
+                {freeTrialEnabled
+                  ? "3 days free, then $9.99/week"
+                  : "Start immediately at $9.99/week"}
+              </Text>
+            </View>
+            <Switch
+              value={freeTrialEnabled}
+              onValueChange={(val) => {
+                setFreeTrialEnabled(val);
                 if (Platform.OS !== "web") {
                   Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
                 }
               }}
-              style={[
-                styles.planCard,
-                selectedPlan === plan.id && styles.planCardSelected,
-              ]}
-            >
-              {plan.popular && (
-                <View style={styles.popularBadge}>
-                  <Text style={styles.popularBadgeText}>Best Value</Text>
-                </View>
-              )}
-              <View style={styles.planContent}>
-                <View style={styles.planRadio}>
-                  <View
-                    style={[
-                      styles.radioOuter,
-                      selectedPlan === plan.id && styles.radioOuterSelected,
-                    ]}
-                  >
-                    {selectedPlan === plan.id && <View style={styles.radioInner} />}
-                  </View>
-                </View>
-                <View style={styles.planInfo}>
-                  <Text style={styles.planName}>{plan.name}</Text>
-                  <View style={styles.planPricing}>
-                    <Text style={styles.planPrice}>{plan.price}</Text>
-                    <Text style={styles.planPeriod}>{plan.period}</Text>
-                  </View>
-                </View>
-                {plan.savings && (
-                  <View style={styles.savingsBadge}>
-                    <Text style={styles.savingsText}>{plan.savings}</Text>
-                  </View>
-                )}
+              trackColor={{ false: Colors.light.border, true: Colors.light.accent }}
+              thumbColor={freeTrialEnabled ? "#FFF" : "#f4f3f4"}
+            />
+          </View>
+        </View>
+
+        <View style={styles.planCard}>
+          <View style={styles.planBadge}>
+            <Text style={styles.planBadgeText}>WEEKLY</Text>
+          </View>
+          <View style={styles.planContent}>
+            <View style={styles.planPricing}>
+              <Text style={styles.planPrice}>$9.99</Text>
+              <Text style={styles.planPeriod}>/week</Text>
+            </View>
+            {freeTrialEnabled && (
+              <View style={styles.trialBadge}>
+                <Feather name="gift" size={14} color="#5B7D3A" />
+                <Text style={styles.trialBadgeText}>3 days free</Text>
               </View>
-            </Pressable>
-          ))}
+            )}
+          </View>
         </View>
 
         <Pressable
@@ -159,7 +146,12 @@ export default function SubscriptionScreen() {
             end={{ x: 1, y: 0 }}
             style={styles.subscribeBtnGradient}
           >
-            <Text style={styles.subscribeBtnText}>Subscribe Now</Text>
+            <Text style={styles.subscribeBtnText}>
+              {freeTrialEnabled ? "Start Free Trial" : "Subscribe Now"}
+            </Text>
+            {freeTrialEnabled && (
+              <Text style={styles.subscribeBtnSub}>3 days free, then $9.99/week</Text>
+            )}
           </LinearGradient>
         </Pressable>
 
@@ -184,47 +176,51 @@ const styles = StyleSheet.create({
   },
   closeBtn: {
     alignSelf: "flex-end",
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: "rgba(245,236,215,0.15)",
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: "rgba(245,236,215,0.1)",
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 20,
+    marginBottom: 16,
   },
   heroIcon: {
     width: 72,
     height: 72,
     borderRadius: 36,
-    backgroundColor: "rgba(197,150,58,0.15)",
+    backgroundColor: "rgba(197, 150, 58, 0.15)",
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 20,
     borderWidth: 1,
-    borderColor: "rgba(197,150,58,0.25)",
+    borderColor: "rgba(197, 150, 58, 0.25)",
   },
   heroIconText: {
     fontSize: 36,
     color: "#C5963A",
   },
   heroTitle: {
-    fontSize: 28,
+    fontSize: 26,
     fontFamily: "PlayfairDisplay_700Bold",
     color: "#F5ECD7",
+  },
+  heroTitleAccent: {
+    fontSize: 26,
+    fontFamily: "PlayfairDisplay_400Regular_Italic",
+    color: "#C5963A",
     marginBottom: 10,
   },
   heroSubtitle: {
     fontSize: 15,
     fontFamily: "Inter_400Regular",
-    color: "rgba(245,236,215,0.7)",
+    color: "rgba(245, 236, 215, 0.6)",
     textAlign: "center",
-    lineHeight: 24,
   },
   featuresSection: {
-    paddingHorizontal: 24,
+    paddingHorizontal: 28,
     paddingTop: 28,
-    paddingBottom: 12,
-    gap: 16,
+    paddingBottom: 8,
+    gap: 14,
   },
   featureRow: {
     flexDirection: "row",
@@ -244,66 +240,59 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_500Medium",
     color: Colors.light.text,
   },
-  plansSection: {
-    paddingHorizontal: 24,
+  trialToggleSection: {
+    paddingHorizontal: 28,
     paddingTop: 24,
-    gap: 10,
+    paddingBottom: 16,
+  },
+  trialToggle: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: Colors.light.surface,
+    borderRadius: 16,
+    padding: 18,
+    borderWidth: 1,
+    borderColor: Colors.light.border,
+  },
+  trialToggleInfo: {
+    flex: 1,
+    gap: 4,
+  },
+  trialToggleTitle: {
+    fontSize: 16,
+    fontFamily: "Inter_600SemiBold",
+    color: Colors.light.text,
+  },
+  trialToggleDescription: {
+    fontSize: 13,
+    fontFamily: "Inter_400Regular",
+    color: Colors.light.textSecondary,
   },
   planCard: {
+    marginHorizontal: 28,
     borderRadius: 16,
     borderWidth: 2,
-    borderColor: Colors.light.border,
+    borderColor: Colors.light.accent,
     backgroundColor: Colors.light.surface,
     overflow: "hidden",
   },
-  planCardSelected: {
-    borderColor: Colors.light.accent,
-  },
-  popularBadge: {
+  planBadge: {
     backgroundColor: Colors.light.accent,
     paddingVertical: 6,
     alignItems: "center",
   },
-  popularBadgeText: {
-    fontSize: 12,
+  planBadgeText: {
+    fontSize: 11,
     fontFamily: "Inter_700Bold",
     color: "#FFF",
     textTransform: "uppercase",
-    letterSpacing: 0.5,
+    letterSpacing: 1.5,
   },
   planContent: {
+    padding: 20,
     flexDirection: "row",
     alignItems: "center",
-    padding: 18,
-    gap: 14,
-  },
-  planRadio: {},
-  radioOuter: {
-    width: 22,
-    height: 22,
-    borderRadius: 11,
-    borderWidth: 2,
-    borderColor: Colors.light.border,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  radioOuterSelected: {
-    borderColor: Colors.light.accent,
-  },
-  radioInner: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    backgroundColor: Colors.light.accent,
-  },
-  planInfo: {
-    flex: 1,
-    gap: 2,
-  },
-  planName: {
-    fontSize: 16,
-    fontFamily: "Inter_600SemiBold",
-    color: Colors.light.text,
+    justifyContent: "space-between",
   },
   planPricing: {
     flexDirection: "row",
@@ -311,29 +300,32 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   planPrice: {
-    fontSize: 20,
+    fontSize: 32,
     fontFamily: "PlayfairDisplay_700Bold",
     color: Colors.light.text,
   },
   planPeriod: {
-    fontSize: 14,
+    fontSize: 16,
     fontFamily: "Inter_400Regular",
     color: Colors.light.textSecondary,
   },
-  savingsBadge: {
-    backgroundColor: Colors.light.olive + "20",
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 8,
+  trialBadge: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    backgroundColor: "#5B7D3A15",
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 10,
   },
-  savingsText: {
-    fontSize: 12,
-    fontFamily: "Inter_700Bold",
-    color: Colors.light.olive,
+  trialBadgeText: {
+    fontSize: 13,
+    fontFamily: "Inter_600SemiBold",
+    color: "#5B7D3A",
   },
   subscribeBtn: {
-    marginHorizontal: 24,
-    marginTop: 28,
+    marginHorizontal: 28,
+    marginTop: 24,
     borderRadius: 16,
     overflow: "hidden",
   },
@@ -347,13 +339,18 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_700Bold",
     color: "#FFF",
   },
-  disclaimer: {
+  subscribeBtnSub: {
     fontSize: 12,
+    fontFamily: "Inter_400Regular",
+    color: "rgba(255,255,255,0.7)",
+  },
+  disclaimer: {
+    fontSize: 11,
     fontFamily: "Inter_400Regular",
     color: Colors.light.tabIconDefault,
     textAlign: "center",
     paddingHorizontal: 40,
     paddingTop: 16,
-    lineHeight: 18,
+    lineHeight: 17,
   },
 });

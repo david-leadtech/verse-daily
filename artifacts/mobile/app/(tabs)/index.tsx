@@ -81,7 +81,7 @@ export default function HomeScreen() {
         <SectionHeader title="Verse of the Day" />
         {dailyLoading ? (
           <View style={styles.loadingCard}>
-            <ActivityIndicator size="small" color={Colors.light.tint} />
+            <ActivityIndicator size="small" color={Colors.light.accent} />
           </View>
         ) : dailyError ? (
           <Pressable onPress={() => refetchDaily()} style={styles.loadingCard}>
@@ -102,7 +102,7 @@ export default function HomeScreen() {
             />
             {dailyData.reflection && (
               <View style={styles.reflectionContainer}>
-                <Feather name="message-circle" size={16} color={Colors.light.tint} />
+                <Feather name="message-circle" size={16} color={Colors.light.accent} />
                 <Text style={styles.reflectionText}>{dailyData.reflection}</Text>
               </View>
             )}
@@ -122,7 +122,7 @@ export default function HomeScreen() {
         />
         {devotionalsLoading ? (
           <View style={styles.loadingCard}>
-            <ActivityIndicator size="small" color={Colors.light.tint} />
+            <ActivityIndicator size="small" color={Colors.light.accent} />
           </View>
         ) : devotionalsError ? (
           <Pressable onPress={() => refetchDevotionals()} style={styles.loadingCard}>
@@ -156,7 +156,7 @@ export default function HomeScreen() {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.quickReadScroll}
         >
-          {quickReadTopics.map((topic, index) => (
+          {quickReadTopics.map((topic) => (
             <Pressable
               key={topic.name}
               onPress={() =>
@@ -173,7 +173,7 @@ export default function HomeScreen() {
                 end={{ x: 1, y: 1 }}
                 style={styles.quickReadCard}
               >
-                <Feather name={topic.icon as any} size={24} color="#fff" />
+                <Feather name={topic.icon as any} size={24} color="#F5ECD7" />
                 <Text style={styles.quickReadTitle}>{topic.name}</Text>
                 <Text style={styles.quickReadSub}>
                   {topic.book} {topic.chapter}
@@ -195,11 +195,11 @@ function getGreeting(): string {
 }
 
 const quickReadTopics = [
-  { name: "Psalms of Peace", book: "Psalms", chapter: 23, icon: "sun", colors: ["#7C3AED", "#4F46E5"] },
-  { name: "Love Chapter", book: "1 Corinthians", chapter: 13, icon: "heart", colors: ["#EC4899", "#8B5CF6"] },
-  { name: "Creation", book: "Genesis", chapter: 1, icon: "globe", colors: ["#10B981", "#3B82F6"] },
-  { name: "Faith Heroes", book: "Hebrews", chapter: 11, icon: "shield", colors: ["#F59E0B", "#EF4444"] },
-  { name: "Beatitudes", book: "Matthew", chapter: 5, icon: "star", colors: ["#1E3A5F", "#4A90D9"] },
+  { name: "Psalms of Peace", book: "Psalms", chapter: 23, icon: "sun", colors: ["#8B4513", "#6B3410"] },
+  { name: "Love Chapter", book: "1 Corinthians", chapter: 13, icon: "heart", colors: ["#8B2252", "#6B3410"] },
+  { name: "Creation", book: "Genesis", chapter: 1, icon: "globe", colors: ["#5B7D3A", "#3C5A20"] },
+  { name: "Faith Heroes", book: "Hebrews", chapter: 11, icon: "shield", colors: ["#C5963A", "#8B6914"] },
+  { name: "Beatitudes", book: "Matthew", chapter: 5, icon: "star", colors: ["#1E3A5F", "#2D5070"] },
 ];
 
 const styles = StyleSheet.create({
@@ -219,14 +219,14 @@ const styles = StyleSheet.create({
   },
   greeting: {
     fontSize: 28,
-    fontFamily: "Inter_700Bold",
+    fontFamily: "PlayfairDisplay_700Bold",
     color: Colors.light.text,
   },
   dateText: {
-    fontSize: 15,
+    fontSize: 14,
     fontFamily: "Inter_400Regular",
     color: Colors.light.textSecondary,
-    marginTop: 2,
+    marginTop: 4,
   },
   settingsBtn: {
     width: 44,
@@ -246,11 +246,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.light.surface,
     borderRadius: 14,
     padding: 16,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.03,
-    shadowRadius: 4,
-    elevation: 1,
+    borderWidth: 1,
+    borderColor: Colors.light.borderLight,
   },
   reflectionText: {
     flex: 1,
@@ -258,6 +255,7 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     fontFamily: "Inter_400Regular",
     color: Colors.light.textSecondary,
+    fontStyle: "italic",
   },
   loadingCard: {
     marginHorizontal: 20,
@@ -291,13 +289,13 @@ const styles = StyleSheet.create({
   },
   quickReadTitle: {
     fontSize: 15,
-    fontFamily: "Inter_600SemiBold",
-    color: "#fff",
+    fontFamily: "PlayfairDisplay_700Bold",
+    color: "#F5ECD7",
     lineHeight: 20,
   },
   quickReadSub: {
     fontSize: 12,
     fontFamily: "Inter_400Regular",
-    color: "rgba(255,255,255,0.7)",
+    color: "rgba(245,236,215,0.7)",
   },
 });

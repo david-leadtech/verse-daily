@@ -25,15 +25,15 @@ const CATEGORY_ICONS: Record<string, string> = {
 };
 
 const CATEGORY_COLORS: Record<string, string> = {
-  Peace: "#3B82F6",
-  Strength: "#EF4444",
-  Faith: "#8B5CF6",
-  Gratitude: "#F59E0B",
-  Love: "#EC4899",
-  Trust: "#10B981",
-  Growth: "#14B8A6",
-  Rest: "#6366F1",
-  Courage: "#F97316",
+  Peace: "#1E3A5F",
+  Strength: "#8B2252",
+  Faith: "#8B4513",
+  Gratitude: "#C5963A",
+  Love: "#8B2252",
+  Trust: "#5B7D3A",
+  Growth: "#3C5A20",
+  Rest: "#1E3A5F",
+  Courage: "#8B4513",
 };
 
 export default function DevotionalCard({
@@ -54,7 +54,7 @@ export default function DevotionalCard({
         { opacity: pressed ? 0.95 : 1, transform: [{ scale: pressed ? 0.98 : 1 }] },
       ]}
     >
-      <View style={[styles.iconContainer, { backgroundColor: categoryColor + "15" }]}>
+      <View style={[styles.iconContainer, { backgroundColor: categoryColor + "18" }]}>
         <Feather name={iconName as any} size={22} color={categoryColor} />
       </View>
       <View style={styles.content}>
@@ -76,15 +76,12 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#FFFFFF",
+    backgroundColor: Colors.light.surface,
     borderRadius: 16,
     padding: 16,
     gap: 14,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.04,
-    shadowRadius: 8,
-    elevation: 2,
+    borderWidth: 1,
+    borderColor: Colors.light.borderLight,
   },
   iconContainer: {
     width: 48,

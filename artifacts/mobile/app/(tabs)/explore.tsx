@@ -68,7 +68,7 @@ export default function ExploreScreen() {
 
         {isLoading ? (
           <View style={styles.loadingContainer}>
-            <ActivityIndicator size="small" color={Colors.light.tint} />
+            <ActivityIndicator size="small" color={Colors.light.accent} />
           </View>
         ) : data?.devotionals && data.devotionals.length > 0 ? (
           <View style={styles.list}>
@@ -112,17 +112,18 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 28,
-    fontFamily: "Inter_700Bold",
+    fontFamily: "PlayfairDisplay_700Bold",
     color: Colors.light.text,
     paddingHorizontal: 20,
   },
   subtitle: {
-    fontSize: 15,
+    fontSize: 14,
     fontFamily: "Inter_400Regular",
     color: Colors.light.textSecondary,
     paddingHorizontal: 20,
     marginTop: 4,
     marginBottom: 20,
+    fontStyle: "italic",
   },
   categoriesScroll: {
     paddingHorizontal: 20,
@@ -134,9 +135,12 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 20,
     backgroundColor: Colors.light.surfaceSecondary,
+    borderWidth: 1,
+    borderColor: Colors.light.border,
   },
   categoryChipActive: {
     backgroundColor: Colors.light.tint,
+    borderColor: Colors.light.tint,
   },
   categoryText: {
     fontSize: 14,
@@ -144,7 +148,7 @@ const styles = StyleSheet.create({
     color: Colors.light.textSecondary,
   },
   categoryTextActive: {
-    color: "#FFFFFF",
+    color: "#F5ECD7",
   },
   list: {
     paddingHorizontal: 20,
@@ -164,7 +168,7 @@ const styles = StyleSheet.create({
   },
   emptyTitle: {
     fontSize: 18,
-    fontFamily: "Inter_600SemiBold",
+    fontFamily: "PlayfairDisplay_700Bold",
     color: Colors.light.text,
   },
   emptyText: {

@@ -18,15 +18,15 @@ import { useGetDevotional } from "@workspace/api-client-react";
 import Colors from "@/constants/colors";
 
 const CATEGORY_COLORS: Record<string, [string, string]> = {
-  Peace: ["#3B82F6", "#2563EB"],
-  Strength: ["#EF4444", "#DC2626"],
-  Faith: ["#8B5CF6", "#7C3AED"],
-  Gratitude: ["#F59E0B", "#D97706"],
-  Love: ["#EC4899", "#DB2777"],
-  Trust: ["#10B981", "#059669"],
-  Growth: ["#14B8A6", "#0D9488"],
-  Rest: ["#6366F1", "#4F46E5"],
-  Courage: ["#F97316", "#EA580C"],
+  Peace: ["#1E3A5F", "#2D5070"],
+  Strength: ["#8B2252", "#6B1A3D"],
+  Faith: ["#8B4513", "#6B3410"],
+  Gratitude: ["#C5963A", "#8B6914"],
+  Love: ["#8B2252", "#6B1A3D"],
+  Trust: ["#5B7D3A", "#3C5A20"],
+  Growth: ["#3C5A20", "#2C4010"],
+  Rest: ["#1E3A5F", "#14284A"],
+  Courage: ["#8B4513", "#5C2D0E"],
 };
 
 export default function DevotionalDetailScreen() {
@@ -52,7 +52,7 @@ export default function DevotionalDetailScreen() {
   if (isLoading) {
     return (
       <View style={[styles.container, styles.loadingContainer]}>
-        <ActivityIndicator size="large" color={Colors.light.tint} />
+        <ActivityIndicator size="large" color={Colors.light.accent} />
       </View>
     );
   }
@@ -69,7 +69,7 @@ export default function DevotionalDetailScreen() {
     );
   }
 
-  const gradientColors = CATEGORY_COLORS[devotional.category] || ["#7C3AED", "#4F46E5"];
+  const gradientColors = CATEGORY_COLORS[devotional.category] || ["#8B4513", "#5C2D0E"];
 
   return (
     <View style={styles.container}>
@@ -88,13 +88,13 @@ export default function DevotionalDetailScreen() {
               onPress={() => router.back()}
               style={({ pressed }) => [styles.heroBackBtn, { opacity: pressed ? 0.7 : 1 }]}
             >
-              <Feather name="chevron-left" size={24} color="#fff" />
+              <Feather name="chevron-left" size={24} color="#F5ECD7" />
             </Pressable>
             <Pressable
               onPress={handleShare}
               style={({ pressed }) => [styles.heroBackBtn, { opacity: pressed ? 0.7 : 1 }]}
             >
-              <Feather name="share" size={20} color="#fff" />
+              <Feather name="share" size={20} color="#F5ECD7" />
             </Pressable>
           </View>
 
@@ -105,7 +105,7 @@ export default function DevotionalDetailScreen() {
           <Text style={styles.heroTitle}>{devotional.title}</Text>
 
           <View style={styles.heroMeta}>
-            <Feather name="clock" size={14} color="rgba(255,255,255,0.7)" />
+            <Feather name="clock" size={14} color="rgba(245,236,215,0.6)" />
             <Text style={styles.heroMetaText}>{devotional.readTime} min read</Text>
           </View>
         </LinearGradient>
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
   errorButtonText: {
     fontSize: 15,
     fontFamily: "Inter_600SemiBold",
-    color: "#fff",
+    color: "#F5ECD7",
   },
   heroSection: {
     paddingHorizontal: 24,
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "rgba(255,255,255,0.2)",
+    backgroundColor: "rgba(245,236,215,0.15)",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -179,18 +179,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     paddingVertical: 6,
     borderRadius: 20,
-    backgroundColor: "rgba(255,255,255,0.2)",
+    backgroundColor: "rgba(245,236,215,0.15)",
     marginBottom: 12,
   },
   heroBadgeText: {
     fontSize: 13,
     fontFamily: "Inter_600SemiBold",
-    color: "#fff",
+    color: "#E8D5A3",
   },
   heroTitle: {
     fontSize: 28,
-    fontFamily: "Inter_700Bold",
-    color: "#fff",
+    fontFamily: "PlayfairDisplay_700Bold",
+    color: "#F5ECD7",
     lineHeight: 36,
   },
   heroMeta: {
@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
   heroMetaText: {
     fontSize: 14,
     fontFamily: "Inter_400Regular",
-    color: "rgba(255,255,255,0.7)",
+    color: "rgba(245,236,215,0.6)",
   },
   verseSection: {
     flexDirection: "row",
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
   verseQuoteBar: {
     width: 3,
     borderRadius: 2,
-    backgroundColor: Colors.light.tint,
+    backgroundColor: Colors.light.accent,
     marginRight: 16,
   },
   verseContent: {
@@ -222,15 +222,14 @@ const styles = StyleSheet.create({
   },
   verseText: {
     fontSize: 17,
-    fontFamily: "Inter_500Medium",
+    fontFamily: "PlayfairDisplay_400Regular_Italic",
     color: Colors.light.text,
     lineHeight: 28,
-    fontStyle: "italic",
   },
   verseRef: {
     fontSize: 14,
     fontFamily: "Inter_600SemiBold",
-    color: Colors.light.tint,
+    color: Colors.light.accent,
   },
   contentSection: {
     paddingHorizontal: 24,

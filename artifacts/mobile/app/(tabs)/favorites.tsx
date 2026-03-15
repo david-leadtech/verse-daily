@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 28,
-    fontFamily: "Inter_700Bold",
+    fontFamily: "PlayfairDisplay_700Bold",
     color: Colors.light.text,
   },
   count: {
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
   },
   emptyTitle: {
     fontSize: 20,
-    fontFamily: "Inter_600SemiBold",
+    fontFamily: "PlayfairDisplay_700Bold",
     color: Colors.light.text,
   },
   emptyText: {

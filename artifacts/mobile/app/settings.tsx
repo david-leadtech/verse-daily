@@ -37,8 +37,8 @@ export default function SettingsScreen() {
           <Text style={styles.sectionTitle}>Preferences</Text>
           <View style={styles.card}>
             <View style={styles.settingRow}>
-              <View style={[styles.settingIcon, { backgroundColor: "#3B82F615" }]}>
-                <Feather name="bell" size={18} color="#3B82F6" />
+              <View style={[styles.settingIcon, { backgroundColor: Colors.light.navy + "15" }]}>
+                <Feather name="bell" size={18} color={Colors.light.navy} />
               </View>
               <View style={styles.settingInfo}>
                 <Text style={styles.settingLabel}>Daily Notifications</Text>
@@ -49,14 +49,14 @@ export default function SettingsScreen() {
               <Switch
                 value={settings.notificationsEnabled}
                 onValueChange={(val) => updateSettings({ notificationsEnabled: val })}
-                trackColor={{ false: Colors.light.border, true: Colors.light.tintLight }}
-                thumbColor={settings.notificationsEnabled ? Colors.light.tint : "#f4f3f4"}
+                trackColor={{ false: Colors.light.border, true: Colors.light.accent }}
+                thumbColor={settings.notificationsEnabled ? "#FFF" : "#f4f3f4"}
               />
             </View>
             <View style={styles.divider} />
             <Pressable style={styles.settingRow}>
-              <View style={[styles.settingIcon, { backgroundColor: "#F59E0B15" }]}>
-                <Feather name="clock" size={18} color="#F59E0B" />
+              <View style={[styles.settingIcon, { backgroundColor: Colors.light.accent + "15" }]}>
+                <Feather name="clock" size={18} color={Colors.light.accent} />
               </View>
               <View style={styles.settingInfo}>
                 <Text style={styles.settingLabel}>Notification Time</Text>
@@ -66,8 +66,8 @@ export default function SettingsScreen() {
             </Pressable>
             <View style={styles.divider} />
             <Pressable style={styles.settingRow}>
-              <View style={[styles.settingIcon, { backgroundColor: "#7C3AED15" }]}>
-                <Feather name="book" size={18} color="#7C3AED" />
+              <View style={[styles.settingIcon, { backgroundColor: Colors.light.tint + "15" }]}>
+                <Feather name="book" size={18} color={Colors.light.tint} />
               </View>
               <View style={styles.settingInfo}>
                 <Text style={styles.settingLabel}>Bible Version</Text>
@@ -86,7 +86,7 @@ export default function SettingsScreen() {
           >
             <View style={styles.premiumCard}>
               <View style={styles.premiumContent}>
-                <Feather name="star" size={24} color="#F59E0B" />
+                <Text style={styles.premiumIcon}>✝</Text>
                 <View style={styles.premiumInfo}>
                   <Text style={styles.premiumTitle}>
                     {settings.isPremium ? "Premium Active" : "Upgrade to Premium"}
@@ -110,13 +110,13 @@ export default function SettingsScreen() {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>About</Text>
           <View style={styles.card}>
-            <SettingLink icon="info" iconColor="#10B981" label="About" />
+            <SettingLink icon="info" iconColor={Colors.light.olive} label="About" />
             <View style={styles.divider} />
-            <SettingLink icon="shield" iconColor="#6366F1" label="Privacy Policy" />
+            <SettingLink icon="shield" iconColor={Colors.light.navy} label="Privacy Policy" />
             <View style={styles.divider} />
-            <SettingLink icon="file-text" iconColor="#EC4899" label="Terms of Use" />
+            <SettingLink icon="file-text" iconColor={Colors.light.crimson} label="Terms of Use" />
             <View style={styles.divider} />
-            <SettingLink icon="mail" iconColor="#3B82F6" label="Contact Support" />
+            <SettingLink icon="mail" iconColor={Colors.light.tint} label="Contact Support" />
           </View>
         </View>
 
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: "center",
     fontSize: 18,
-    fontFamily: "Inter_600SemiBold",
+    fontFamily: "PlayfairDisplay_700Bold",
     color: Colors.light.text,
   },
   scrollContent: {
@@ -183,22 +183,19 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   sectionTitle: {
-    fontSize: 14,
+    fontSize: 13,
     fontFamily: "Inter_600SemiBold",
     color: Colors.light.textSecondary,
     textTransform: "uppercase",
-    letterSpacing: 0.5,
+    letterSpacing: 1,
     marginBottom: 10,
   },
   card: {
     backgroundColor: Colors.light.surface,
     borderRadius: 16,
     overflow: "hidden",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.03,
-    shadowRadius: 4,
-    elevation: 1,
+    borderWidth: 1,
+    borderColor: Colors.light.borderLight,
   },
   settingRow: {
     flexDirection: "row",
@@ -237,12 +234,17 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 20,
     borderWidth: 1,
-    borderColor: "#F59E0B30",
+    borderColor: Colors.light.accent + "40",
     gap: 16,
   },
   premiumContent: {
     flexDirection: "row",
     gap: 14,
+    alignItems: "center",
+  },
+  premiumIcon: {
+    fontSize: 28,
+    color: Colors.light.accent,
   },
   premiumInfo: {
     flex: 1,
@@ -268,7 +270,7 @@ const styles = StyleSheet.create({
   premiumButtonText: {
     fontSize: 15,
     fontFamily: "Inter_600SemiBold",
-    color: "#FFFFFF",
+    color: "#F5ECD7",
   },
   version: {
     textAlign: "center",

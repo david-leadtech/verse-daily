@@ -6,7 +6,6 @@ import { SymbolView } from "expo-symbols";
 import { Feather } from "@expo/vector-icons";
 import React from "react";
 import { Platform, StyleSheet, View, useColorScheme } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Colors from "@/constants/colors";
 
@@ -35,7 +34,6 @@ function NativeTabLayout() {
 
 function ClassicTabLayout() {
   const colorScheme = useColorScheme();
-  const safeAreaInsets = useSafeAreaInsets();
   const isDark = colorScheme === "dark";
   const isIOS = Platform.OS === "ios";
   const isWeb = Platform.OS === "web";
@@ -48,9 +46,9 @@ function ClassicTabLayout() {
         tabBarInactiveTintColor: Colors.light.tabIconDefault,
         tabBarStyle: {
           position: "absolute",
-          backgroundColor: isIOS ? "transparent" : isDark ? "#000" : "#fff",
+          backgroundColor: isIOS ? "transparent" : Colors.light.surface,
           borderTopWidth: isWeb ? 1 : 0,
-          borderTopColor: isDark ? "#333" : "#E5E7EB",
+          borderTopColor: Colors.light.border,
           elevation: 0,
           ...(isWeb ? { height: 84 } : {}),
         },
@@ -58,14 +56,14 @@ function ClassicTabLayout() {
           isIOS ? (
             <BlurView
               intensity={100}
-              tint={isDark ? "dark" : "light"}
+              tint="light"
               style={StyleSheet.absoluteFill}
             />
           ) : isWeb ? (
             <View
               style={[
                 StyleSheet.absoluteFill,
-                { backgroundColor: isDark ? "#000" : "#fff" },
+                { backgroundColor: Colors.light.surface },
               ]}
             />
           ) : null,

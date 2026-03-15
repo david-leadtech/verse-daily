@@ -70,7 +70,7 @@ export default function BibleScreen() {
                   styles.bookBadge,
                   {
                     backgroundColor:
-                      item.testament === "Old Testament" ? "#F59E0B15" : "#7C3AED15",
+                      item.testament === "Old Testament" ? Colors.light.accent + "20" : Colors.light.tint + "20",
                   },
                 ]}
               >
@@ -79,7 +79,7 @@ export default function BibleScreen() {
                     styles.bookBadgeText,
                     {
                       color:
-                        item.testament === "Old Testament" ? "#F59E0B" : "#7C3AED",
+                        item.testament === "Old Testament" ? Colors.light.accent : Colors.light.tint,
                     },
                   ]}
                 >
@@ -149,7 +149,7 @@ export default function BibleScreen() {
 
       {versesLoading ? (
         <View style={styles.loadingContainer}>
-          <ActivityIndicator size="small" color={Colors.light.tint} />
+          <ActivityIndicator size="small" color={Colors.light.accent} />
         </View>
       ) : versesData?.verses && versesData.verses.length > 0 ? (
         <FlatList
@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
   },
   pickerTitle: {
     fontSize: 24,
-    fontFamily: "Inter_700Bold",
+    fontFamily: "PlayfairDisplay_700Bold",
     color: Colors.light.text,
   },
   pickerSubtitle: {
@@ -273,15 +273,12 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.light.surface,
     alignItems: "center",
     justifyContent: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.03,
-    shadowRadius: 4,
-    elevation: 1,
+    borderWidth: 1,
+    borderColor: Colors.light.border,
   },
   chapterNumber: {
     fontSize: 18,
-    fontFamily: "Inter_600SemiBold",
+    fontFamily: "PlayfairDisplay_700Bold",
     color: Colors.light.text,
   },
   readerHeader: {
@@ -299,7 +296,7 @@ const styles = StyleSheet.create({
   },
   readerTitle: {
     fontSize: 18,
-    fontFamily: "Inter_600SemiBold",
+    fontFamily: "PlayfairDisplay_700Bold",
     color: Colors.light.text,
   },
   versesList: {
@@ -321,7 +318,7 @@ const styles = StyleSheet.create({
   },
   emptyTitle: {
     fontSize: 18,
-    fontFamily: "Inter_600SemiBold",
+    fontFamily: "PlayfairDisplay_700Bold",
     color: Colors.light.text,
   },
   emptyText: {

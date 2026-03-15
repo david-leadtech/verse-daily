@@ -3,19 +3,30 @@ import {
   Inter_500Medium,
   Inter_600SemiBold,
   Inter_700Bold,
-  useFonts,
+  useFonts as useInterFonts,
 } from "@expo-google-fonts/inter";
+import {
+  PlayfairDisplay_400Regular,
+  PlayfairDisplay_400Regular_Italic,
+  PlayfairDisplay_700Bold,
+  useFonts as usePlayfairFonts,
+} from "@expo-google-fonts/playfair-display";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import SplashLoader from "@/components/SplashLoader";
+import OnboardingFlow from "@/components/OnboardingFlow";
+import PaywallWeekly from "@/components/PaywallWeekly";
+import PaywallAnnual from "@/components/PaywallAnnual";
 import { FavoritesProvider } from "@/contexts/FavoritesContext";
 import { SettingsProvider } from "@/contexts/SettingsContext";
+import { OnboardingProvider, useOnboarding } from "@/contexts/OnboardingContext";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -41,21 +52,87 @@ function RootLayoutNav() {
   );
 }
 
+type AppPhase = "splash" | "onboarding" | "paywall-weekly" | "paywall-annual" | "app";
+
+function AppGate() {
+  const { hasCompletedOnboarding, completeOnboarding } = useOnboarding();
+  const [phase, setPhase] = useState<AppPhase>("splash");
+
+  useEffect(() => {
+    if (hasCompletedOnboarding === null) return;
+
+    const timer = setTimeout(() => {
+      if (hasCompletedOnboarding) {
+        setPhase("app");
+      } else {
+        setPhase("onboarding");
+      }
+    }, 2200);
+
+    return () => clearTimeout(timer);
+  }, [hasCompletedOnboarding]);
+
+  if (phase === "splash") {
+    return <SplashLoader />;
+  }
+
+  if (phase === "onboarding") {
+    return (
+      <OnboardingFlow
+        onComplete={() => setPhase("paywall-weekly")}
+      />
+    );
+  }
+
+  if (phase === "paywall-weekly") {
+    return (
+      <PaywallWeekly
+        onClose={() => {
+          completeOnboarding();
+          setPhase("app");
+        }}
+        onSkipToAnnual={() => setPhase("paywall-annual")}
+      />
+    );
+  }
+
+  if (phase === "paywall-annual") {
+    return (
+      <PaywallAnnual
+        onClose={() => {
+          completeOnboarding();
+          setPhase("app");
+        }}
+      />
+    );
+  }
+
+  return <RootLayoutNav />;
+}
+
 export default function RootLayout() {
-  const [fontsLoaded, fontError] = useFonts({
+  const [interLoaded, interError] = useInterFonts({
     Inter_400Regular,
     Inter_500Medium,
     Inter_600SemiBold,
     Inter_700Bold,
   });
 
+  const [playfairLoaded, playfairError] = usePlayfairFonts({
+    PlayfairDisplay_400Regular,
+    PlayfairDisplay_400Regular_Italic,
+    PlayfairDisplay_700Bold,
+  });
+
+  const fontsReady = (interLoaded || interError) && (playfairLoaded || playfairError);
+
   useEffect(() => {
-    if (fontsLoaded || fontError) {
+    if (fontsReady) {
       SplashScreen.hideAsync();
     }
-  }, [fontsLoaded, fontError]);
+  }, [fontsReady]);
 
-  if (!fontsLoaded && !fontError) return null;
+  if (!fontsReady) return null;
 
   return (
     <SafeAreaProvider>
@@ -63,11 +140,13 @@ export default function RootLayout() {
         <QueryClientProvider client={queryClient}>
           <SettingsProvider>
             <FavoritesProvider>
-              <GestureHandlerRootView>
-                <KeyboardProvider>
-                  <RootLayoutNav />
-                </KeyboardProvider>
-              </GestureHandlerRootView>
+              <OnboardingProvider>
+                <GestureHandlerRootView>
+                  <KeyboardProvider>
+                    <AppGate />
+                  </KeyboardProvider>
+                </GestureHandlerRootView>
+              </OnboardingProvider>
             </FavoritesProvider>
           </SettingsProvider>
         </QueryClientProvider>

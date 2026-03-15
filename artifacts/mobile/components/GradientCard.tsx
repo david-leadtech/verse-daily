@@ -3,14 +3,14 @@ import { StyleSheet, View, Pressable } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
 const GRADIENT_PRESETS: [string, string, string][] = [
-  ["#7C3AED", "#4F46E5", "#2563EB"],
-  ["#EC4899", "#8B5CF6", "#6366F1"],
-  ["#F59E0B", "#EF4444", "#EC4899"],
-  ["#10B981", "#3B82F6", "#6366F1"],
-  ["#1E3A5F", "#2D5F8B", "#4A90D9"],
-  ["#8B5A2B", "#D4A017", "#F5DEB3"],
-  ["#4A1A6B", "#7C3AED", "#A78BFA"],
-  ["#0F4C75", "#3282B8", "#BBE1FA"],
+  ["#8B4513", "#6B3410", "#4A2508"],
+  ["#6B3410", "#8B2252", "#4A1A3D"],
+  ["#C5963A", "#8B4513", "#5C2D0E"],
+  ["#5B7D3A", "#3C5A20", "#2C4010"],
+  ["#1E3A5F", "#2D5070", "#3C6A8A"],
+  ["#8B6914", "#C5963A", "#E8D5A3"],
+  ["#4A2508", "#6B3410", "#8B4513"],
+  ["#3C1A00", "#5C2D0E", "#8B4513"],
 ];
 
 interface GradientCardProps {
