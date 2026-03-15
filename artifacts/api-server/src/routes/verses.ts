@@ -11,6 +11,65 @@ function clampInt(value: unknown, defaultVal: number, min: number, max: number):
   return Math.min(Math.floor(n), max);
 }
 
+const BOOK_API_NAMES: Record<string, string> = {
+  "1 Samuel": "1Samuel",
+  "2 Samuel": "2Samuel",
+  "1 Kings": "1Kings",
+  "2 Kings": "2Kings",
+  "1 Chronicles": "1Chronicles",
+  "2 Chronicles": "2Chronicles",
+  "Song of Solomon": "SongOfSolomon",
+  "1 Corinthians": "1Corinthians",
+  "2 Corinthians": "2Corinthians",
+  "1 Thessalonians": "1Thessalonians",
+  "2 Thessalonians": "2Thessalonians",
+  "1 Timothy": "1Timothy",
+  "2 Timothy": "2Timothy",
+  "1 Peter": "1Peter",
+  "2 Peter": "2Peter",
+  "1 John": "1John",
+  "2 John": "2John",
+  "3 John": "3John",
+};
+
+const fullyLoadedChapters = new Set<string>();
+
+async function fetchAndCacheVerses(book: string, chapter: number): Promise<typeof versesTable.$inferSelect[]> {
+  const key = `${book}:${chapter}`;
+  if (fullyLoadedChapters.has(key)) return [];
+  fullyLoadedChapters.add(key);
+  try {
+    const apiBookName = BOOK_API_NAMES[book] || book;
+    const url = `https://bible-api.com/${encodeURIComponent(apiBookName)}+${chapter}?translation=kjv`;
+    const response = await fetch(url, { signal: AbortSignal.timeout(8000) });
+
+    if (!response.ok) return [];
+
+    const data = await response.json() as {
+      verses?: Array<{ book_name: string; chapter: number; verse: number; text: string }>;
+    };
+
+    if (!data.verses || data.verses.length === 0) return [];
+
+    const versesToInsert = data.verses.map((v) => ({
+      book,
+      chapter: v.chapter,
+      verseNumber: v.verse,
+      text: v.text.replace(/\n/g, " ").trim(),
+      version: "KJV" as const,
+    }));
+
+    await db.delete(versesTable).where(
+      and(eq(versesTable.book, book), eq(versesTable.chapter, chapter))
+    );
+    const inserted = await db.insert(versesTable).values(versesToInsert).returning();
+    return inserted;
+  } catch (error) {
+    console.error(`Error fetching from Bible API for ${book} ${chapter}:`, error);
+    return [];
+  }
+}
+
 router.get("/verses/daily", async (_req, res) => {
   try {
     const today = new Date().toISOString().split("T")[0];
@@ -88,13 +147,27 @@ router.get("/verses", async (req, res) => {
 
     const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
 
-    const verses = await db
+    let verses = await db
       .select()
       .from(versesTable)
       .where(whereClause)
       .limit(limit)
       .offset(offset)
-      .orderBy(versesTable.id);
+      .orderBy(versesTable.verseNumber);
+
+    if (verses.length < 10 && book && typeof book === "string" && chapter) {
+      const ch = Number(chapter);
+      if (!isNaN(ch) && ch > 0) {
+        const fetched = await fetchAndCacheVerses(book, ch);
+        if (fetched.length > 0) {
+          verses = await db
+            .select()
+            .from(versesTable)
+            .where(and(eq(versesTable.book, book), eq(versesTable.chapter, ch)))
+            .orderBy(versesTable.verseNumber);
+        }
+      }
+    }
 
     const countResult = await db
       .select({ count: sql<number>`count(*)` })

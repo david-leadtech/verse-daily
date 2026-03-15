@@ -49,7 +49,7 @@ export default function PaywallWeekly({ onClose, onSkipToAnnual }: PaywallWeekly
   });
 
   return (
-    <View style={[styles.container, { paddingBottom: bottomInset + 12 }]}>
+    <View style={[styles.container, { paddingBottom: bottomInset + 16 }]}>
       <ImageBackground
         source={require("@/assets/images/paywall-hero.png")}
         style={styles.heroImage}
@@ -107,7 +107,7 @@ export default function PaywallWeekly({ onClose, onSkipToAnnual }: PaywallWeekly
         <View style={styles.pricingBreakdown}>
           <View style={styles.pricingRow}>
             <View style={styles.pricingLeft}>
-              <View style={[styles.pricingDot, { backgroundColor: Colors.light.accent }]} />
+              <View style={[styles.pricingBar, { backgroundColor: Colors.light.accent }]} />
               <View>
                 <Text style={styles.pricingLabel}>Today</Text>
                 <Text style={styles.pricingDueDate}>Due {trialEndDate}</Text>
@@ -123,9 +123,9 @@ export default function PaywallWeekly({ onClose, onSkipToAnnual }: PaywallWeekly
             </View>
           </View>
           {freeTrialEnabled && (
-            <View style={[styles.pricingRow, { marginTop: 2 }]}>
+            <View style={styles.pricingRow}>
               <View style={styles.pricingLeft}>
-                <View style={[styles.pricingDot, { backgroundColor: Colors.light.border }]} />
+                <View style={[styles.pricingBar, { backgroundColor: Colors.light.border }]} />
                 <Text style={styles.pricingDueDate}>Then weekly</Text>
               </View>
               <View style={styles.pricingRight}>
@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.light.surface,
     borderRadius: 16,
     padding: 18,
-    marginBottom: 12,
+    marginBottom: 14,
     borderWidth: 1,
     borderColor: Colors.light.border,
   },
@@ -239,10 +239,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     backgroundColor: Colors.light.surface,
     borderRadius: 16,
-    padding: 16,
+    paddingVertical: 18,
+    paddingHorizontal: 20,
     borderWidth: 1,
     borderColor: Colors.light.border,
-    marginBottom: 14,
+    marginBottom: 18,
   },
   trialToggleLabel: {
     fontSize: 16,
@@ -250,9 +251,9 @@ const styles = StyleSheet.create({
     color: Colors.light.text,
   },
   checkbox: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
+    width: 30,
+    height: 30,
+    borderRadius: 15,
     borderWidth: 2,
     borderColor: Colors.light.border,
     alignItems: "center",
@@ -263,8 +264,8 @@ const styles = StyleSheet.create({
     borderColor: Colors.light.accent,
   },
   pricingBreakdown: {
-    gap: 10,
-    paddingHorizontal: 4,
+    gap: 14,
+    paddingHorizontal: 8,
   },
   pricingRow: {
     flexDirection: "row",
@@ -274,12 +275,12 @@ const styles = StyleSheet.create({
   pricingLeft: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 10,
+    gap: 12,
   },
-  pricingDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
+  pricingBar: {
+    width: 3,
+    height: 32,
+    borderRadius: 2,
   },
   pricingLabel: {
     fontSize: 15,
@@ -309,7 +310,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.light.accent,
     paddingVertical: 18,
     alignItems: "center",
-    marginBottom: 12,
+    marginBottom: 14,
   },
   subscribeBtnText: {
     fontSize: 18,
@@ -321,7 +322,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     gap: 6,
-    marginBottom: 4,
+    marginBottom: 6,
   },
   securedText: {
     fontSize: 13,
