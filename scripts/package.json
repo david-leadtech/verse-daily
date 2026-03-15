@@ -5,8 +5,6 @@
   "type": "module",
   "scripts": {
     "hello": "tsx ./src/hello.ts",
-    "seed": "tsx ./src/seed.ts",
-    "download-bible": "tsx ./src/download-bible.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "devDependencies": {
