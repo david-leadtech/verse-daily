@@ -5,7 +5,9 @@
  * Bible Verse Daily API
  * OpenAPI spec version: 0.1.0
  */
+import type { Verse } from "./verse";
 
-export interface HealthStatus {
-  status: string;
+export interface VerseList {
+  verses: Verse[];
+  total: number;
 }

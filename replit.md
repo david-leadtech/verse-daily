@@ -4,6 +4,8 @@
 
 pnpm workspace monorepo using TypeScript. Each package manages its own dependencies.
 
+**Bible Verse Daily** — A mobile-first Bible Verse of the Day app built with Expo React Native, Express API backend, and PostgreSQL. Features daily verse delivery, devotional readings, Bible book/chapter reader, favorites with persistence, and a premium subscription paywall.
+
 ## Stack
 
 - **Monorepo tool**: pnpm workspaces
@@ -15,24 +17,27 @@ pnpm workspace monorepo using TypeScript. Each package manages its own dependenc
 - **Validation**: Zod (`zod/v4`), `drizzle-zod`
 - **API codegen**: Orval (from OpenAPI spec)
 - **Build**: esbuild (CJS bundle)
+- **Mobile**: Expo SDK 53, React Native, Expo Router (file-based routing)
+- **UI**: Inter font family, deep indigo/purple (#7C3AED) primary, amber (#F59E0B) accent
+- **State**: React Query (server), AsyncStorage (local favorites/settings)
 
 ## Structure
 
 ```text
 artifacts-monorepo/
 ├── artifacts/              # Deployable applications
-│   └── api-server/         # Express API server
+│   ├── api-server/         # Express API server (port 8080)
+│   └── mobile/             # Expo React Native app
 ├── lib/                    # Shared libraries
 │   ├── api-spec/           # OpenAPI spec + Orval codegen config
 │   ├── api-client-react/   # Generated React Query hooks
 │   ├── api-zod/            # Generated Zod schemas from OpenAPI
 │   └── db/                 # Drizzle ORM schema + DB connection
-├── scripts/                # Utility scripts (single workspace package)
-│   └── src/                # Individual .ts scripts, run via `pnpm --filter @workspace/scripts run <script>`
-├── pnpm-workspace.yaml     # pnpm workspace (artifacts/*, lib/*, lib/integrations/*, scripts)
-├── tsconfig.base.json      # Shared TS options (composite, bundler resolution, es2022)
+├── scripts/                # Utility scripts
+├── pnpm-workspace.yaml     # pnpm workspace
+├── tsconfig.base.json      # Shared TS options
 ├── tsconfig.json           # Root TS project references
-└── package.json            # Root package with hoisted devDeps
+└── package.json            # Root package
 ```
 
 ## TypeScript & Composite Projects
@@ -56,23 +61,52 @@ Express 5 API server. Routes live in `src/routes/` and use `@workspace/api-zod` 
 
 - Entry: `src/index.ts` — reads `PORT`, starts Express
 - App setup: `src/app.ts` — mounts CORS, JSON/urlencoded parsing, routes at `/api`
-- Routes: `src/routes/index.ts` mounts sub-routers; `src/routes/health.ts` exposes `GET /health` (full path: `/api/health`)
+- Routes: `src/routes/index.ts` mounts sub-routers
+  - `health.ts`: `GET /api/healthz`
+  - `verses.ts`: `GET /api/verses/daily`, `GET /api/verses` (with book/chapter filters)
+  - `devotionals.ts`: `GET /api/devotionals` (with category filter), `GET /api/devotionals/:id`
 - Depends on: `@workspace/db`, `@workspace/api-zod`
-- `pnpm --filter @workspace/api-server run dev` — run the dev server
-- `pnpm --filter @workspace/api-server run build` — production esbuild bundle (`dist/index.cjs`)
-- Build bundles an allowlist of deps (express, cors, pg, drizzle-orm, zod, etc.) and externalizes the rest
+
+### `artifacts/mobile` (`@workspace/mobile`)
+
+Expo React Native app with file-based routing (expo-router).
+
+**Screens:**
+- `app/(tabs)/index.tsx` — Today/Home: greeting, daily verse gradient card, reflection, devotionals preview
+- `app/(tabs)/explore.tsx` — Devotionals list with category filter chips
+- `app/(tabs)/bible.tsx` — Bible reader: book picker → chapter picker → verse list
+- `app/(tabs)/favorites.tsx` — Saved verses with gradient cards, empty state
+- `app/settings.tsx` — Preferences (notifications, Bible version), premium upsell, about links
+- `app/devotional/[id].tsx` — Devotional detail with gradient hero, verse quote, content
+- `app/subscription.tsx` — Premium paywall with Monthly ($4.99), Annual ($29.99), Lifetime ($79.99) plans
+
+**Components:**
+- `components/GradientCard.tsx` — 8-preset gradient verse card with favorite/share actions
+- `components/VerseCard.tsx` — Compact verse display for lists
+- `components/DevotionalCard.tsx` — Devotional list item with category icon
+- `components/SectionHeader.tsx` — Reusable section title with optional action
+
+**Contexts:**
+- `contexts/FavoritesContext.tsx` — AsyncStorage-persisted favorites list
+- `contexts/SettingsContext.tsx` — Settings (notifications, Bible version, premium status)
+
+**Design:**
+- Primary: #7C3AED (indigo-purple), Accent: #F59E0B (amber)
+- Inter font family (400/500/600/700)
+- Liquid glass tab bar on iOS 26+, classic blur tab bar fallback
+- Web platform insets handled (67px top, 34px bottom)
 
 ### `lib/db` (`@workspace/db`)
 
-Database layer using Drizzle ORM with PostgreSQL. Exports a Drizzle client instance and schema models.
+Database layer using Drizzle ORM with PostgreSQL.
 
-- `src/index.ts` — creates a `Pool` + Drizzle instance, exports schema
-- `src/schema/index.ts` — barrel re-export of all models
-- `src/schema/<modelname>.ts` — table definitions with `drizzle-zod` insert schemas (no models definitions exist right now)
-- `drizzle.config.ts` — Drizzle Kit config (requires `DATABASE_URL`, automatically provided by Replit)
-- Exports: `.` (pool, db, schema), `./schema` (schema only)
+**Tables:**
+- `verses` — id, book, chapter, verseNumber, text, version
+- `daily_verses` — id, verseId (FK), date, reflection
+- `devotionals` — id, title, content, verseText, verseReference, category, readTime, date
+- `books` — id, name, testament, chapters, ordering
 
-Production migrations are handled by Replit when publishing. In development, we just use `pnpm --filter @workspace/db run push`, and we fallback to `pnpm --filter @workspace/db run push-force`.
+Seeded with 66 books, 96 KJV verses, 10 devotionals.
 
 ### `lib/api-spec` (`@workspace/api-spec`)
 
@@ -85,12 +119,12 @@ Run codegen: `pnpm --filter @workspace/api-spec run codegen`
 
 ### `lib/api-zod` (`@workspace/api-zod`)
 
-Generated Zod schemas from the OpenAPI spec (e.g. `HealthCheckResponse`). Used by `api-server` for response validation.
+Generated Zod schemas from the OpenAPI spec. Used by `api-server` for response validation.
 
 ### `lib/api-client-react` (`@workspace/api-client-react`)
 
-Generated React Query hooks and fetch client from the OpenAPI spec (e.g. `useHealthCheck`, `healthCheck`).
+Generated React Query hooks and fetch client from the OpenAPI spec. Custom fetch resolves base URL from `EXPO_PUBLIC_DOMAIN` env var for Expo web compatibility.
 
 ### `scripts` (`@workspace/scripts`)
 
-Utility scripts package. Each script is a `.ts` file in `src/` with a corresponding npm script in `package.json`. Run scripts via `pnpm --filter @workspace/scripts run <script>`. Scripts can import any workspace package (e.g., `@workspace/db`) by adding it as a dependency in `scripts/package.json`.
+Utility scripts package. Each script is a `.ts` file in `src/` with a corresponding npm script in `package.json`. Run scripts via `pnpm --filter @workspace/scripts run <script>`.

@@ -9,6 +9,13 @@ export type BodyType<T> = T;
 const NO_BODY_STATUS = new Set([204, 205, 304]);
 const DEFAULT_JSON_ACCEPT = "application/json, application/problem+json";
 
+function getBaseUrl(): string {
+  if (typeof process !== "undefined" && process.env?.EXPO_PUBLIC_DOMAIN) {
+    return `https://${process.env.EXPO_PUBLIC_DOMAIN}`;
+  }
+  return "";
+}
+
 function isRequest(input: RequestInfo | URL): input is Request {
   return typeof Request !== "undefined" && input instanceof Request;
 }
@@ -19,14 +26,17 @@ function resolveMethod(input: RequestInfo | URL, explicitMethod?: string): strin
   return "GET";
 }
 
-// Use loose check for URL — some runtimes (e.g. React Native) polyfill URL
-// differently, so `instanceof URL` can fail.
 function isUrl(input: RequestInfo | URL): input is URL {
   return typeof URL !== "undefined" && input instanceof URL;
 }
 
 function resolveUrl(input: RequestInfo | URL): string {
-  if (typeof input === "string") return input;
+  if (typeof input === "string") {
+    if (input.startsWith("/")) {
+      return getBaseUrl() + input;
+    }
+    return input;
+  }
   if (isUrl(input)) return input.toString();
   return input.url;
 }
@@ -64,8 +74,6 @@ function isTextMediaType(mediaType: string | null): boolean {
   );
 }
 
-// Loose equality (`== null`) handles both `null` (browser) and `undefined`
-// (React Native, which doesn't implement ReadableStream body).
 function hasNoBody(response: Response, method: string): boolean {
   if (method === "HEAD") return true;
   if (NO_BODY_STATUS.has(response.status)) return true;
@@ -207,7 +215,6 @@ async function parseErrorBody(response: Response, method: string): Promise<unkno
 
   const mediaType = getMediaType(response.headers);
 
-  // Fall back to text when blob() is unavailable (e.g. some React Native builds).
   if (mediaType && !isJsonMediaType(mediaType) && !isTextMediaType(mediaType)) {
     return typeof response.blob === "function" ? response.blob() : response.text();
   }
@@ -283,6 +290,7 @@ export async function customFetch<T = unknown>(
     throw new TypeError(`customFetch: ${method} requests cannot have a body.`);
   }
 
+  const resolvedUrl = resolveUrl(input);
   const headers = mergeHeaders(isRequest(input) ? input.headers : undefined, headersInit);
 
   if (
@@ -297,9 +305,9 @@ export async function customFetch<T = unknown>(
     headers.set("accept", DEFAULT_JSON_ACCEPT);
   }
 
-  const requestInfo = { method, url: resolveUrl(input) };
+  const requestInfo = { method, url: resolvedUrl };
 
-  const response = await fetch(input, { ...init, method, headers });
+  const response = await fetch(resolvedUrl, { ...init, method, headers });
 
   if (!response.ok) {
     const errorData = await parseErrorBody(response, method);

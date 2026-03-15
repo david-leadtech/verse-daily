@@ -5,7 +5,9 @@
  * Bible Verse Daily API
  * OpenAPI spec version: 0.1.0
  */
+import type { Devotional } from "./devotional";
 
-export interface HealthStatus {
-  status: string;
+export interface DevotionalList {
+  devotionals: Devotional[];
+  total: number;
 }
