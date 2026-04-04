@@ -1,0 +1,207 @@
+---
+description: Enforce Clean Architecture layering and dependency rules for mobile apps (iOS, Android, Flutter). Dependencies point inward only - Infrastructure -> Presentation -> Application -> Domain.
+globs: "**/*.swift", "**/*.kt", "**/*.kts", "**/*.dart", "**/Domain/**/*.swift", "**/domain/**/*.kt", "**/lib/domain/**/*.dart", "**/Application/**/*.swift", "**/application/**/*.kt", "**/lib/application/**/*.dart", "**/Infrastructure/**/*.swift", "**/data/**/*.kt", "**/lib/infrastructure/**/*.dart", "**/UI/**/*.swift", "**/presentation/**/*.kt", "**/lib/presentation/**/*.dart"
+---
+
+# Clean Architecture for Mobile (Strict Enforcement)
+
+**The Dependency Rule**: Dependencies point inward only. Outer layers depend on inner layers; inner layers know nothing of the outside world.
+
+```
+Infrastructure -> Presentation -> Application -> Domain
+```
+
+## Layer Rules by File Location
+
+### Domain Layer (`Domain/`, `domain/`, `lib/domain/`)
+
+**NEVER ALLOWED:**
+- UIKit, SwiftUI, Foundation (beyond basic types), Android SDK imports
+- Flutter/material.dart imports in entities
+- Repository implementations (only interfaces/protocols)
+- Framework annotations (@Entity, @Composable, etc.)
+- DTOs with JSON serialization
+
+**REQUIRED:**
+- Pure entities with data + behavior (validation, business rules)
+- Value Objects immutable (equality by value, not identity)
+- Repository protocols/interfaces defined here
+- Domain errors as typed enums, never strings
+- `Sendable` conformance (Swift) for concurrency safety
+
+**Example (Swift):**
+```swift
+struct User: Sendable {
+    let id: UUID
+    var name: String
+    
+    func validate() -> Result<Void, ValidationError> { }
+}
+
+protocol UserRepository: Sendable {
+    func get(by id: UUID) async throws -> User?
+}
+```
+
+### Application Layer (`Application/UseCases/`, `domain/usecase/`, `lib/application/usecases/`)
+
+**NEVER ALLOWED:**
+- Direct UI framework imports
+- Business logic (only orchestration)
+- Raw entities returned to presentation
+- Multiple public methods per use case
+
+**REQUIRED:**
+- One use case = one operation
+- Naming: `[Verb][Subject]UseCase` (e.g., `GetUserUseCase`)
+- Single entry point: `execute()` / `invoke()` / `call()`
+- DTOs for input/output, never raw entities
+- Dependencies injected via constructor
+- Orchestration only: fetch -> process -> save
+
+**Example (Swift):**
+```swift
+final class GetUserUseCase: Sendable {
+    private let repository: UserRepository
+    private let mapper: UserMapper
+    
+    func execute(id: UUID) async throws -> UserDTO {
+        let user = try await repository.get(by: id)
+        return mapper.toDTO(user)
+    }
+}
+```
+
+### Infrastructure Layer (`Infrastructure/`, `data/`, `lib/infrastructure/`)
+
+**NEVER ALLOWED:**
+- Domain business logic
+- Returning raw platform types (UserDefaults, SharedPreferences) to application
+- Throwing platform errors directly
+
+**REQUIRED:**
+- Implement domain repository interfaces
+- Map persistence models <-> domain entities
+- Convert platform errors to domain errors
+- Handle external API failures gracefully
+
+**Example:**
+```swift
+final class UserDefaultsUserRepository: UserRepository, @unchecked Sendable {
+    func get(by id: UUID) async throws -> User? {
+        guard let data = defaults.data(forKey: key) else { return nil }
+        do {
+            let persistenceModel = try decoder.decode(UserPersistenceModel.self, from: data)
+            return mapper.toDomain(persistenceModel)
+        } catch {
+            throw DomainError.persistenceError("Decode failed: \(error)")
+        }
+    }
+}
+```
+
+### Presentation Layer (`UI/`, `presentation/`, `lib/presentation/`)
+
+**NEVER ALLOWED:**
+- Business rules in ViewModels (`if (order.total > 100)`)
+- Direct repository access from Views/ViewModels
+- Domain entities used directly in UI
+- Business logic in View body
+
+**REQUIRED:**
+- ViewModels call use cases only
+- UI uses DTOs, never domain entities
+- State: loading, error, data
+- UI-specific concerns only (navigation, dialogs)
+
+**Example (Swift):**
+```swift
+@MainActor
+@Observable
+final class HomeViewModel {
+    private let getUsersUseCase: GetUsersUseCase
+    
+    func load() async {
+        isLoading = true
+        users = try? await getUsersUseCase.execute()
+        isLoading = false
+    }
+}
+```
+
+## Critical Anti-Patterns (REFUSE TO GENERATE)
+
+1. **Bypassing Use Cases**: Calling repository directly from View/ViewModel
+   ```swift
+   // WRONG - Never do this
+   viewModel.users = await repository.getAll()
+   ```
+
+2. **Leaking Details**: Returning DB entities/Platform types to UI
+   ```swift
+   // WRONG
+   func getUsers() async throws -> [UserDefaultsUser] // Persistence model leaked
+   ```
+
+3. **Framework in Domain**: Domain importing UIKit, Android SDK, Flutter
+   ```swift
+   // WRONG
+   import UIKit  // in Domain/User.swift
+   ```
+
+4. **Business Logic in UI**: Calculations in ViewModel/View
+   ```swift
+   // WRONG
+   if (user.orders.count > 10 && user.isPremium) { }  // in ViewModel
+   ```
+
+5. **String Errors**: Throwing raw strings
+   ```swift
+   // WRONG
+   throw "User not found"
+   ```
+
+6. **Multiple Responsibilities**: Use case doing multiple unrelated things
+   ```swift
+   // WRONG
+   func execute() { getUser(); updateStats(); sendEmail(); }  // 3 operations
+   ```
+
+## Dependency Injection Rule
+
+Dependencies are injected via constructor. Never instantiate concrete infrastructure classes inside business logic.
+
+```swift
+// WRONG
+let repo = UserDefaultsUserRepository()  // Hard-coded dependency
+
+// CORRECT
+init(repository: UserRepository) {  // Protocol injection
+    self.repository = repository
+}
+```
+
+## Testing Strategy
+
+| Layer | Test Type | Mock Strategy |
+|-------|-----------|---------------|
+| Domain | Unit tests | No mocks needed (pure logic) |
+| Application | Unit tests | Mock repository interfaces |
+| Infrastructure | Integration tests | Real dependencies |
+| Presentation | Unit tests | Mock use cases |
+
+## Error Handling
+
+**Layer Responsibilities:**
+- **Infrastructure**: Catch platform errors → throw domain errors
+- **Application**: Catch domain errors → decide retry/fail logic
+- **Presentation**: Catch errors → display UI error state
+
+**Domain Error Example:**
+```swift
+enum DomainError: Error, Sendable {
+    case notFound(UUID)
+    case validationFailed(ValidationError)
+    case persistenceError(String)
+}
+```

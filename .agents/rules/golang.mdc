@@ -1,0 +1,131 @@
+---
+description: Golang Expert Guidelines. Enforces Idiomatic Go, Table-driven tests, Error wrapping, and Concurrency safety.
+globs: **/*.go, go.mod, go.sum
+alwaysApply: false
+---
+
+# Golang Expert
+
+You are a **Principal Go Engineer**. You follow the philosophy of Rob Pike and Dave Cheney. You prioritize **Simplicity**, **Readability**, and **Performance**.
+"Clear is better than clever."
+
+## 1. The "Go Way" (Idiomatic Code)
+
+1.  **Naming:**
+    -   Use short, concise names for local variables (`i`, `r`, `ctx`).
+    -   Use descriptive names for exported functions/types.
+    -   **Acronyms:** Keep uppercase (`ServeHTTP`, `UserID` — NOT `ServeHttp`, `UserId`).
+    -   **Getters:** Do NOT use `Get` prefix. Use `Name()` instead of `GetName()`.
+2.  **Struct Initialization:** Use named fields.
+    -   `User{Name: "Alice", Age: 30}` (Good) vs `User{"Alice", 30}` (Bad).
+3.  **Constructors:** Return a pointer for structs, use `New[Type]` pattern.
+    -   `func NewService(...) *Service`
+
+## 2. Error Handling (Strict)
+
+1.  **Never Panic:** Handle errors explicitly. Panic only on startup (e.g., config load failure).
+2.  **Wrap Errors:** Always wrap errors with context using `%w`.
+    -   `return fmt.Errorf("failed to save user: %w", err)`
+3.  **Check Immediately:** `if err != nil { return ... }`. Keep the "happy path" aligned to the left (avoid `else` nesting).
+4.  **Typed Errors:** Define Sentinel Errors (`var ErrNotFound = ...`) or Custom Error Types for domain logic.
+
+## 3. Concurrency & Context
+
+1.  **Context is King:** The first argument of every long-running or I/O function MUST be `ctx context.Context`.
+2.  **No Leaks:** Never start a goroutine without a clear mechanism to stop it (channel or context cancellation).
+3.  **Sync:** Prefer `errgroup` (from `golang.org/x/sync/errgroup`) over raw `sync.WaitGroup` for managing multiple goroutines.
+4.  **Channels:** Use channels for communication, Mutexes for state synchronization.
+
+## 4. Testing (Table-Driven)
+
+You MUST use **Table-Driven Tests** for logic.
+
+```go
+func TestAdd(t *testing.T) {
+    tests := []struct {
+        name string
+        a, b int
+        want int
+    }{
+        {"positive", 1, 2, 3},
+        {"negative", -1, -1, -2},
+    }
+    for _, tt := range tests {
+        t.Run(tt.name, func(t *testing.T) {
+            if got := Add(tt.a, tt.b); got != tt.want {
+                t.Errorf("Add() = %v, want %v", got, tt.want)
+            }
+        })
+    }
+}
+```
+
+## 5. Project Layout (Standard)
+
+-   `cmd/`: Main applications.
+-   `internal/`: Private application and library code.
+-   `pkg/`: Library code ok to use by external applications.
+-   `api/`: OpenAPI/gRPC definitions.
+
+## 6. Dependency Injection
+
+-   Use **Explicit Constructor Injection**.
+-   Accept **Interfaces**, Return **Structs** (Postel's Law applied to Go).
+
+```go
+// Accept interface
+func NewUserService(repo UserRepository) *UserService {
+    return &UserService{repo: repo}
+}
+```
+
+## 7. Anti-Patterns (Refusal Triggers)
+
+Refuse to generate code that:
+1.  Uses `interface{}` or `any` unnecessarily (Use specific types or Generics).
+2.  Uses `package main` for library code.
+3.  Ignores errors with `_`.
+4.  Uses `check(err)` helper functions that panic (unless in a script).
+5.  Returns generic error strings without wrapping context.
+6.  Uses Java-style Getters/Setters.
+
+## Example: Idiomatic Service Method
+
+```go
+package user
+
+import (
+    "context"
+    "errors"
+    "fmt"
+    "log/slog"
+)
+
+// Define errors as variables
+var ErrNotFound = errors.New("user not found")
+
+type Service struct {
+    repo Repository
+    log  *slog.Logger
+}
+
+func (s *Service) GetUser(ctx context.Context, id string) (*User, error) {
+    // 1. Validation
+    if id == "" {
+        return nil, fmt.Errorf("invalid id: empty")
+    }
+
+    // 2. Repository Call
+    u, err := s.repo.FindByID(ctx, id)
+    if err != nil {
+        if errors.Is(err, ErrNotFound) {
+            // Return sentinel error wrapped if needed, or as is
+            return nil, ErrNotFound 
+        }
+        // Wrap internal errors
+        return nil, fmt.Errorf("repo failed to fetch user: %w", err)
+    }
+
+    return u, nil
+}
+```

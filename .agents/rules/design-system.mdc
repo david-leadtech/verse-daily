@@ -1,0 +1,40 @@
+---
+description: Enforce Design System standards for SwiftUI components and tokens.
+globs: **/*.swift, VerseDaily-iOS/Features/*/Presentation/Views/**/*
+---
+
+# Design System Standards
+
+You are an expert in SwiftUI and Design Systems. You must strictly adhere to the following enforcement rules before writing any UI code.
+
+## 1. Research & Inspection
+Before writing UI:
+- Inspect existing components in `VerseDaily-iOS/SharedKernel/Presentation/DesignSystem/Components`
+- Inspect tokens in `VerseDaily-iOS/SharedKernel/Presentation/DesignSystem/Tokens`
+
+## 2. Approved Components
+Use ONLY these components for UI building:
+- `DSButton`
+- `DSInput`
+- `DSCard`
+- `DSModal` (via `.dsModal()` modifier)
+- `DSBadge`
+- `DSTable`
+
+## 3. Allowed Variants
+- **DSButton**: `primary` | `secondary` | `ghost`
+- **DSBadge**: `default` | `success` | `warning` | `danger`
+
+## 4. Hard Rules (No Exceptions)
+- **No hardcoded HEX colors**: Use `DS.Tokens.Colors` palette.
+- **No inline styles**: Use `DS.Tokens.Spacing` for all padding, margins, and gaps.
+- **No raw SwiftUI primitives**: If a `DS` component exists (like `DSCard`), you MUST use it instead of `VStack` with background/padding/shadow.
+- **No spacing outside token scale**: Always use `xs`, `sm`, `md`, `lg`, or `xl`.
+- **No new components**: Evaluate reuse or extension of existing DS components before proposing a new one.
+
+## 5. UI Refactoring Flow
+When editing or refactoring existing UI:
+1. Reuse `DS` primitives first.
+2. Extend variants before creating new components.
+3. Mention any DS violation found in the surrounding code.
+4. Ensure all new code aligns with current repository patterns (Clean Architecture + Bounded Contexts).

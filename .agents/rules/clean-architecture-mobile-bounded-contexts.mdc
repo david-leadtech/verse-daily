@@ -1,0 +1,346 @@
+---
+description: Enforce Clean Architecture with Bounded Contexts for complex mobile apps. Features are self-contained modules with their own Domain/Application/Infrastructure layers. Use when building multi-feature apps with clear domain boundaries.
+globs: "**/*.swift", "**/*.kt", "**/*.kts", "**/*.dart", "**/Features/**", "**/features/**", "**/modules/**", "**/domains/**", "**/bounded-contexts/**"
+---
+
+# Clean Architecture with Bounded Contexts (Complex Apps)
+
+**For multi-feature mobile apps with clear domain boundaries.**
+
+## Core Concept: Bounded Contexts
+
+Each **Feature** is a self-contained **Bounded Context** — a module with its own:
+- Domain language (entities, value objects, domain events)
+- Application logic (use cases specific to the context)
+- Infrastructure (repositories, external services)
+
+Contexts communicate through **explicit integration points**, never by reaching into each other's internals.
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                         App Shell                            │
+│         (Navigation, DI Container, Shared Kernel)           │
+└─────────────────────────────────────────────────────────────┘
+┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐
+│   Feature A     │  │   Feature B     │  │   Feature C     │
+│ Bounded Context   │  │ Bounded Context   │  │ Bounded Context   │
+├─────────────────┤  ├─────────────────┤  ├─────────────────┤
+│ Domain          │  │ Domain          │  │ Domain          │
+│ Application     │  │ Application     │  │ Application     │
+│ Infrastructure  │◄─┤ Infrastructure  │  │ Infrastructure  │
+└─────────────────┘  └─────────────────┘  └─────────────────┘
+         │                    │                    │
+         └────────────────────┴────────────────────┘
+                   Shared Kernel
+              (Common Value Objects,
+            Cross-Cutting Concerns)
+```
+
+---
+
+## Directory Structure
+
+### iOS/Swift (Complex)
+
+```
+App/
+├── App/                          # App entry, DI container
+│   ├── AppDelegate.swift
+│   └── DIContainer.swift
+├── Features/                     # One folder per bounded context
+│   ├── Auth/                     # Authentication context
+│   │   ├── Domain/
+│   │   │   ├── Entities/         # User, Session, Credentials
+│   │   │   ├── ValueObjects/     # Email, Password, Token
+│   │   │   ├── Interfaces/       # AuthRepositoryProtocol
+│   │   │   └── Events/           # UserLoggedIn, SessionExpired
+│   │   ├── Application/
+│   │   │   ├── UseCases/         # LoginUseCase, LogoutUseCase
+│   │   │   ├── DTOs/
+│   │   │   └── Mappers/
+│   │   ├── Infrastructure/
+│   │   │   ├── Repositories/     # KeychainAuthRepository
+│   │   │   └── Services/         # BiometricAuthService
+│   │   └── Presentation/
+│   │       ├── ViewModels/
+│   │       └── Views/
+│   ├── Payments/                 # Payments context
+│   │   ├── Domain/
+│   │   ├── Application/
+│   │   ├── Infrastructure/
+│   │   └── Presentation/
+│   └── Analytics/                # Analytics context
+│       ├── Domain/
+│       ├── Application/
+│       └── Infrastructure/
+├── SharedKernel/                 # Cross-cutting concerns
+│   ├── Domain/
+│   │   ├── ValueObjects/         # Money, DateRange, Email (shared)
+│   │   └── Events/               # DomainEvent protocol
+│   └── Application/
+│       └── Interfaces/           # EventBus, Logger
+└── Integration/                  # Inter-context communication
+    ├── AuthPaymentsIntegration.swift  # Auth → Payments
+    └── EventBus/
+```
+
+### Android/Kotlin (Complex)
+
+```
+app/src/main/java/com/example/
+├── app/                          # App module
+│   └── di/
+├── features/                     # Feature modules
+│   ├── auth/
+│   │   ├── domain/
+│   │   ├── application/
+│   │   ├── data/
+│   │   └── presentation/
+│   ├── payments/
+│   │   ├── domain/
+│   │   ├── application/
+│   │   ├── data/
+│   │   └── presentation/
+│   └── analytics/
+│       ├── domain/
+│       ├── application/
+│       └── data/
+├── sharedkernel/
+│   ├── domain/
+│   └── application/
+└── integration/
+```
+
+---
+
+## The Rules
+
+### 1. Context Isolation (CRITICAL)
+
+**NEVER** reach into another context's internals:
+
+```swift
+// ❌ WRONG - Reaching into Auth context from Payments
+let user = authContext.domain.userRepository.getCurrentUser()
+
+// ✅ CORRECT - Using explicit integration interface
+let userId = integration.auth.getCurrentUserId()  // Explicit contract
+```
+
+**Allowed patterns:**
+- Integration interfaces in `Integration/` folder
+- Domain events published to shared EventBus
+- Explicit DTOs for cross-context communication
+
+### 2. Shared Kernel (Use Sparingly)
+
+Only put in SharedKernel what **truly** crosses all contexts:
+- Common value objects (Money, Email, DateRange)
+- Base domain event protocol
+- Cross-cutting infrastructure interfaces (Logger, AnalyticsTracker)
+
+**NEVER** put in SharedKernel:
+- Business logic
+- Feature-specific entities
+- Repository implementations
+
+### 3. Domain Events for Cross-Context Communication
+
+Contexts communicate asynchronously through domain events:
+
+```swift
+// In Auth context
+struct UserLoggedIn: DomainEvent {
+    let userId: UUID
+    let timestamp: Date
+}
+
+// Auth publishes
+eventBus.publish(UserLoggedIn(userId: user.id))
+
+// Analytics subscribes
+eventBus.subscribe(UserLoggedIn.self) { event in
+    analytics.track("login", userId: event.userId)
+}
+```
+
+### 4. Feature-Layer Dependency Rule
+
+Within each context:
+```
+Infrastructure -> Presentation -> Application -> Domain
+```
+
+Across contexts:
+```
+Context A Infrastructure ──┐
+Context A Presentation     │
+Context A Application ─────┤──> Shared Kernel (Domain only)
+Context A Domain ──────────┤
+                           │
+Context B Infrastructure ────┤
+Context B Presentation       │
+Context B Application ────────┤
+Context B Domain ────────────┘
+```
+
+### 5. Integration Layer
+
+Explicit contracts for cross-context operations:
+
+```swift
+// Integration/AuthPaymentsIntegration.swift
+protocol AuthPaymentsIntegration {
+    func getCurrentUserId() async throws -> UUID
+    func requireAuthentication() async throws
+}
+
+// Implementation knows both contexts but keeps them isolated
+final class AuthPaymentsIntegrationImpl: AuthPaymentsIntegration {
+    private let authRepository: AuthRepositoryProtocol
+    private let authNavigator: AuthNavigationProtocol
+    
+    func getCurrentUserId() async throws -> UUID {
+        guard let session = try await authRepository.getCurrentSession() else {
+            throw IntegrationError.notAuthenticated
+        }
+        return session.userId
+    }
+}
+```
+
+---
+
+## Anti-Patterns (REFUSE TO GENERATE)
+
+1. **The Big Ball of Mud**: One shared `Domain/` folder for all features
+   ```swift
+   // ❌ WRONG
+   Domain/
+     ├── User.swift        # Auth
+     ├── Payment.swift     # Payments
+     └── Analytics.swift   # Analytics
+   ```
+
+2. **Context Coupling**: Direct repository access across contexts
+   ```swift
+   // ❌ WRONG - PaymentsViewModel reaching into Auth
+   class PaymentsViewModel {
+       let authRepo: AuthRepository  // From different context!
+   }
+   ```
+
+3. **Leaky Abstractions**: Returning internal entities from integration
+   ```swift
+   // ❌ WRONG - Exposing Auth's internal User
+   protocol AuthIntegration {
+       func getUser() -> Auth.User  // Internal entity leaked
+   }
+   
+   // ✅ CORRECT - DTO or primitive
+   protocol AuthIntegration {
+       func getUserId() -> UUID
+   }
+   ```
+
+4. **Shared Kernel Bloat**: Putting feature logic in shared
+   ```swift
+   // ❌ WRONG
+   SharedKernel/
+     └── calculateOrderTotal()  # Business logic doesn't belong here
+   ```
+
+5. **Synchronous Cross-Context Calls**: Direct method calls between contexts
+   ```swift
+   // ❌ WRONG
+   payments.processOrder(for: auth.currentUser)  # Direct coupling
+   
+   // ✅ CORRECT
+   eventBus.publish(OrderRequested(userId: userId, order: order))
+   ```
+
+---
+
+## Module Boundaries
+
+### Physical Separation (Recommended for Large Teams)
+
+Each context as separate module/target:
+
+```swift
+// Package.swift or Podfile
+.target(name: "AuthFeature"),
+.target(name: "PaymentsFeature"),
+.target(name: "AnalyticsFeature"),
+.target(name: "SharedKernel"),
+.target(name: "Integration")
+```
+
+**Dependency rules:**
+- Features can depend on SharedKernel
+- Features can depend on Integration
+- Features CANNOT depend on other Features
+- Integration can depend on multiple Features (it's the glue)
+
+### Logical Separation (Small Teams)
+
+Single module with folder structure:
+
+```
+Features/
+  ├── Auth/
+  ├── Payments/
+  └── Analytics/
+```
+
+Enforced by:
+- Code review
+- SwiftLint/ktlint rules
+- CI checks for import violations
+
+---
+
+## Testing Strategy
+
+| Test Type | Scope | Location |
+|-----------|-------|----------|
+| Unit | Domain within context | `Features/Auth/Tests/Domain/` |
+| Unit | Application within context | `Features/Auth/Tests/Application/` |
+| Integration | Context + real infrastructure | `Features/Auth/Tests/Infrastructure/` |
+| Integration | Cross-context via EventBus | `Integration/Tests/` |
+| E2E | Full flow across contexts | `App/Tests/E2E/` |
+
+---
+
+## When to Use Bounded Contexts
+
+**Use this architecture when:**
+- ✅ App has 3+ distinct features with different domain languages
+- ✅ Features are developed by different sub-teams
+- ✅ Some features may be extracted to separate apps later
+- ✅ Clear domain boundaries exist (Auth ≠ Payments ≠ Analytics)
+
+**Don't use when:**
+- ❌ Simple utility app with 1-2 features
+- ❌ CRUD app without complex domain logic
+- ❌ Rapid prototype/MVP phase
+
+---
+
+## Migration Path
+
+From Simple → Complex:
+
+1. **Identify boundaries** — Map which entities belong to which features
+2. **Physical separation** — Move code to `Features/[Name]/` folders
+3. **Extract SharedKernel** — Move common value objects to shared layer
+4. **Add Integration layer** — Create explicit contracts for cross-context communication
+5. **Event-driven** — Replace direct calls with domain events
+
+---
+
+## Key Takeaway
+
+**Bounded contexts are about cognitive boundaries, not just code organization.**
+
+Each context should be understandable without knowing the internals of other contexts. If you need to open `Features/Auth/` to understand `Features/Payments/`, your boundaries are wrong.

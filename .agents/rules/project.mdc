@@ -1,0 +1,164 @@
+---
+description: Project-specific conventions template — copy to your project and fill in the [PLACEHOLDER] values
+globs:
+alwaysApply: true
+---
+
+# Project Rules
+
+@README.md for project scope and domain context.
+
+## Project Overview
+
+<!-- PURPOSE: Give the agent a one-sentence understanding of what this project is.
+     Examples:
+       iOS:  "FaceAI is an iOS photo editing app featuring AI-powered face enhancement tools."
+       Web:  "Acme Dashboard is a Next.js internal tool for monitoring warehouse logistics."
+       CLI:  "dbmigrate is a Go CLI that manages PostgreSQL schema migrations."
+-->
+
+[PROJECT_DESCRIPTION]
+
+## Spec-First Principle
+
+The `.feature` file is the source of truth for every feature. Any code change — new feature, iteration, or bug fix — MUST start by updating the relevant `.feature` file. Never change code without updating the spec first.
+
+**Note**: Gherkin specs are being introduced. New features should include a `.feature` file in `/features/{N}-{slug}/`.
+
+## Stack
+
+<!-- PURPOSE: Tell the agent what technologies are in play so it generates correct code.
+     Examples:
+       iOS:        Language: Swift 6+ | Framework: SwiftUI | Data: CoreData, REST APIs | Concurrency: async/await (strict checking)
+       TypeScript: Language: TypeScript 5.x | Framework: Next.js 14 (App Router) | Data: PostgreSQL + Prisma | Runtime: Node 20 LTS
+       Go:         Language: Go 1.22 | Framework: net/http + Chi router | Data: PostgreSQL + sqlc | Concurrency: goroutines + errgroup
+-->
+
+- **Language**: [LANGUAGE_AND_VERSION]
+- **Framework**: [PRIMARY_FRAMEWORK]
+- **Data**: [DATA_LAYER — databases, APIs, storage]
+- **Concurrency / Runtime**: [CONCURRENCY_MODEL_OR_RUNTIME]
+
+## Architecture
+
+@.cursor/rules/clean-architecture.mdc
+
+<!-- PURPOSE: Add any platform-specific architecture rules or references here.
+     Examples:
+       iOS:  @clean-architecture-mobile
+       Web:  Follow Next.js App Router conventions for the presentation layer.
+       Go:   Use the standard project layout (cmd/, internal/, pkg/).
+-->
+
+[PLATFORM_ARCHITECTURE_NOTES]
+
+## Testing
+
+<!-- PURPOSE: Tell the agent where tests live, what framework to use, and how to run them.
+     Examples:
+       iOS:        @swift-testing-pro | Locations: FaceAiTests/, FaceAiUITests/
+       TypeScript: Framework: Vitest | Locations: src/**/*.test.ts | Run: npm test
+       Go:         Framework: testing + testify | Locations: *_test.go (colocated) | Run: go test ./...
+-->
+
+- **Test framework**: [TEST_FRAMEWORK]
+- **Test locations**: [TEST_DIRECTORIES_OR_PATTERNS]
+- **Test file convention**: [FILE_NAMING — e.g., *.test.ts, *_test.go, *Tests.swift]
+- **Run tests**: [TEST_COMMAND]
+
+## Conventions
+
+### File Organization
+
+<!-- PURPOSE: Describe where new code goes so the agent places files correctly.
+     Examples:
+       iOS:  Follow per-feature layered structure in @clean-architecture-mobile. New features under FaceAi/Features/{FeatureName}/.
+       Web:  Features under src/features/{feature-name}/. Shared UI in src/components/.
+       Go:   Commands under cmd/{name}/. Business logic under internal/{domain}/.
+-->
+
+[FILE_ORGANIZATION_RULES]
+
+### Naming Conventions
+
+<!-- PURPOSE: Define casing and naming patterns so generated code is consistent.
+     Examples:
+       Swift:      PascalCase types, camelCase vars/funcs, is/has/should booleans, Protocol suffix for VM protocols
+       TypeScript: PascalCase types/components, camelCase vars/funcs, I-prefix for interfaces optional
+       Go:         PascalCase exported, camelCase unexported, acronyms fully capitalized (HTTPClient)
+-->
+
+[NAMING_CONVENTIONS]
+
+### Language-Specific Rules
+
+<!-- PURPOSE: Capture must-follow rules specific to your language/framework.
+     Examples:
+       Swift 6:      Strict Concurrency enabled — use async/await, never GCD. @swift-concurrency-pro
+       TypeScript:    Strict mode enabled. No `any` — use `unknown` + type guards. Prefer `type` over `interface`.
+       Go:           Always handle errors — no _ for error returns. Use structured logging (slog).
+-->
+
+[LANGUAGE_SPECIFIC_RULES]
+
+## Code Style
+
+<!-- PURPOSE: Point to your linter/formatter config and list key thresholds.
+     Examples:
+       Swift:      Enforced by .swiftlint.yml
+       TypeScript: Enforced by .eslintrc + Prettier
+       Go:         Enforced by golangci-lint (.golangci.yml)
+-->
+
+Enforced by [LINTER_CONFIG_FILE]:
+
+| Rule | Warning | Error |
+|------|---------|-------|
+| [RULE_NAME] | [WARN_THRESHOLD] | [ERROR_THRESHOLD] |
+
+### General Guidelines
+
+<!-- PURPOSE: Call out the most important code-quality rules for this project.
+     Examples:
+       Swift:      No force unwraps (!), no force try — use if let, guard let, do/catch
+       TypeScript: No console.log in production code — use the logger service
+       Go:         No naked returns in functions > 5 lines. Always defer cleanup.
+-->
+
+[GENERAL_CODE_GUIDELINES]
+
+## Build & Verify
+
+<!-- PURPOSE: Give the agent the exact commands to build, lint, and auto-fix.
+     Examples:
+       iOS:        @xcodebuildmcp-cli for build/run/test | Lint: swiftlint | Auto-fix: ./swiftlint-autofix.sh
+       TypeScript: Build: npm run build | Lint: npm run lint | Auto-fix: npm run lint:fix
+       Go:         Build: go build ./... | Lint: golangci-lint run | Auto-fix: golangci-lint run --fix
+-->
+
+- **Build**: [BUILD_COMMAND]
+- **Lint**: [LINT_COMMAND]
+- **Auto-fix lint**: [AUTOFIX_COMMAND]
+
+## Development Workflow
+
+Use `/new-feature` to orchestrate the full feature lifecycle, or invoke individual phases:
+
+- @plan — Discuss and refine a feature idea into an implementation plan
+- @spec — Write a Gherkin `.feature` specification
+- @implement — Build the feature from its spec (bottom-up: types → logic → UI)
+- @test — Write tests mapped to Gherkin scenarios and run the full suite
+
+## Anti-Patterns (NEVER DO)
+
+See @.cursor/rules/clean-architecture.mdc for full architecture anti-patterns. Project-specific additions:
+
+<!-- PURPOSE: List 2-5 things that are banned in this specific project.
+     Examples:
+       iOS:  1. GCD in new code — use Task, async/await  2. Force unwraps — handle nil safely
+       Web:  1. Direct DB queries outside repository layer  2. console.log in committed code
+       Go:   1. Ignoring errors with _ 2. Using init() for non-trivial setup  3. Global mutable state
+-->
+
+1. [ANTI_PATTERN_1]
+2. [ANTI_PATTERN_2]

@@ -1,0 +1,104 @@
+---
+description: Enforce Clean Architecture principles regarding layering, dependency rules, and directory structure.
+globs: **/*.ts, **/*.tsx, **/*.js, **/*.jsx, **/*.go, **/*.py, **/*.java, **/*.cs, src/**/*, app/**/*, App/**/*, lib/**/*
+---
+
+# Clean Architecture Standards
+
+You are an expert in Clean Architecture. You must strictly adhere to the "Dependency Rule": **Dependencies point inward only**. Outer layers depend on inner layers; inner layers illustrate core business logic and know nothing of the outside world.
+
+
+
+> **Conflict Resolution:** If this is a Next.js project (`app/` directory present), prioritize `nextjs.mdc` rules for routing/components, but apply Clean Architecture principles (DTOs, Use Cases, Interfaces) within that framework.
+
+## 1. Core Principles (Strict Enforcement)
+
+- **Inner Layers (Domain):** Must be pure. NO external imports (frameworks, DB drivers, HTTP libraries). Use standard libraries only.
+- **Dependency Direction:** `Infrastructure` -> `Presentation` -> `Application` -> `Domain`.
+- **Inversion of Control:** Dependencies are injected. Never instantiate concrete infrastructure classes inside business logic.
+- **Interfaces First:** Always define an Interface (Port) in the Domain/Application layer *before* implementing the concrete class in Infrastructure.
+
+## 2. Directory Structure & Naming
+
+Apply the structure relevant to the current file's context (Backend or Client).
+
+### Backend Context (`src/`)
+- `domain/`: Entities, Value Objects, Repository Interfaces.
+- `useCases/`: Business logic. Classes named `[Verb][Subject]UseCase` (e.g., `CreateUserUseCase`).
+- `infrastructure/`: Database, external APIs.
+- `presentation/`: Controllers, Routes.
+
+### Client Context (`App/` or `Mobile/`)
+- `Domain/`: Models, Interfaces.
+- `Application/`: ViewModels, State logic.
+- `UI/`: React/Swift/Kotlin components. Dumb components mostly.
+- `Infrastructure/`: API clients, Local Storage.
+
+## 3. Implementation Rules by Layer
+
+### Domain Layer (The Core)
+- **Entities:** Classes/structs with data + behavior. Validation logic goes here.
+- **Value Objects:** Immutable. Use for things like `Email`, `Money`, `DateRange`.
+- **NO:** DTOs, JSON tags, or framework-specific annotations.
+
+### Application Layer (Use Cases)
+- **Responsibility:** Orchestration only. Fetch from Repository -> Call Domain Method -> Save.
+- **Input/Output:** Use dedicated Request/Response models (DTOs), do NOT accept Entities directly in the controller/UI.
+- **Naming:** Must be verb-centric (`Execute`, `Handle`).
+
+### Infrastructure Layer
+- **Repositories:** Implement interfaces defined in Domain. Map DB models (ORM) to Domain Entities (Mappers).
+- **Mappers:** Explicit `toDomain` and `toPersistence` methods are mandatory to decouple layers.
+
+### Presentation Layer
+- **Logic Free:** Controllers/Views should only parse input, call a Use Case, and format the response.
+- **No Business Rules:** Never write `if (order.total > 100)` in a Controller/View.
+
+## 4. Anti-Patterns (NEVER DO THIS)
+
+1.  **Bypassing Use Cases:** Never call a Repository directly from a Controller or View.
+2.  **Leaking Details:** Never return a Database Entity (e.g., TypeORM/Prisma entity) to the client.
+3.  **Circular Dependencies:** Domain must never import from Infrastructure.
+4.  **Framework Lock-in:** Domain logic must run without the web framework or UI library.
+
+## 5. Testing Strategy
+
+- **Domain/Application:** Unit tests only. Mock all interfaces. High coverage required.
+- **Infrastructure:** Integration tests (real DB/API).
+
+## 6. Error Handling & Logging
+
+- **Typed Errors:** Use specific error classes (`UserNotFoundError`, `PaymentFailedError`).
+- **Layer Handling:**
+    - *Infra:* Catch external error -> Throw Domain Error.
+    - *App:* Catch Domain Error -> Decide logic (retry/fail).
+    - *Presentation:* Catch App Error -> Return HTTP 4xx/5xx or UI Error State.
+- **Logging:** Log at boundaries (Entry/Exit of Use Cases). Do not log PII.
+
+## Code Example (TypeScript/General)
+
+```typescript
+// 1. Domain (Interface)
+export interface IUserRepository {
+  save(user: User): Promise<void>;
+}
+
+// 2. Application (Use Case)
+export class CreateUserUseCase {
+  constructor(private userRepo: IUserRepository) {} // Dependency Injection
+
+  async execute(request: CreateUserRequest): Promise<UserResponse> {
+    const user = User.create(request.email); // Domain logic
+    await this.userRepo.save(user);
+    return UserMapper.toResponse(user);
+  }
+}
+
+// 3. Infrastructure (Implementation)
+export class SqlUserRepository implements IUserRepository {
+  async save(user: User): Promise<void> {
+    // Map Domain Entity to DB Model and save
+    const dbModel = UserMapper.toPersistence(user);
+    await db.users.insert(dbModel);
+  }
+}
