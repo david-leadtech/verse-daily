@@ -18,6 +18,10 @@ struct VerseDailyApp: App {
                 .environmentObject(streakVM)
                 .environment(\.appTheme, liturgicalVM.theme)
                 .task {
+                    // Initialize RevenueCat for monetization
+                    await RevenueCatManager.shared.initialize()
+
+                    // Load other app data
                     await liturgicalVM.loadToday()
                     streakVM.recordActivity()
                 }
