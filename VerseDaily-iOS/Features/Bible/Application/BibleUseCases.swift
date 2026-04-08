@@ -1,5 +1,4 @@
 import Foundation
-import SharedKernel
 
 public struct BibleBookDTO: Identifiable, Sendable {
     public var id: String { name }

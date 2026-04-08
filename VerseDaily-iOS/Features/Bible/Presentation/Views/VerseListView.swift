@@ -1,4 +1,5 @@
 import SwiftUI
+import DesignSystem
 
 struct VerseListView: View {
     @ObservedObject var viewModel: BibleViewModel

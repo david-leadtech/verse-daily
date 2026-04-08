@@ -38,13 +38,12 @@ public final class SettingsViewModel: ObservableObject {
     
     private func saveSettings() async {
         do {
-            let settings = UserSettings(
+            try await updateUserSettingsUseCase.execute(
                 notificationsEnabled: notificationsEnabled,
                 notificationTime: notificationTime,
                 bibleVersion: bibleVersion,
                 isPremium: isPremium
             )
-            try await updateUserSettingsUseCase.execute(settings: settings)
         } catch {
             print("Error saving settings: \(error)")
         }

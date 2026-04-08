@@ -1,4 +1,5 @@
 import SwiftUI
+import DesignSystem
 
 struct BookSelectionView: View {
     @ObservedObject var viewModel: BibleViewModel

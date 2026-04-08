@@ -1,5 +1,4 @@
 import Foundation
-import SharedKernel
 
 public protocol MonetizationRepositoryProtocol: Sendable {
     func getSubscriptionPlans() async throws -> [SubscriptionPlan]

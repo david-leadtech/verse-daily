@@ -1,0 +1,47 @@
+client:
+  name: basic
+  file-system: device-agnostic
+tools: {}
+targets:
+  "CoreServices-arm64-apple-macosx-debug.module": ["<CoreServices-arm64-apple-macosx-debug.module>"]
+  "PackageStructure": ["<PackageStructure>"]
+  "main": ["<CoreServices-arm64-apple-macosx-debug.module>"]
+  "test": ["<CoreServices-arm64-apple-macosx-debug.module>"]
+default: "main"
+nodes:
+  "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/Sources/CoreServices/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+commands:
+  "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/CoreServices.build/sources":
+    tool: write-auxiliary-file
+    inputs: ["<sources-file-list>","/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/Sources/CoreServices/InadiutoriumCalendarClient.swift","/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/Sources/CoreServices/LiturgicalCalendarServiceProtocol.swift","/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/Sources/CoreServices/LiturgicalDay.swift"]
+    outputs: ["/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/CoreServices.build/sources"]
+    description: "Write auxiliary file /Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/CoreServices.build/sources"
+
+  "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt":
+    tool: write-auxiliary-file
+    inputs: ["<swift-get-version>","/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"]
+    outputs: ["/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"]
+    always-out-of-date: "true"
+    description: "Write auxiliary file /Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+
+  "<CoreServices-arm64-apple-macosx-debug.module>":
+    tool: phony
+    inputs: ["/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/CoreServices.build/InadiutoriumCalendarClient.swift.o","/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/CoreServices.build/LiturgicalCalendarServiceProtocol.swift.o","/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/CoreServices.build/LiturgicalDay.swift.o","/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/Modules/CoreServices.swiftmodule"]
+    outputs: ["<CoreServices-arm64-apple-macosx-debug.module>"]
+
+  "C.CoreServices-arm64-apple-macosx-debug.module":
+    tool: shell
+    inputs: ["/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/Sources/CoreServices/InadiutoriumCalendarClient.swift","/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/Sources/CoreServices/LiturgicalCalendarServiceProtocol.swift","/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/Sources/CoreServices/LiturgicalDay.swift","/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt","/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/CoreServices.build/sources"]
+    outputs: ["/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/CoreServices.build/InadiutoriumCalendarClient.swift.o","/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/CoreServices.build/LiturgicalCalendarServiceProtocol.swift.o","/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/CoreServices.build/LiturgicalDay.swift.o","/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/Modules/CoreServices.swiftmodule"]
+    description: "Compiling Swift Module 'CoreServices' (3 sources)"
+    args: ["/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc","-module-name","CoreServices","-emit-dependencies","-emit-module","-emit-module-path","/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/Modules/CoreServices.swiftmodule","-output-file-map","/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/CoreServices.build/output-file-map.json","-parse-as-library","-incremental","-c","@/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/CoreServices.build/sources","-I","/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/Modules","-target","arm64-apple-macosx12.0","-incremental","-enable-batch-mode","-serialize-diagnostics","-index-store-path","/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/index/store","-Onone","-enable-testing","-j14","-DSWIFT_PACKAGE","-DDEBUG","-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE","-module-cache-path","/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/ModuleCache","-parseable-output","-parse-as-library","-emit-objc-header","-emit-objc-header-path","/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/CoreServices.build/include/CoreServices-Swift.h","-color-diagnostics","-swift-version","5","-plugin-path","/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing","-sdk","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk","-F","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks","-I","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib","-L","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib","-g","-Xcc","-isysroot","-Xcc","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk","-Xcc","-F","-Xcc","/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks","-Xcc","-fPIC","-Xcc","-g","-package-name","coreservices"]
+
+  "PackageStructure":
+    tool: package-structure-tool
+    inputs: ["/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/Sources/CoreServices/","/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/Package.swift","/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/Package.resolved"]
+    outputs: ["<PackageStructure>"]
+    description: "Planning build"
+    allow-missing-inputs: true
+

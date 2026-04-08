@@ -1,5 +1,4 @@
 import Foundation
-import SharedKernel
 
 public final class UserIntegrationImpl: UserIntegration {
     private let repository: UserRepositoryProtocol

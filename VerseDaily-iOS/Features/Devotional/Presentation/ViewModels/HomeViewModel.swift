@@ -1,6 +1,5 @@
 import Foundation
 import Combine
-import SharedKernel
 
 @MainActor
 public final class HomeViewModel: ObservableObject {

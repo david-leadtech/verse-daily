@@ -1,5 +1,4 @@
 import Foundation
-import SharedKernel
 
 public struct SubscriptionPlanDTO: Identifiable, Sendable {
     public let id: String

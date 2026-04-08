@@ -1,5 +1,4 @@
 import Foundation
-import SharedKernel
 
 public final class DependencyContainer: Sendable {
     public static let shared = DependencyContainer()

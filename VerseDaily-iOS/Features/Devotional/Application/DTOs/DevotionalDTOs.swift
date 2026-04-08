@@ -1,5 +1,4 @@
 import Foundation
-import SharedKernel
 
 public struct VerseDTO: Identifiable, Sendable {
     public let id: Int

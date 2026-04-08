@@ -1,11 +1,12 @@
 import SwiftUI
+import DesignSystem
 
 public struct MainTabView: View {
     @State private var selectedTab = 0
     private let container = DependencyContainer.shared
-    
+
     public init() {}
-    
+
     public var body: some View {
         TabView(selection: $selectedTab) {
             HomeView(viewModel: container.resolveHomeViewModel())
@@ -26,11 +27,25 @@ public struct MainTabView: View {
                 }
                 .tag(2)
             
+            PrayerListView()
+                .tabItem {
+                    Label("Diario", systemImage: "pencil.and.outline")
+                }
+                .tag(3)
+            
+            TodayLiturgicalView()
+                .tabItem {
+                    Label("Liturgia", systemImage: "calendar")
+                }
+                .tag(4)
+
+            
             SettingsView(viewModel: container.resolveSettingsViewModel())
                 .tabItem {
                     Label("Settings", systemImage: "gearshape.fill")
                 }
-                .tag(3)
+                .tag(4)
+
         }
         .accentColor(DS.Tokens.Colors.tint)
     }

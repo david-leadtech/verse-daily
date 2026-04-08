@@ -1,5 +1,4 @@
 import Foundation
-import SharedKernel
 
 public struct UserSettingsDTO: Sendable {
     public let notificationsEnabled: Bool

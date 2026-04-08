@@ -1,0 +1,26 @@
+{
+  "": {
+    "swift-dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/primary.swiftdeps"
+  },
+  "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreModels/Sources/CoreModels/LiturgicalDay.swift": {
+    "dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/LiturgicalDay.d",
+    "object": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/LiturgicalDay.swift.o",
+    "swiftmodule": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/LiturgicalDay~partial.swiftmodule",
+    "swift-dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/LiturgicalDay.swiftdeps",
+    "diagnostics": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/LiturgicalDay.dia"
+  },
+  "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreModels/Sources/CoreModels/PrayerEntry.swift": {
+    "dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/PrayerEntry.d",
+    "object": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/PrayerEntry.swift.o",
+    "swiftmodule": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/PrayerEntry~partial.swiftmodule",
+    "swift-dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/PrayerEntry.swiftdeps",
+    "diagnostics": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/PrayerEntry.dia"
+  },
+  "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreModels/Sources/CoreModels/UserStreak.swift": {
+    "dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/UserStreak.d",
+    "object": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/UserStreak.swift.o",
+    "swiftmodule": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/UserStreak~partial.swiftmodule",
+    "swift-dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/UserStreak.swiftdeps",
+    "diagnostics": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/UserStreak.dia"
+  }
+}

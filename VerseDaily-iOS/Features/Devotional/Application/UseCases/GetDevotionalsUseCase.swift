@@ -1,5 +1,4 @@
 import Foundation
-import SharedKernel
 
 public final class GetDevotionalsUseCase: Sendable {
     private let repository: DevotionalRepositoryProtocol

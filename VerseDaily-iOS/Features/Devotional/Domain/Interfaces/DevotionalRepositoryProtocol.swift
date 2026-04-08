@@ -1,5 +1,4 @@
 import Foundation
-import SharedKernel
 
 public protocol DevotionalRepositoryProtocol: Sendable {
     func getDailyVerse() async throws -> DailyVerse

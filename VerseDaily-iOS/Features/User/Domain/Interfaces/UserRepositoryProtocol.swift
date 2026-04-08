@@ -1,5 +1,4 @@
 import Foundation
-import SharedKernel
 
 public protocol UserRepositoryProtocol: Sendable {
     func getSettings() async throws -> UserSettings

@@ -1,0 +1,55 @@
+{
+  "object" : {
+    "artifacts" : [
+
+    ],
+    "dependencies" : [
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "coremodels",
+          "kind" : "fileSystem",
+          "location" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreModels",
+          "name" : "CoreModels"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreModels"
+        },
+        "subpath" : "coremodels"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "corepersistence",
+          "kind" : "fileSystem",
+          "location" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence",
+          "name" : "CorePersistence"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence"
+        },
+        "subpath" : "corepersistence"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "designsystem",
+          "kind" : "fileSystem",
+          "location" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem",
+          "name" : "DesignSystem"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem"
+        },
+        "subpath" : "designsystem"
+      }
+    ],
+    "prebuilts" : [
+
+    ]
+  },
+  "version" : 7
+}

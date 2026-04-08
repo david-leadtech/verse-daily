@@ -1,0 +1,68 @@
+{
+  "": {
+    "swift-dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/primary.swiftdeps"
+  },
+  "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/AppTheme.swift": {
+    "dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/AppTheme.d",
+    "object": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/AppTheme.swift.o",
+    "swiftmodule": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/AppTheme~partial.swiftmodule",
+    "swift-dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/AppTheme.swiftdeps",
+    "diagnostics": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/AppTheme.dia"
+  },
+  "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/Components/DSBadge.swift": {
+    "dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/DSBadge.d",
+    "object": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/DSBadge.swift.o",
+    "swiftmodule": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/DSBadge~partial.swiftmodule",
+    "swift-dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/DSBadge.swiftdeps",
+    "diagnostics": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/DSBadge.dia"
+  },
+  "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/Components/DSButton.swift": {
+    "dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/DSButton.d",
+    "object": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/DSButton.swift.o",
+    "swiftmodule": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/DSButton~partial.swiftmodule",
+    "swift-dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/DSButton.swiftdeps",
+    "diagnostics": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/DSButton.dia"
+  },
+  "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/Components/DSCard.swift": {
+    "dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/DSCard.d",
+    "object": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/DSCard.swift.o",
+    "swiftmodule": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/DSCard~partial.swiftmodule",
+    "swift-dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/DSCard.swiftdeps",
+    "diagnostics": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/DSCard.dia"
+  },
+  "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/Components/DSInput.swift": {
+    "dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/DSInput.d",
+    "object": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/DSInput.swift.o",
+    "swiftmodule": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/DSInput~partial.swiftmodule",
+    "swift-dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/DSInput.swiftdeps",
+    "diagnostics": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/DSInput.dia"
+  },
+  "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/Components/DSModal.swift": {
+    "dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/DSModal.d",
+    "object": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/DSModal.swift.o",
+    "swiftmodule": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/DSModal~partial.swiftmodule",
+    "swift-dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/DSModal.swiftdeps",
+    "diagnostics": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/DSModal.dia"
+  },
+  "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/Components/DSTable.swift": {
+    "dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/DSTable.d",
+    "object": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/DSTable.swift.o",
+    "swiftmodule": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/DSTable~partial.swiftmodule",
+    "swift-dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/DSTable.swiftdeps",
+    "diagnostics": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/DSTable.dia"
+  },
+  "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/LiturgicalColor.swift": {
+    "dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/LiturgicalColor.d",
+    "object": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/LiturgicalColor.swift.o",
+    "swiftmodule": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/LiturgicalColor~partial.swiftmodule",
+    "swift-dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/LiturgicalColor.swiftdeps",
+    "diagnostics": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/LiturgicalColor.dia"
+  },
+  "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/Tokens/Tokens.swift": {
+    "dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/Tokens.d",
+    "object": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/Tokens.swift.o",
+    "swiftmodule": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/Tokens~partial.swiftmodule",
+    "swift-dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/Tokens.swiftdeps",
+    "diagnostics": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/arm64-apple-macosx/debug/DesignSystem.build/Tokens.dia"
+  }
+}

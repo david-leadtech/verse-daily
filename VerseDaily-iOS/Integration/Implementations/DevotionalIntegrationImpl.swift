@@ -1,5 +1,4 @@
 import Foundation
-import SharedKernel
 
 public final class DevotionalIntegrationImpl: DevotionalIntegration {
     private let repository: DevotionalRepositoryProtocol

@@ -1,0 +1,12 @@
+{
+  "": {
+    "swift-dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/primary.swiftdeps"
+  },
+  "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreModels/Sources/CoreModels/LiturgicalDay.swift": {
+    "dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/LiturgicalDay.d",
+    "object": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/LiturgicalDay.swift.o",
+    "swiftmodule": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/LiturgicalDay~partial.swiftmodule",
+    "swift-dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/LiturgicalDay.swiftdeps",
+    "diagnostics": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/LiturgicalDay.dia"
+  }
+}

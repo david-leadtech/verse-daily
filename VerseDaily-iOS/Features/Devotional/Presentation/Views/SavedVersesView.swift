@@ -1,4 +1,5 @@
 import SwiftUI
+import DesignSystem
 
 struct SavedVersesView: View {
     @ObservedObject var viewModel: SavedVersesViewModel

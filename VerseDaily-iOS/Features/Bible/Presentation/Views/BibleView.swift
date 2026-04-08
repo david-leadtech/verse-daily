@@ -1,16 +1,17 @@
+import DesignSystem
 import SwiftUI
 
 public struct BibleView: View {
     @StateObject private var viewModel: BibleViewModel
-    
+
     public init(viewModel: BibleViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
-    
+
     public var body: some View {
         ZStack {
             DS.Tokens.Colors.background.ignoresSafeArea()
-            
+
             VStack(spacing: 0) {
                 switch viewModel.navigationState {
                 case .bookSelection:

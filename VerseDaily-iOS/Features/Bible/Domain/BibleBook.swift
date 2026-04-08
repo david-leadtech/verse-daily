@@ -1,5 +1,4 @@
 import Foundation
-import SharedKernel
 
 public enum Testament: String, Codable, Sendable {
     case old = "Old Testament"

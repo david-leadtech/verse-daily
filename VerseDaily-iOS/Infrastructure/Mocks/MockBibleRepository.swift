@@ -1,16 +1,39 @@
 import Foundation
-import SharedKernel
 
 public final class MockBibleRepository: BibleRepositoryProtocol {
-    public init() {}
-    
-    public func getBooks() async throws -> [BibleBook] {
+    private let books: [BibleBook]
+
+    public init() {
+        self.books = Self.loadBooksFromJSON()
+    }
+
+    private static func loadBooksFromJSON() -> [BibleBook] {
+        guard let url = Bundle.main.url(forResource: "BibleData", withExtension: "json") else {
+            return Self.fallbackBooks()
+        }
+
+        do {
+            let data = try Data(contentsOf: url)
+            let decoder = JSONDecoder()
+            let bibleDictionary = try decoder.decode([String: [BibleBook]].self, from: data)
+            return bibleDictionary["books"] ?? Self.fallbackBooks()
+        } catch {
+            print("Error loading BibleData.json: \(error)")
+            return Self.fallbackBooks()
+        }
+    }
+
+    private static func fallbackBooks() -> [BibleBook] {
         return [
             BibleBook(name: "Genesis", testament: .old, chapters: 50),
             BibleBook(name: "Exodus", testament: .old, chapters: 40),
             BibleBook(name: "Matthew", testament: .new, chapters: 28),
             BibleBook(name: "John", testament: .new, chapters: 21)
         ]
+    }
+
+    public func getBooks() async throws -> [BibleBook] {
+        return books
     }
     
     public func getVerses(book: String, chapter: Int) async throws -> [Verse] {

@@ -1,0 +1,26 @@
+{
+  "": {
+    "swift-dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/CoreServices.build/primary.swiftdeps"
+  },
+  "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/Sources/CoreServices/InadiutoriumCalendarClient.swift": {
+    "dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/CoreServices.build/InadiutoriumCalendarClient.d",
+    "object": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/CoreServices.build/InadiutoriumCalendarClient.swift.o",
+    "swiftmodule": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/CoreServices.build/InadiutoriumCalendarClient~partial.swiftmodule",
+    "swift-dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/CoreServices.build/InadiutoriumCalendarClient.swiftdeps",
+    "diagnostics": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/CoreServices.build/InadiutoriumCalendarClient.dia"
+  },
+  "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/Sources/CoreServices/LiturgicalCalendarServiceProtocol.swift": {
+    "dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/CoreServices.build/LiturgicalCalendarServiceProtocol.d",
+    "object": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/CoreServices.build/LiturgicalCalendarServiceProtocol.swift.o",
+    "swiftmodule": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/CoreServices.build/LiturgicalCalendarServiceProtocol~partial.swiftmodule",
+    "swift-dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/CoreServices.build/LiturgicalCalendarServiceProtocol.swiftdeps",
+    "diagnostics": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/CoreServices.build/LiturgicalCalendarServiceProtocol.dia"
+  },
+  "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/Sources/CoreServices/LiturgicalDay.swift": {
+    "dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/CoreServices.build/LiturgicalDay.d",
+    "object": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/CoreServices.build/LiturgicalDay.swift.o",
+    "swiftmodule": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/CoreServices.build/LiturgicalDay~partial.swiftmodule",
+    "swift-dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/CoreServices.build/LiturgicalDay.swiftdeps",
+    "diagnostics": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreServices/.build/arm64-apple-macosx/debug/CoreServices.build/LiturgicalDay.dia"
+  }
+}

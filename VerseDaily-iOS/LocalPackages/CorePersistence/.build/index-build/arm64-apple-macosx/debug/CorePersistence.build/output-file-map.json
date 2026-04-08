@@ -1,0 +1,12 @@
+{
+  "": {
+    "swift-dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CorePersistence.build/primary.swiftdeps"
+  },
+  "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/Sources/CorePersistence/PersistenceContainer.swift": {
+    "dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CorePersistence.build/PersistenceContainer.d",
+    "object": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CorePersistence.build/PersistenceContainer.swift.o",
+    "swiftmodule": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CorePersistence.build/PersistenceContainer~partial.swiftmodule",
+    "swift-dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CorePersistence.build/PersistenceContainer.swiftdeps",
+    "diagnostics": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CorePersistence.build/PersistenceContainer.dia"
+  }
+}

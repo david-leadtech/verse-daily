@@ -1,5 +1,4 @@
 import Foundation
-import SharedKernel
 
 public struct UserSettings: Codable, Sendable, Equatable {
     public var notificationsEnabled: Bool

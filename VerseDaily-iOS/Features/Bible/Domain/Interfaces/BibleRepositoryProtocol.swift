@@ -1,5 +1,4 @@
 import Foundation
-import SharedKernel
 
 public protocol BibleRepositoryProtocol: Sendable {
     func getBooks() async throws -> [BibleBook]

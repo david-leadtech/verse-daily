@@ -1,4 +1,5 @@
 import SwiftUI
+import DesignSystem
 
 struct SubscriptionView: View {
     @ObservedObject var viewModel: MonetizationViewModel
@@ -130,7 +131,7 @@ struct SubscriptionView: View {
                             .font(DS.Tokens.Typography.interMedium(size: 16))
                             .foregroundColor(DS.Tokens.Colors.text)
                         HStack(alignment: .firstTextBaseline, spacing: 4) {
-                            Text(plan.price)
+                            Text(plan.priceLabel)
                                 .font(DS.Tokens.Typography.playfairBold(size: 20))
                                 .foregroundColor(DS.Tokens.Colors.text)
                             Text("/ \(plan.period)")

@@ -1,5 +1,4 @@
 import Foundation
-import SharedKernel
 
 public final class MonetizationIntegrationImpl: MonetizationIntegration {
     private let repository: MonetizationRepositoryProtocol
