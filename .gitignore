@@ -47,3 +47,29 @@ Thumbs.db
 # Replit
 .cache/
 .local/
+
+# Previous framework versions (Dart/Flutter, Node.js, TypeScript)
+lib/
+package.json
+pnpm-*.yaml
+tsconfig*.json
+.npmrc
+scripts/
+artifacts/
+attached_assets/
+.replit*
+replit.md
+
+# Xcode build files and caches
+*.xcarchive
+*.ipa
+DerivedData/
+*.build/
+.build/
+*.swiftpm/
+build/
+
+# CocoaPods
+Pods/
+Podfile.lock
+*.xcworkspace
