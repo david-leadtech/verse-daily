@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Verse: Identifiable, Codable, Sendable, Equatable {
+public struct Verse: Identifiable, Codable, Sendable, Hashable, Equatable {
     public let id: Int
     public let book: String
     public let chapter: Int
@@ -22,7 +22,7 @@ public struct Verse: Identifiable, Codable, Sendable, Equatable {
     }
 }
 
-public struct DailyVerse: Sendable, Equatable {
+public struct DailyVerse: Sendable, Hashable, Equatable {
     public let verse: Verse
     public let reflection: String?
     public let date: Date

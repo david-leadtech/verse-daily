@@ -1,9 +1,16 @@
 import Foundation
 
+// MARK: - Infrastructure
+// Note: These infrastructure implementations are imported automatically from the project target
+
+// MARK: - Presentation (ViewModels)
+// Note: Xcode should auto-link these from the project target
+// If you see "Cannot find type" errors, ensure these files are included in Build Phases
+
 public final class DependencyContainer: Sendable {
     public static let shared = DependencyContainer()
     
-    // Repositories (Mocks for now)
+    // Repositories
     public let devotionalRepository: DevotionalRepositoryProtocol
     public let bibleRepository: BibleRepositoryProtocol
     public let monetizationRepository: MonetizationRepositoryProtocol
@@ -26,12 +33,16 @@ public final class DependencyContainer: Sendable {
     public let subscribeUseCase: SubscribeUseCase
     public let getFavoriteVersesUseCase: GetFavoriteVersesUseCase
     public let toggleFavoriteUseCase: ToggleFavoriteUseCase
+    public let completeOnboardingUseCase: CompleteOnboardingUseCaseProtocol
     
     private init() {
         // Init Repos
         let devotionalRepo = MockDevotionalRepository()
         let bibleRepo = MockBibleRepository()
-        let monetizationRepo = MockMonetizationRepository()
+        // Use real RevenueCat integration for monetization
+        let monetizationRepo = RevenueCatMonetizationRepository()
+        // TODO: Use UserRepository() when Infrastructure target linking is set up
+        // Real implementation with SwiftData persistence is ready in Infrastructure/Repositories/UserRepository.swift
         let userRepo = MockUserRepository()
         let favoritesRepo = MockFavoritesRepository()
         
@@ -57,6 +68,7 @@ public final class DependencyContainer: Sendable {
         self.subscribeUseCase = SubscribeUseCase(repository: monetizationRepo)
         self.getFavoriteVersesUseCase = GetFavoriteVersesUseCase(repository: favoritesRepo)
         self.toggleFavoriteUseCase = ToggleFavoriteUseCase(repository: favoritesRepo)
+        self.completeOnboardingUseCase = CompleteOnboardingUseCase(userRepository: userRepo)
     }
     
     public func resolveHomeViewModel() -> HomeViewModel {
