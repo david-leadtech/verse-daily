@@ -1,7 +1,7 @@
 import Foundation
 
 // MARK: - Localization Keys (Dynamic, no hardcoded strings)
-public enum LocalizationKey: String, Sendable {
+public enum LocalizationKey: String, Sendable, Hashable, CaseIterable {
     case enumThemeLight = "enum.theme.light"
     case enumThemeDark = "enum.theme.dark"
     case enumThemeSystem = "enum.theme.system"
@@ -36,6 +36,48 @@ public enum LocalizationKey: String, Sendable {
     case onboardingErrorPersistenceFailed = "onboarding.error.persistenceFailed"
     case onboardingErrorUnknown = "onboarding.error.unknown"
 
+    // Onboarding Step Titles (used by OnboardingStep.swift)
+    case onboardingProfileInfoTitle = "onboarding.profileInfo.title"
+    case onboardingReligiousPreferencesTitle = "onboarding.religiousPreferences.title"
+    case onboardingThemeLanguageTitle = "onboarding.themeLanguage.title"
+    case onboardingNotificationsGoalTitle = "onboarding.notificationsGoal.title"
+    case onboardingSummaryTitle = "onboarding.summary.title"
+
+    // Onboarding UI Field Labels
+    case onboardingProfileInfoNameLabel = "onboarding.profileInfo.nameLabel"
+    case onboardingProfileInfoEmailLabel = "onboarding.profileInfo.emailLabel"
+    case onboardingProfileInfoAgeRangeLabel = "onboarding.profileInfo.ageRangeLabel"
+    case onboardingProfileInfoGenderLabel = "onboarding.profileInfo.genderLabel"
+
+    case onboardingReligiousPreferencesChurchLabel = "onboarding.religiousPreferences.churchLabel"
+    case onboardingReligiousPreferencesBibleVersionLabel = "onboarding.religiousPreferences.bibleVersionLabel"
+    case onboardingReligiousPreferencesReadingPreferencesLabel = "onboarding.religiousPreferences.readingPreferencesLabel"
+
+    case onboardingThemeLanguageThemeTitle = "onboarding.themeLanguage.themeTitle"
+    case onboardingThemeLanguageThemeLabel = "onboarding.themeLanguage.themeLabel"
+    case onboardingThemeLanguageTextSizeTitle = "onboarding.themeLanguage.textSizeTitle"
+    case onboardingThemeLanguageTextSizeLabel = "onboarding.themeLanguage.textSizeLabel"
+    case onboardingThemeLanguageLanguageTitle = "onboarding.themeLanguage.languageTitle"
+    case onboardingThemeLanguageLanguageLabel = "onboarding.themeLanguage.languageLabel"
+
+    case onboardingNotificationsToggleLabel = "onboarding.notifications.toggleLabel"
+    case onboardingNotificationsTimeLabel = "onboarding.notifications.timeLabel"
+    case onboardingNotificationsTimePickerLabel = "onboarding.notifications.timePickerLabel"
+    case onboardingNotificationsReadingGoalLabel = "onboarding.notifications.readingGoalLabel"
+    case onboardingNotificationsReadingGoalNone = "onboarding.notifications.readingGoalNone"
+    case onboardingNotificationsEnabledValue = "onboarding.notifications.enabledValue"
+    case onboardingNotificationsDisabledValue = "onboarding.notifications.disabledValue"
+
+    // Onboarding Button Labels
+    case onboardingCompleteButtonLabel = "onboarding.button.complete"
+    case onboardingSkipButtonLabel = "onboarding.button.skip"
+    case onboardingNextButtonLabel = "onboarding.button.next"
+    case onboardingBackButtonLabel = "onboarding.button.back"
+
+    // Onboarding Generic Labels
+    case onboardingSelectPlaceholder = "onboarding.placeholder.select"
+    case onboardingOptionalLabel = "onboarding.label.optional"
+
     public var localized: String {
         NSLocalizedString(self.rawValue, comment: "")
     }
@@ -46,7 +88,7 @@ public enum LocalizationKey: String, Sendable {
 }
 
 // MARK: - Age Range (Localizable strings, no hardcoded text)
-public enum AgeRange: String, Codable, Sendable, CaseIterable {
+public enum AgeRange: String, Codable, Sendable, Hashable, CaseIterable {
     case teen = "13-17"
     case youngAdult = "18-25"
     case adult = "26-35"
@@ -60,7 +102,7 @@ public enum AgeRange: String, Codable, Sendable, CaseIterable {
 }
 
 // MARK: - Gender
-public enum Gender: String, Codable, Sendable, CaseIterable {
+public enum Gender: String, Codable, Sendable, Hashable, CaseIterable {
     case male = "masculino"
     case female = "femenino"
     case other = "otro"
@@ -81,7 +123,7 @@ public enum Gender: String, Codable, Sendable, CaseIterable {
 }
 
 // MARK: - App Theme
-public enum AppTheme: String, Codable, Sendable, CaseIterable {
+public enum AppTheme: String, Codable, Sendable, Hashable, CaseIterable {
     case light = "light"
     case dark = "dark"
     case system = "system"
@@ -99,7 +141,7 @@ public enum AppTheme: String, Codable, Sendable, CaseIterable {
 }
 
 // MARK: - Text Size
-public enum TextSize: String, Codable, Sendable, CaseIterable {
+public enum TextSize: String, Codable, Sendable, Hashable, CaseIterable {
     case small = "small"
     case normal = "normal"
     case large = "large"
@@ -117,7 +159,7 @@ public enum TextSize: String, Codable, Sendable, CaseIterable {
 }
 
 // MARK: - App Language
-public enum AppLanguage: String, Codable, Sendable, CaseIterable {
+public enum AppLanguage: String, Codable, Sendable, Hashable, CaseIterable {
     case spanish = "es"
     case english = "en"
     case portuguese = "pt"
@@ -135,7 +177,7 @@ public enum AppLanguage: String, Codable, Sendable, CaseIterable {
 }
 
 // MARK: - Reading Goal
-public enum ReadingGoal: String, Codable, Sendable, CaseIterable {
+public enum ReadingGoal: String, Codable, Sendable, Hashable, CaseIterable {
     case casual = "casual"
     case regular = "regular"
     case dedicated = "dedicado"
@@ -169,7 +211,7 @@ public enum ReadingGoal: String, Codable, Sendable, CaseIterable {
 }
 
 // MARK: - Reading Preferences
-public enum ReadingPreference: String, Codable, Sendable, CaseIterable {
+public enum ReadingPreference: String, Codable, Sendable, Hashable, CaseIterable {
     case continuous = "lectura_continua"
     case thematic = "tematica"
     case psalms = "salmos"
@@ -253,3 +295,5 @@ public struct UserSettings: Codable, Sendable, Equatable {
         self.readingGoal = readingGoal
     }
 }
+
+// (These lines are appended but actually need to be inserted before "public var localized")

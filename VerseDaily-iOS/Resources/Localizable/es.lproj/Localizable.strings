@@ -1,9 +1,47 @@
-/* Onboarding */
-"onboarding.step.profileInfo.title" = "Tu Perfil";
-"onboarding.step.religiousPreferences.title" = "Preferencias Religiosas";
-"onboarding.step.themeLanguage.title" = "Tema e Idioma";
-"onboarding.step.notificationsGoal.title" = "Notificaciones & Objetivo";
-"onboarding.step.summary.title" = "Resumen";
+/* Onboarding - Step Titles */
+"onboarding.profileInfo.title" = "Tu Perfil";
+"onboarding.religiousPreferences.title" = "Preferencias Religiosas";
+"onboarding.themeLanguage.title" = "Tema e Idioma";
+"onboarding.notificationsGoal.title" = "Notificaciones & Objetivo";
+"onboarding.summary.title" = "Resumen";
+
+/* Onboarding - Profile Info */
+"onboarding.profileInfo.nameLabel" = "Nombre";
+"onboarding.profileInfo.emailLabel" = "Email";
+"onboarding.profileInfo.ageRangeLabel" = "Rango de edad";
+"onboarding.profileInfo.genderLabel" = "Género";
+
+/* Onboarding - Religious Preferences */
+"onboarding.religiousPreferences.churchLabel" = "Iglesia (opcional)";
+"onboarding.religiousPreferences.bibleVersionLabel" = "Versión de la Biblia";
+"onboarding.religiousPreferences.readingPreferencesLabel" = "Preferencias de lectura";
+
+/* Onboarding - Theme & Language */
+"onboarding.themeLanguage.themeTitle" = "Tema";
+"onboarding.themeLanguage.themeLabel" = "Selecciona un tema";
+"onboarding.themeLanguage.textSizeTitle" = "Tamaño de texto";
+"onboarding.themeLanguage.textSizeLabel" = "Selecciona el tamaño";
+"onboarding.themeLanguage.languageTitle" = "Idioma";
+"onboarding.themeLanguage.languageLabel" = "Selecciona el idioma";
+
+/* Onboarding - Notifications */
+"onboarding.notifications.toggleLabel" = "Habilitar notificaciones";
+"onboarding.notifications.timeLabel" = "Hora de notificación";
+"onboarding.notifications.timePickerLabel" = "Selecciona la hora";
+"onboarding.notifications.readingGoalLabel" = "Objetivo de lectura";
+"onboarding.notifications.readingGoalNone" = "No seleccionado";
+"onboarding.notifications.enabledValue" = "Habilitadas";
+"onboarding.notifications.disabledValue" = "Deshabilitadas";
+
+/* Onboarding - Buttons */
+"onboarding.button.complete" = "Completar";
+"onboarding.button.skip" = "Saltar";
+"onboarding.button.next" = "Siguiente";
+"onboarding.button.back" = "Atrás";
+
+/* Onboarding - Generic */
+"onboarding.placeholder.select" = "Seleccionar...";
+"onboarding.label.optional" = "opcional";
 
 /* Enums - Age Range */
 "enum.ageRange.teen" = "13-17";
