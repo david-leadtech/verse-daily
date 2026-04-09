@@ -73,3 +73,6 @@ build/
 Pods/
 Podfile.lock
 *.xcworkspace
+
+# Internal documentation (not synced to remote)
+docs/internal/
