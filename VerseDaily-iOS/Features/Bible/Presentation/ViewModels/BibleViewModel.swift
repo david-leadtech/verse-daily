@@ -13,19 +13,23 @@ public final class BibleViewModel: ObservableObject {
     @Published public var books: [BibleBookDTO] = []
     @Published public var verses: [VerseDTO] = []
     @Published public var isLoading: Bool = false
-    
+    @Published public var error: LocalizedError?
+
     private let getBooksUseCase: GetBibleBooksUseCase
     private let getVersesUseCase: GetBibleVersesUseCase
-    
+
     public init(getBooksUseCase: GetBibleBooksUseCase, getVersesUseCase: GetBibleVersesUseCase) {
         self.getBooksUseCase = getBooksUseCase
         self.getVersesUseCase = getVersesUseCase
     }
-    
+
     public func loadBooks() async {
         isLoading = true
+        error = nil
         do {
             self.books = try await getBooksUseCase.execute()
+        } catch let err as LocalizedError {
+            self.error = err
         } catch {
             print("Error loading books: \(error)")
         }
@@ -55,8 +59,11 @@ public final class BibleViewModel: ObservableObject {
     
     private func loadVerses(book: String, chapter: Int) async {
         isLoading = true
+        error = nil
         do {
             self.verses = try await getVersesUseCase.execute(book: book, chapter: chapter)
+        } catch let err as LocalizedError {
+            self.error = err
         } catch {
             print("Error loading verses: \(error)")
         }
