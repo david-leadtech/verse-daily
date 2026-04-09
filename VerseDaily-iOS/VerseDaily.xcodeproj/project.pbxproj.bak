@@ -1,0 +1,1361 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A8F84A742F842BD100BE8F8D /* BibleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A0C2F842BD100BE8F8D /* BibleViewModel.swift */; };
+		A8F84A752F842BD100BE8F8D /* TodayLiturgicalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A312F842BD100BE8F8D /* TodayLiturgicalView.swift */; };
+		A8F84A762F842BD100BE8F8D /* Verse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A1D2F842BD100BE8F8D /* Verse.swift */; };
+		A8F84A772F842BD100BE8F8D /* MockUserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A572F842BD100BE8F8D /* MockUserRepository.swift */; };
+		A8F84A782F842BD100BE8F8D /* GetDevotionalsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A192F842BD100BE8F8D /* GetDevotionalsUseCase.swift */; };
+		A8F84A792F842BD100BE8F8D /* SubscriptionPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A372F842BD100BE8F8D /* SubscriptionPlan.swift */; };
+		A8F84A7A2F842BD100BE8F8D /* Money.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A6E2F842BD100BE8F8D /* Money.swift */; };
+		A8F84A7B2F842BD100BE8F8D /* SavedVersesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A2A2F842BD100BE8F8D /* SavedVersesView.swift */; };
+		A8F84A7C2F842BD100BE8F8D /* MockFavoritesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A552F842BD100BE8F8D /* MockFavoritesRepository.swift */; };
+		A8F84A7D2F842BD100BE8F8D /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A4B2F842BD100BE8F8D /* SettingsViewModel.swift */; };
+		A8F84A7E2F842BD100BE8F8D /* BibleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A0E2F842BD100BE8F8D /* BibleView.swift */; };
+		A8F84A7F2F842BD100BE8F8D /* BibleRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A072F842BD100BE8F8D /* BibleRepositoryProtocol.swift */; };
+		A8F84A802F842BD100BE8F8D /* MonetizationIntegration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A602F842BD100BE8F8D /* MonetizationIntegration.swift */; };
+		A8F84A812F842BD100BE8F8D /* VerseCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A272F842BD100BE8F8D /* VerseCardView.swift */; };
+		A8F84A822F842BD100BE8F8D /* DevotionalRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A1F2F842BD100BE8F8D /* DevotionalRepositoryProtocol.swift */; };
+		A8F84A832F842BD100BE8F8D /* PrayerEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A412F842BD100BE8F8D /* PrayerEditorView.swift */; };
+		A8F84A842F842BD100BE8F8D /* DevotionalDTOs.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A162F842BD100BE8F8D /* DevotionalDTOs.swift */; };
+		A8F84A852F842BD100BE8F8D /* MockBibleRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A532F842BD100BE8F8D /* MockBibleRepository.swift */; };
+		A8F84A862F842BD100BE8F8D /* MonetizationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A3A2F842BD100BE8F8D /* MonetizationViewModel.swift */; };
+		A8F84A872F842BD100BE8F8D /* FavoritesRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A6C2F842BD100BE8F8D /* FavoritesRepositoryProtocol.swift */; };
+		A8F84A882F842BD100BE8F8D /* DependencyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A012F842BD100BE8F8D /* DependencyContainer.swift */; };
+		A8F84A892F842BD100BE8F8D /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A482F842BD100BE8F8D /* UserSettings.swift */; };
+		A8F84A8A2F842BD100BE8F8D /* UserIntegration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A612F842BD100BE8F8D /* UserIntegration.swift */; };
+		A8F84A8B2F842BD100BE8F8D /* UserRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A462F842BD100BE8F8D /* UserRepositoryProtocol.swift */; };
+		A8F84A8C2F842BD100BE8F8D /* MonetizationUseCases.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A332F842BD100BE8F8D /* MonetizationUseCases.swift */; };
+		A8F84A8D2F842BD100BE8F8D /* SubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A3C2F842BD100BE8F8D /* SubscriptionView.swift */; };
+		A8F84A8E2F842BD100BE8F8D /* VerseDailyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A032F842BD100BE8F8D /* VerseDailyApp.swift */; };
+		A8F84A8F2F842BD100BE8F8D /* DomainError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A682F842BD100BE8F8D /* DomainError.swift */; };
+		A8F84A902F842BD100BE8F8D /* VerseListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A112F842BD100BE8F8D /* VerseListView.swift */; };
+		A8F84A912F842BD100BE8F8D /* MonetizationIntegrationImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A5C2F842BD100BE8F8D /* MonetizationIntegrationImpl.swift */; };
+		A8F84A922F842BD100BE8F8D /* GetDailyVerseUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A182F842BD100BE8F8D /* GetDailyVerseUseCase.swift */; };
+		A8F84A932F842BD100BE8F8D /* PrayerListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A422F842BD100BE8F8D /* PrayerListView.swift */; };
+		A8F84A942F842BD100BE8F8D /* MonetizationRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A352F842BD100BE8F8D /* MonetizationRepositoryProtocol.swift */; };
+		A8F84A952F842BD100BE8F8D /* DomainEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A6A2F842BD100BE8F8D /* DomainEvent.swift */; };
+		A8F84A962F842BD100BE8F8D /* DevotionalIntegrationImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A5B2F842BD100BE8F8D /* DevotionalIntegrationImpl.swift */; };
+		A8F84A972F842BD100BE8F8D /* BookSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A0F2F842BD100BE8F8D /* BookSelectionView.swift */; };
+		A8F84A982F842BD100BE8F8D /* BibleBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A092F842BD100BE8F8D /* BibleBook.swift */; };
+		A8F84A992F842BD100BE8F8D /* MockDevotionalRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A542F842BD100BE8F8D /* MockDevotionalRepository.swift */; };
+		A8F84A9A2F842BD100BE8F8D /* FavoriteUseCases.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A652F842BD100BE8F8D /* FavoriteUseCases.swift */; };
+		A8F84A9B2F842BD100BE8F8D /* ChapterSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A102F842BD100BE8F8D /* ChapterSelectionView.swift */; };
+		A8F84A9C2F842BD100BE8F8D /* MockMonetizationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A562F842BD100BE8F8D /* MockMonetizationRepository.swift */; };
+		A8F84A9D2F842BD100BE8F8D /* UserIntegrationImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A5D2F842BD100BE8F8D /* UserIntegrationImpl.swift */; };
+		A8F84A9E2F842BD100BE8F8D /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A022F842BD100BE8F8D /* MainTabView.swift */; };
+		A8F84A9F2F842BD100BE8F8D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A4D2F842BD100BE8F8D /* SettingsView.swift */; };
+		A8F84AA02F842BD100BE8F8D /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A292F842BD100BE8F8D /* HomeView.swift */; };
+		A8F84AA12F842BD100BE8F8D /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A242F842BD100BE8F8D /* HomeViewModel.swift */; };
+		A8F84AA22F842BD100BE8F8D /* BibleUseCases.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A052F842BD100BE8F8D /* BibleUseCases.swift */; };
+		A8F84AA32F842BD100BE8F8D /* UserUseCases.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A442F842BD100BE8F8D /* UserUseCases.swift */; };
+		A8F84AA42F842BD100BE8F8D /* Devotional.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A1C2F842BD100BE8F8D /* Devotional.swift */; };
+		A8F84AA52F842BD100BE8F8D /* SavedVersesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A252F842BD100BE8F8D /* SavedVersesViewModel.swift */; };
+		A8F84AA62F842BD100BE8F8D /* DevotionalIntegration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F84A5F2F842BD100BE8F8D /* DevotionalIntegration.swift */; };
+		A8F84AA92F842CDE00BE8F8D /* CoreModels in Frameworks */ = {isa = PBXBuildFile; productRef = A8F84AA82F842CDE00BE8F8D /* CoreModels */; };
+		A8F84AAC2F842D0100BE8F8D /* CorePersistence in Frameworks */ = {isa = PBXBuildFile; productRef = A8F84AAB2F842D0100BE8F8D /* CorePersistence */; };
+		A8F84AAF2F842D2100BE8F8D /* CoreServices in Frameworks */ = {isa = PBXBuildFile; productRef = A8F84AAE2F842D2100BE8F8D /* CoreServices */; };
+		A8F84AB22F842EF200BE8F8D /* CoreUtils in Frameworks */ = {isa = PBXBuildFile; productRef = A8F84AB12F842EF200BE8F8D /* CoreUtils */; };
+		A8F84AB52F842EF200BE8F8D /* DesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = A8F84AB42F842EF200BE8F8D /* DesignSystem */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A8F849DF2F842AB400BE8F8D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A8F849C92F842AB000BE8F8D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A8F849D02F842AB000BE8F8D;
+			remoteInfo = VerseDaily;
+		};
+		A8F849E92F842AB400BE8F8D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A8F849C92F842AB000BE8F8D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A8F849D02F842AB000BE8F8D;
+			remoteInfo = VerseDaily;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		A8F849D12F842AB000BE8F8D /* VerseDaily.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VerseDaily.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A8F849DE2F842AB400BE8F8D /* VerseDailyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VerseDailyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A8F849E82F842AB400BE8F8D /* VerseDailyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VerseDailyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A8F84A012F842BD100BE8F8D /* DependencyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyContainer.swift; sourceTree = "<group>"; };
+		A8F84A022F842BD100BE8F8D /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		A8F84A032F842BD100BE8F8D /* VerseDailyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerseDailyApp.swift; sourceTree = "<group>"; };
+		A8F84A052F842BD100BE8F8D /* BibleUseCases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleUseCases.swift; sourceTree = "<group>"; };
+		A8F84A072F842BD100BE8F8D /* BibleRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleRepositoryProtocol.swift; sourceTree = "<group>"; };
+		A8F84A092F842BD100BE8F8D /* BibleBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleBook.swift; sourceTree = "<group>"; };
+		A8F84A0C2F842BD100BE8F8D /* BibleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleViewModel.swift; sourceTree = "<group>"; };
+		A8F84A0E2F842BD100BE8F8D /* BibleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleView.swift; sourceTree = "<group>"; };
+		A8F84A0F2F842BD100BE8F8D /* BookSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSelectionView.swift; sourceTree = "<group>"; };
+		A8F84A102F842BD100BE8F8D /* ChapterSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterSelectionView.swift; sourceTree = "<group>"; };
+		A8F84A112F842BD100BE8F8D /* VerseListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerseListView.swift; sourceTree = "<group>"; };
+		A8F84A162F842BD100BE8F8D /* DevotionalDTOs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevotionalDTOs.swift; sourceTree = "<group>"; };
+		A8F84A182F842BD100BE8F8D /* GetDailyVerseUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDailyVerseUseCase.swift; sourceTree = "<group>"; };
+		A8F84A192F842BD100BE8F8D /* GetDevotionalsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDevotionalsUseCase.swift; sourceTree = "<group>"; };
+		A8F84A1C2F842BD100BE8F8D /* Devotional.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Devotional.swift; sourceTree = "<group>"; };
+		A8F84A1D2F842BD100BE8F8D /* Verse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Verse.swift; sourceTree = "<group>"; };
+		A8F84A1F2F842BD100BE8F8D /* DevotionalRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevotionalRepositoryProtocol.swift; sourceTree = "<group>"; };
+		A8F84A242F842BD100BE8F8D /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		A8F84A252F842BD100BE8F8D /* SavedVersesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedVersesViewModel.swift; sourceTree = "<group>"; };
+		A8F84A272F842BD100BE8F8D /* VerseCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerseCardView.swift; sourceTree = "<group>"; };
+		A8F84A292F842BD100BE8F8D /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		A8F84A2A2F842BD100BE8F8D /* SavedVersesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedVersesView.swift; sourceTree = "<group>"; };
+		A8F84A312F842BD100BE8F8D /* TodayLiturgicalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayLiturgicalView.swift; sourceTree = "<group>"; };
+		A8F84A332F842BD100BE8F8D /* MonetizationUseCases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonetizationUseCases.swift; sourceTree = "<group>"; };
+		A8F84A352F842BD100BE8F8D /* MonetizationRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonetizationRepositoryProtocol.swift; sourceTree = "<group>"; };
+		A8F84A372F842BD100BE8F8D /* SubscriptionPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionPlan.swift; sourceTree = "<group>"; };
+		A8F84A3A2F842BD100BE8F8D /* MonetizationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonetizationViewModel.swift; sourceTree = "<group>"; };
+		A8F84A3C2F842BD100BE8F8D /* SubscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionView.swift; sourceTree = "<group>"; };
+		A8F84A412F842BD100BE8F8D /* PrayerEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrayerEditorView.swift; sourceTree = "<group>"; };
+		A8F84A422F842BD100BE8F8D /* PrayerListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrayerListView.swift; sourceTree = "<group>"; };
+		A8F84A442F842BD100BE8F8D /* UserUseCases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserUseCases.swift; sourceTree = "<group>"; };
+		A8F84A462F842BD100BE8F8D /* UserRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepositoryProtocol.swift; sourceTree = "<group>"; };
+		A8F84A482F842BD100BE8F8D /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
+		A8F84A4B2F842BD100BE8F8D /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		A8F84A4D2F842BD100BE8F8D /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		A8F84A532F842BD100BE8F8D /* MockBibleRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockBibleRepository.swift; sourceTree = "<group>"; };
+		A8F84A542F842BD100BE8F8D /* MockDevotionalRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDevotionalRepository.swift; sourceTree = "<group>"; };
+		A8F84A552F842BD100BE8F8D /* MockFavoritesRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFavoritesRepository.swift; sourceTree = "<group>"; };
+		A8F84A562F842BD100BE8F8D /* MockMonetizationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMonetizationRepository.swift; sourceTree = "<group>"; };
+		A8F84A572F842BD100BE8F8D /* MockUserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUserRepository.swift; sourceTree = "<group>"; };
+		A8F84A5B2F842BD100BE8F8D /* DevotionalIntegrationImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevotionalIntegrationImpl.swift; sourceTree = "<group>"; };
+		A8F84A5C2F842BD100BE8F8D /* MonetizationIntegrationImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonetizationIntegrationImpl.swift; sourceTree = "<group>"; };
+		A8F84A5D2F842BD100BE8F8D /* UserIntegrationImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserIntegrationImpl.swift; sourceTree = "<group>"; };
+		A8F84A5F2F842BD100BE8F8D /* DevotionalIntegration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevotionalIntegration.swift; sourceTree = "<group>"; };
+		A8F84A602F842BD100BE8F8D /* MonetizationIntegration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonetizationIntegration.swift; sourceTree = "<group>"; };
+		A8F84A612F842BD100BE8F8D /* UserIntegration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserIntegration.swift; sourceTree = "<group>"; };
+		A8F84A652F842BD100BE8F8D /* FavoriteUseCases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteUseCases.swift; sourceTree = "<group>"; };
+		A8F84A682F842BD100BE8F8D /* DomainError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainError.swift; sourceTree = "<group>"; };
+		A8F84A6A2F842BD100BE8F8D /* DomainEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainEvent.swift; sourceTree = "<group>"; };
+		A8F84A6C2F842BD100BE8F8D /* FavoritesRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesRepositoryProtocol.swift; sourceTree = "<group>"; };
+		A8F84A6E2F842BD100BE8F8D /* Money.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Money.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		A8F849E12F842AB400BE8F8D /* VerseDailyTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = VerseDailyTests;
+			sourceTree = "<group>";
+		};
+		A8F849EB2F842AB400BE8F8D /* VerseDailyUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = VerseDailyUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A8F849CE2F842AB000BE8F8D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A8F84AA92F842CDE00BE8F8D /* CoreModels in Frameworks */,
+				A8F84AAF2F842D2100BE8F8D /* CoreServices in Frameworks */,
+				A8F84AAC2F842D0100BE8F8D /* CorePersistence in Frameworks */,
+				A8F84AB22F842EF200BE8F8D /* CoreUtils in Frameworks */,
+				A8F84AB52F842EF200BE8F8D /* DesignSystem in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8F849DB2F842AB400BE8F8D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8F849E52F842AB400BE8F8D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A8F849C82F842AB000BE8F8D = {
+			isa = PBXGroup;
+			children = (
+				A8F849E12F842AB400BE8F8D /* VerseDailyTests */,
+				A8F849EB2F842AB400BE8F8D /* VerseDailyUITests */,
+				A8F849D22F842AB000BE8F8D /* Products */,
+				A8F84A042F842BD100BE8F8D /* App */,
+				A8F84A522F842BD100BE8F8D /* Features */,
+				A8F84A592F842BD100BE8F8D /* Infrastructure */,
+				A8F84A632F842BD100BE8F8D /* Integration */,
+				A8F84A732F842BD100BE8F8D /* SharedKernel */,
+			);
+			sourceTree = "<group>";
+		};
+		A8F849D22F842AB000BE8F8D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A8F849D12F842AB000BE8F8D /* VerseDaily.app */,
+				A8F849DE2F842AB400BE8F8D /* VerseDailyTests.xctest */,
+				A8F849E82F842AB400BE8F8D /* VerseDailyUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A8F84A042F842BD100BE8F8D /* App */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A012F842BD100BE8F8D /* DependencyContainer.swift */,
+				A8F84A022F842BD100BE8F8D /* MainTabView.swift */,
+				A8F84A032F842BD100BE8F8D /* VerseDailyApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		A8F84A062F842BD100BE8F8D /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A052F842BD100BE8F8D /* BibleUseCases.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		A8F84A082F842BD100BE8F8D /* Interfaces */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A072F842BD100BE8F8D /* BibleRepositoryProtocol.swift */,
+			);
+			path = Interfaces;
+			sourceTree = "<group>";
+		};
+		A8F84A0A2F842BD100BE8F8D /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A082F842BD100BE8F8D /* Interfaces */,
+				A8F84A092F842BD100BE8F8D /* BibleBook.swift */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		A8F84A0B2F842BD100BE8F8D /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Infrastructure;
+			sourceTree = "<group>";
+		};
+		A8F84A0D2F842BD100BE8F8D /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A0C2F842BD100BE8F8D /* BibleViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		A8F84A122F842BD100BE8F8D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A0E2F842BD100BE8F8D /* BibleView.swift */,
+				A8F84A0F2F842BD100BE8F8D /* BookSelectionView.swift */,
+				A8F84A102F842BD100BE8F8D /* ChapterSelectionView.swift */,
+				A8F84A112F842BD100BE8F8D /* VerseListView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A8F84A132F842BD100BE8F8D /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A0D2F842BD100BE8F8D /* ViewModels */,
+				A8F84A122F842BD100BE8F8D /* Views */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		A8F84A142F842BD100BE8F8D /* UI */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		A8F84A152F842BD100BE8F8D /* Bible */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A062F842BD100BE8F8D /* Application */,
+				A8F84A0A2F842BD100BE8F8D /* Domain */,
+				A8F84A0B2F842BD100BE8F8D /* Infrastructure */,
+				A8F84A132F842BD100BE8F8D /* Presentation */,
+				A8F84A142F842BD100BE8F8D /* UI */,
+			);
+			path = Bible;
+			sourceTree = "<group>";
+		};
+		A8F84A172F842BD100BE8F8D /* DTOs */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A162F842BD100BE8F8D /* DevotionalDTOs.swift */,
+			);
+			path = DTOs;
+			sourceTree = "<group>";
+		};
+		A8F84A1A2F842BD100BE8F8D /* UseCases */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A182F842BD100BE8F8D /* GetDailyVerseUseCase.swift */,
+				A8F84A192F842BD100BE8F8D /* GetDevotionalsUseCase.swift */,
+			);
+			path = UseCases;
+			sourceTree = "<group>";
+		};
+		A8F84A1B2F842BD100BE8F8D /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A172F842BD100BE8F8D /* DTOs */,
+				A8F84A1A2F842BD100BE8F8D /* UseCases */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		A8F84A1E2F842BD100BE8F8D /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A1C2F842BD100BE8F8D /* Devotional.swift */,
+				A8F84A1D2F842BD100BE8F8D /* Verse.swift */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		A8F84A202F842BD100BE8F8D /* Interfaces */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A1F2F842BD100BE8F8D /* DevotionalRepositoryProtocol.swift */,
+			);
+			path = Interfaces;
+			sourceTree = "<group>";
+		};
+		A8F84A212F842BD100BE8F8D /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A1E2F842BD100BE8F8D /* Entities */,
+				A8F84A202F842BD100BE8F8D /* Interfaces */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		A8F84A222F842BD100BE8F8D /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		A8F84A232F842BD100BE8F8D /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A222F842BD100BE8F8D /* Repositories */,
+			);
+			path = Infrastructure;
+			sourceTree = "<group>";
+		};
+		A8F84A262F842BD100BE8F8D /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A242F842BD100BE8F8D /* HomeViewModel.swift */,
+				A8F84A252F842BD100BE8F8D /* SavedVersesViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		A8F84A282F842BD100BE8F8D /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A272F842BD100BE8F8D /* VerseCardView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		A8F84A2B2F842BD100BE8F8D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A282F842BD100BE8F8D /* Components */,
+				A8F84A292F842BD100BE8F8D /* HomeView.swift */,
+				A8F84A2A2F842BD100BE8F8D /* SavedVersesView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A8F84A2C2F842BD100BE8F8D /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A262F842BD100BE8F8D /* ViewModels */,
+				A8F84A2B2F842BD100BE8F8D /* Views */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		A8F84A2D2F842BD100BE8F8D /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		A8F84A2E2F842BD100BE8F8D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A8F84A2F2F842BD100BE8F8D /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A2D2F842BD100BE8F8D /* ViewModels */,
+				A8F84A2E2F842BD100BE8F8D /* Views */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		A8F84A302F842BD100BE8F8D /* Devotional */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A1B2F842BD100BE8F8D /* Application */,
+				A8F84A212F842BD100BE8F8D /* Domain */,
+				A8F84A232F842BD100BE8F8D /* Infrastructure */,
+				A8F84A2C2F842BD100BE8F8D /* Presentation */,
+				A8F84A2F2F842BD100BE8F8D /* UI */,
+			);
+			path = Devotional;
+			sourceTree = "<group>";
+		};
+		A8F84A322F842BD100BE8F8D /* Liturgical */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A312F842BD100BE8F8D /* TodayLiturgicalView.swift */,
+			);
+			path = Liturgical;
+			sourceTree = "<group>";
+		};
+		A8F84A342F842BD100BE8F8D /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A332F842BD100BE8F8D /* MonetizationUseCases.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		A8F84A362F842BD100BE8F8D /* Interfaces */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A352F842BD100BE8F8D /* MonetizationRepositoryProtocol.swift */,
+			);
+			path = Interfaces;
+			sourceTree = "<group>";
+		};
+		A8F84A382F842BD100BE8F8D /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A362F842BD100BE8F8D /* Interfaces */,
+				A8F84A372F842BD100BE8F8D /* SubscriptionPlan.swift */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		A8F84A392F842BD100BE8F8D /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Infrastructure;
+			sourceTree = "<group>";
+		};
+		A8F84A3B2F842BD100BE8F8D /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A3A2F842BD100BE8F8D /* MonetizationViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		A8F84A3D2F842BD100BE8F8D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A3C2F842BD100BE8F8D /* SubscriptionView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A8F84A3E2F842BD100BE8F8D /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A3B2F842BD100BE8F8D /* ViewModels */,
+				A8F84A3D2F842BD100BE8F8D /* Views */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		A8F84A3F2F842BD100BE8F8D /* UI */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		A8F84A402F842BD100BE8F8D /* Monetization */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A342F842BD100BE8F8D /* Application */,
+				A8F84A382F842BD100BE8F8D /* Domain */,
+				A8F84A392F842BD100BE8F8D /* Infrastructure */,
+				A8F84A3E2F842BD100BE8F8D /* Presentation */,
+				A8F84A3F2F842BD100BE8F8D /* UI */,
+			);
+			path = Monetization;
+			sourceTree = "<group>";
+		};
+		A8F84A432F842BD100BE8F8D /* Prayer */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A412F842BD100BE8F8D /* PrayerEditorView.swift */,
+				A8F84A422F842BD100BE8F8D /* PrayerListView.swift */,
+			);
+			path = Prayer;
+			sourceTree = "<group>";
+		};
+		A8F84A452F842BD100BE8F8D /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A442F842BD100BE8F8D /* UserUseCases.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		A8F84A472F842BD100BE8F8D /* Interfaces */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A462F842BD100BE8F8D /* UserRepositoryProtocol.swift */,
+			);
+			path = Interfaces;
+			sourceTree = "<group>";
+		};
+		A8F84A492F842BD100BE8F8D /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A472F842BD100BE8F8D /* Interfaces */,
+				A8F84A482F842BD100BE8F8D /* UserSettings.swift */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		A8F84A4A2F842BD100BE8F8D /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Infrastructure;
+			sourceTree = "<group>";
+		};
+		A8F84A4C2F842BD100BE8F8D /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A4B2F842BD100BE8F8D /* SettingsViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		A8F84A4E2F842BD100BE8F8D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A4D2F842BD100BE8F8D /* SettingsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A8F84A4F2F842BD100BE8F8D /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A4C2F842BD100BE8F8D /* ViewModels */,
+				A8F84A4E2F842BD100BE8F8D /* Views */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		A8F84A502F842BD100BE8F8D /* UI */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		A8F84A512F842BD100BE8F8D /* User */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A452F842BD100BE8F8D /* Application */,
+				A8F84A492F842BD100BE8F8D /* Domain */,
+				A8F84A4A2F842BD100BE8F8D /* Infrastructure */,
+				A8F84A4F2F842BD100BE8F8D /* Presentation */,
+				A8F84A502F842BD100BE8F8D /* UI */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		A8F84A522F842BD100BE8F8D /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A152F842BD100BE8F8D /* Bible */,
+				A8F84A302F842BD100BE8F8D /* Devotional */,
+				A8F84A322F842BD100BE8F8D /* Liturgical */,
+				A8F84A402F842BD100BE8F8D /* Monetization */,
+				A8F84A432F842BD100BE8F8D /* Prayer */,
+				A8F84A512F842BD100BE8F8D /* User */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		A8F84A582F842BD100BE8F8D /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A532F842BD100BE8F8D /* MockBibleRepository.swift */,
+				A8F84A542F842BD100BE8F8D /* MockDevotionalRepository.swift */,
+				A8F84A552F842BD100BE8F8D /* MockFavoritesRepository.swift */,
+				A8F84A562F842BD100BE8F8D /* MockMonetizationRepository.swift */,
+				A8F84A572F842BD100BE8F8D /* MockUserRepository.swift */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
+		A8F84A592F842BD100BE8F8D /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A582F842BD100BE8F8D /* Mocks */,
+			);
+			path = Infrastructure;
+			sourceTree = "<group>";
+		};
+		A8F84A5A2F842BD100BE8F8D /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Errors;
+			sourceTree = "<group>";
+		};
+		A8F84A5E2F842BD100BE8F8D /* Implementations */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A5B2F842BD100BE8F8D /* DevotionalIntegrationImpl.swift */,
+				A8F84A5C2F842BD100BE8F8D /* MonetizationIntegrationImpl.swift */,
+				A8F84A5D2F842BD100BE8F8D /* UserIntegrationImpl.swift */,
+			);
+			path = Implementations;
+			sourceTree = "<group>";
+		};
+		A8F84A622F842BD100BE8F8D /* Interfaces */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A5F2F842BD100BE8F8D /* DevotionalIntegration.swift */,
+				A8F84A602F842BD100BE8F8D /* MonetizationIntegration.swift */,
+				A8F84A612F842BD100BE8F8D /* UserIntegration.swift */,
+			);
+			path = Interfaces;
+			sourceTree = "<group>";
+		};
+		A8F84A632F842BD100BE8F8D /* Integration */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A5A2F842BD100BE8F8D /* Errors */,
+				A8F84A5E2F842BD100BE8F8D /* Implementations */,
+				A8F84A622F842BD100BE8F8D /* Interfaces */,
+			);
+			path = Integration;
+			sourceTree = "<group>";
+		};
+		A8F84A642F842BD100BE8F8D /* Interfaces */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Interfaces;
+			sourceTree = "<group>";
+		};
+		A8F84A662F842BD100BE8F8D /* UseCases */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A652F842BD100BE8F8D /* FavoriteUseCases.swift */,
+			);
+			path = UseCases;
+			sourceTree = "<group>";
+		};
+		A8F84A672F842BD100BE8F8D /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A642F842BD100BE8F8D /* Interfaces */,
+				A8F84A662F842BD100BE8F8D /* UseCases */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		A8F84A692F842BD100BE8F8D /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A682F842BD100BE8F8D /* DomainError.swift */,
+			);
+			path = Errors;
+			sourceTree = "<group>";
+		};
+		A8F84A6B2F842BD100BE8F8D /* Events */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A6A2F842BD100BE8F8D /* DomainEvent.swift */,
+			);
+			path = Events;
+			sourceTree = "<group>";
+		};
+		A8F84A6D2F842BD100BE8F8D /* Interfaces */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A6C2F842BD100BE8F8D /* FavoritesRepositoryProtocol.swift */,
+			);
+			path = Interfaces;
+			sourceTree = "<group>";
+		};
+		A8F84A6F2F842BD100BE8F8D /* ValueObjects */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A6E2F842BD100BE8F8D /* Money.swift */,
+			);
+			path = ValueObjects;
+			sourceTree = "<group>";
+		};
+		A8F84A702F842BD100BE8F8D /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A692F842BD100BE8F8D /* Errors */,
+				A8F84A6B2F842BD100BE8F8D /* Events */,
+				A8F84A6D2F842BD100BE8F8D /* Interfaces */,
+				A8F84A6F2F842BD100BE8F8D /* ValueObjects */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		A8F84A712F842BD100BE8F8D /* DesignSystem */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = DesignSystem;
+			sourceTree = "<group>";
+		};
+		A8F84A722F842BD100BE8F8D /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A712F842BD100BE8F8D /* DesignSystem */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		A8F84A732F842BD100BE8F8D /* SharedKernel */ = {
+			isa = PBXGroup;
+			children = (
+				A8F84A672F842BD100BE8F8D /* Application */,
+				A8F84A702F842BD100BE8F8D /* Domain */,
+				A8F84A722F842BD100BE8F8D /* Presentation */,
+			);
+			path = SharedKernel;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A8F849D02F842AB000BE8F8D /* VerseDaily */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A8F849F22F842AB400BE8F8D /* Build configuration list for PBXNativeTarget "VerseDaily" */;
+			buildPhases = (
+				A8F849CD2F842AB000BE8F8D /* Sources */,
+				A8F849CE2F842AB000BE8F8D /* Frameworks */,
+				A8F849CF2F842AB000BE8F8D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = VerseDaily;
+			packageProductDependencies = (
+				A8F84AA82F842CDE00BE8F8D /* CoreModels */,
+				A8F84AAB2F842D0100BE8F8D /* CorePersistence */,
+				A8F84AAE2F842D2100BE8F8D /* CoreServices */,
+				A8F84AB12F842EF200BE8F8D /* CoreUtils */,
+				A8F84AB42F842EF200BE8F8D /* DesignSystem */,
+			);
+			productName = VerseDaily;
+			productReference = A8F849D12F842AB000BE8F8D /* VerseDaily.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A8F849DD2F842AB400BE8F8D /* VerseDailyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A8F849F52F842AB400BE8F8D /* Build configuration list for PBXNativeTarget "VerseDailyTests" */;
+			buildPhases = (
+				A8F849DA2F842AB400BE8F8D /* Sources */,
+				A8F849DB2F842AB400BE8F8D /* Frameworks */,
+				A8F849DC2F842AB400BE8F8D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A8F849E02F842AB400BE8F8D /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				A8F849E12F842AB400BE8F8D /* VerseDailyTests */,
+			);
+			name = VerseDailyTests;
+			packageProductDependencies = (
+			);
+			productName = VerseDailyTests;
+			productReference = A8F849DE2F842AB400BE8F8D /* VerseDailyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		A8F849E72F842AB400BE8F8D /* VerseDailyUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A8F849F82F842AB400BE8F8D /* Build configuration list for PBXNativeTarget "VerseDailyUITests" */;
+			buildPhases = (
+				A8F849E42F842AB400BE8F8D /* Sources */,
+				A8F849E52F842AB400BE8F8D /* Frameworks */,
+				A8F849E62F842AB400BE8F8D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A8F849EA2F842AB400BE8F8D /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				A8F849EB2F842AB400BE8F8D /* VerseDailyUITests */,
+			);
+			name = VerseDailyUITests;
+			packageProductDependencies = (
+			);
+			productName = VerseDailyUITests;
+			productReference = A8F849E82F842AB400BE8F8D /* VerseDailyUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A8F849C92F842AB000BE8F8D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2640;
+				LastUpgradeCheck = 2640;
+				TargetAttributes = {
+					A8F849D02F842AB000BE8F8D = {
+						CreatedOnToolsVersion = 26.4;
+					};
+					A8F849DD2F842AB400BE8F8D = {
+						CreatedOnToolsVersion = 26.4;
+						TestTargetID = A8F849D02F842AB000BE8F8D;
+					};
+					A8F849E72F842AB400BE8F8D = {
+						CreatedOnToolsVersion = 26.4;
+						TestTargetID = A8F849D02F842AB000BE8F8D;
+					};
+				};
+			};
+			buildConfigurationList = A8F849CC2F842AB000BE8F8D /* Build configuration list for PBXProject "VerseDaily" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A8F849C82F842AB000BE8F8D;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				A8F84AA72F842CDE00BE8F8D /* XCLocalSwiftPackageReference "LocalPackages/CoreModels" */,
+				A8F84AAA2F842D0100BE8F8D /* XCLocalSwiftPackageReference "LocalPackages/CorePersistence" */,
+				A8F84AAD2F842D2100BE8F8D /* XCLocalSwiftPackageReference "LocalPackages/CoreServices" */,
+				A8F84AB02F842EF200BE8F8D /* XCLocalSwiftPackageReference "LocalPackages/CoreUtils" */,
+				A8F84AB32F842EF200BE8F8D /* XCLocalSwiftPackageReference "LocalPackages/DesignSystem" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = A8F849D22F842AB000BE8F8D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A8F849D02F842AB000BE8F8D /* VerseDaily */,
+				A8F849DD2F842AB400BE8F8D /* VerseDailyTests */,
+				A8F849E72F842AB400BE8F8D /* VerseDailyUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A8F849CF2F842AB000BE8F8D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8F849DC2F842AB400BE8F8D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8F849E62F842AB400BE8F8D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A8F849CD2F842AB000BE8F8D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A8F84A742F842BD100BE8F8D /* BibleViewModel.swift in Sources */,
+				A8F84A752F842BD100BE8F8D /* TodayLiturgicalView.swift in Sources */,
+				A8F84A762F842BD100BE8F8D /* Verse.swift in Sources */,
+				A8F84A772F842BD100BE8F8D /* MockUserRepository.swift in Sources */,
+				A8F84A782F842BD100BE8F8D /* GetDevotionalsUseCase.swift in Sources */,
+				A8F84A792F842BD100BE8F8D /* SubscriptionPlan.swift in Sources */,
+				A8F84A7A2F842BD100BE8F8D /* Money.swift in Sources */,
+				A8F84A7B2F842BD100BE8F8D /* SavedVersesView.swift in Sources */,
+				A8F84A7C2F842BD100BE8F8D /* MockFavoritesRepository.swift in Sources */,
+				A8F84A7D2F842BD100BE8F8D /* SettingsViewModel.swift in Sources */,
+				A8F84A7E2F842BD100BE8F8D /* BibleView.swift in Sources */,
+				A8F84A7F2F842BD100BE8F8D /* BibleRepositoryProtocol.swift in Sources */,
+				A8F84A802F842BD100BE8F8D /* MonetizationIntegration.swift in Sources */,
+				A8F84A812F842BD100BE8F8D /* VerseCardView.swift in Sources */,
+				A8F84A822F842BD100BE8F8D /* DevotionalRepositoryProtocol.swift in Sources */,
+				A8F84A832F842BD100BE8F8D /* PrayerEditorView.swift in Sources */,
+				A8F84A842F842BD100BE8F8D /* DevotionalDTOs.swift in Sources */,
+				A8F84A852F842BD100BE8F8D /* MockBibleRepository.swift in Sources */,
+				A8F84A862F842BD100BE8F8D /* MonetizationViewModel.swift in Sources */,
+				A8F84A872F842BD100BE8F8D /* FavoritesRepositoryProtocol.swift in Sources */,
+				A8F84A882F842BD100BE8F8D /* DependencyContainer.swift in Sources */,
+				A8F84A892F842BD100BE8F8D /* UserSettings.swift in Sources */,
+				A8F84A8A2F842BD100BE8F8D /* UserIntegration.swift in Sources */,
+				A8F84A8B2F842BD100BE8F8D /* UserRepositoryProtocol.swift in Sources */,
+				A8F84A8C2F842BD100BE8F8D /* MonetizationUseCases.swift in Sources */,
+				A8F84A8D2F842BD100BE8F8D /* SubscriptionView.swift in Sources */,
+				A8F84A8E2F842BD100BE8F8D /* VerseDailyApp.swift in Sources */,
+				A8F84A8F2F842BD100BE8F8D /* DomainError.swift in Sources */,
+				A8F84A902F842BD100BE8F8D /* VerseListView.swift in Sources */,
+				A8F84A912F842BD100BE8F8D /* MonetizationIntegrationImpl.swift in Sources */,
+				A8F84A922F842BD100BE8F8D /* GetDailyVerseUseCase.swift in Sources */,
+				A8F84A932F842BD100BE8F8D /* PrayerListView.swift in Sources */,
+				A8F84A942F842BD100BE8F8D /* MonetizationRepositoryProtocol.swift in Sources */,
+				A8F84A952F842BD100BE8F8D /* DomainEvent.swift in Sources */,
+				A8F84A962F842BD100BE8F8D /* DevotionalIntegrationImpl.swift in Sources */,
+				A8F84A972F842BD100BE8F8D /* BookSelectionView.swift in Sources */,
+				A8F84A982F842BD100BE8F8D /* BibleBook.swift in Sources */,
+				A8F84A992F842BD100BE8F8D /* MockDevotionalRepository.swift in Sources */,
+				A8F84A9A2F842BD100BE8F8D /* FavoriteUseCases.swift in Sources */,
+				A8F84A9B2F842BD100BE8F8D /* ChapterSelectionView.swift in Sources */,
+				A8F84A9C2F842BD100BE8F8D /* MockMonetizationRepository.swift in Sources */,
+				A8F84A9D2F842BD100BE8F8D /* UserIntegrationImpl.swift in Sources */,
+				A8F84A9E2F842BD100BE8F8D /* MainTabView.swift in Sources */,
+				A8F84A9F2F842BD100BE8F8D /* SettingsView.swift in Sources */,
+				A8F84AA02F842BD100BE8F8D /* HomeView.swift in Sources */,
+				A8F84AA12F842BD100BE8F8D /* HomeViewModel.swift in Sources */,
+				A8F84AA22F842BD100BE8F8D /* BibleUseCases.swift in Sources */,
+				A8F84AA32F842BD100BE8F8D /* UserUseCases.swift in Sources */,
+				A8F84AA42F842BD100BE8F8D /* Devotional.swift in Sources */,
+				A8F84AA52F842BD100BE8F8D /* SavedVersesViewModel.swift in Sources */,
+				A8F84AA62F842BD100BE8F8D /* DevotionalIntegration.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8F849DA2F842AB400BE8F8D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8F849E42F842AB400BE8F8D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A8F849E02F842AB400BE8F8D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A8F849D02F842AB000BE8F8D /* VerseDaily */;
+			targetProxy = A8F849DF2F842AB400BE8F8D /* PBXContainerItemProxy */;
+		};
+		A8F849EA2F842AB400BE8F8D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A8F849D02F842AB000BE8F8D /* VerseDaily */;
+			targetProxy = A8F849E92F842AB400BE8F8D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		A8F849F02F842AB400BE8F8D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = U262V5UXV9;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A8F849F12F842AB400BE8F8D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = U262V5UXV9;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A8F849F32F842AB400BE8F8D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = U262V5UXV9;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leadtech.versedaily.VerseDaily;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A8F849F42F842AB400BE8F8D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = U262V5UXV9;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leadtech.versedaily.VerseDaily;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		A8F849F62F842AB400BE8F8D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = U262V5UXV9;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leadtech.versedaily.VerseDailyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VerseDaily.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/VerseDaily";
+			};
+			name = Debug;
+		};
+		A8F849F72F842AB400BE8F8D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = U262V5UXV9;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leadtech.versedaily.VerseDailyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VerseDaily.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/VerseDaily";
+			};
+			name = Release;
+		};
+		A8F849F92F842AB400BE8F8D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = U262V5UXV9;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leadtech.versedaily.VerseDailyUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = VerseDaily;
+			};
+			name = Debug;
+		};
+		A8F849FA2F842AB400BE8F8D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = U262V5UXV9;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.leadtech.versedaily.VerseDailyUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = VerseDaily;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A8F849CC2F842AB000BE8F8D /* Build configuration list for PBXProject "VerseDaily" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A8F849F02F842AB400BE8F8D /* Debug */,
+				A8F849F12F842AB400BE8F8D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A8F849F22F842AB400BE8F8D /* Build configuration list for PBXNativeTarget "VerseDaily" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A8F849F32F842AB400BE8F8D /* Debug */,
+				A8F849F42F842AB400BE8F8D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A8F849F52F842AB400BE8F8D /* Build configuration list for PBXNativeTarget "VerseDailyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A8F849F62F842AB400BE8F8D /* Debug */,
+				A8F849F72F842AB400BE8F8D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A8F849F82F842AB400BE8F8D /* Build configuration list for PBXNativeTarget "VerseDailyUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A8F849F92F842AB400BE8F8D /* Debug */,
+				A8F849FA2F842AB400BE8F8D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		A8F84AA72F842CDE00BE8F8D /* XCLocalSwiftPackageReference "LocalPackages/CoreModels" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = LocalPackages/CoreModels;
+		};
+		A8F84AAA2F842D0100BE8F8D /* XCLocalSwiftPackageReference "LocalPackages/CorePersistence" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = LocalPackages/CorePersistence;
+		};
+		A8F84AAD2F842D2100BE8F8D /* XCLocalSwiftPackageReference "LocalPackages/CoreServices" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = LocalPackages/CoreServices;
+		};
+		A8F84AB02F842EF200BE8F8D /* XCLocalSwiftPackageReference "LocalPackages/CoreUtils" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = LocalPackages/CoreUtils;
+		};
+		A8F84AB32F842EF200BE8F8D /* XCLocalSwiftPackageReference "LocalPackages/DesignSystem" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = LocalPackages/DesignSystem;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A8F84AA82F842CDE00BE8F8D /* CoreModels */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CoreModels;
+		};
+		A8F84AAB2F842D0100BE8F8D /* CorePersistence */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CorePersistence;
+		};
+		A8F84AAE2F842D2100BE8F8D /* CoreServices */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CoreServices;
+		};
+		A8F84AB12F842EF200BE8F8D /* CoreUtils */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CoreUtils;
+		};
+		A8F84AB42F842EF200BE8F8D /* DesignSystem */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DesignSystem;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = A8F849C92F842AB000BE8F8D /* Project object */;
+}

@@ -1,0 +1,101 @@
+/* Onboarding - Step Titles */
+"onboarding.profileInfo.title" = "Tu Perfil";
+"onboarding.religiousPreferences.title" = "Preferencias Religiosas";
+"onboarding.themeLanguage.title" = "Tema e Idioma";
+"onboarding.notificationsGoal.title" = "Notificaciones & Objetivo";
+"onboarding.summary.title" = "Resumen";
+
+/* Onboarding - Profile Info */
+"onboarding.profileInfo.nameLabel" = "Nombre";
+"onboarding.profileInfo.emailLabel" = "Email";
+"onboarding.profileInfo.ageRangeLabel" = "Rango de edad";
+"onboarding.profileInfo.genderLabel" = "Género";
+
+/* Onboarding - Religious Preferences */
+"onboarding.religiousPreferences.churchLabel" = "Iglesia (opcional)";
+"onboarding.religiousPreferences.bibleVersionLabel" = "Versión de la Biblia";
+"onboarding.religiousPreferences.readingPreferencesLabel" = "Preferencias de lectura";
+
+/* Onboarding - Theme & Language */
+"onboarding.themeLanguage.themeTitle" = "Tema";
+"onboarding.themeLanguage.themeLabel" = "Selecciona un tema";
+"onboarding.themeLanguage.textSizeTitle" = "Tamaño de texto";
+"onboarding.themeLanguage.textSizeLabel" = "Selecciona el tamaño";
+"onboarding.themeLanguage.languageTitle" = "Idioma";
+"onboarding.themeLanguage.languageLabel" = "Selecciona el idioma";
+
+/* Onboarding - Notifications */
+"onboarding.notifications.toggleLabel" = "Habilitar notificaciones";
+"onboarding.notifications.timeLabel" = "Hora de notificación";
+"onboarding.notifications.timePickerLabel" = "Selecciona la hora";
+"onboarding.notifications.readingGoalLabel" = "Objetivo de lectura";
+"onboarding.notifications.readingGoalNone" = "No seleccionado";
+"onboarding.notifications.enabledValue" = "Habilitadas";
+"onboarding.notifications.disabledValue" = "Deshabilitadas";
+
+/* Onboarding - Buttons */
+"onboarding.button.complete" = "Completar";
+"onboarding.button.skip" = "Saltar";
+"onboarding.button.next" = "Siguiente";
+"onboarding.button.back" = "Atrás";
+
+/* Onboarding - Generic */
+"onboarding.placeholder.select" = "Seleccionar...";
+"onboarding.label.optional" = "opcional";
+
+/* Enums - Age Range */
+"enum.ageRange.teen" = "13-17";
+"enum.ageRange.youngAdult" = "18-25";
+"enum.ageRange.adult" = "26-35";
+"enum.ageRange.middleAge" = "36-50";
+"enum.ageRange.mature" = "51-65";
+"enum.ageRange.senior" = "66+";
+
+/* Enums - Gender */
+"enum.gender.male" = "Masculino";
+"enum.gender.female" = "Femenino";
+"enum.gender.other" = "Otro";
+"enum.gender.preferNotToSay" = "Prefiero no decir";
+
+/* Enums - Theme */
+"enum.theme.light" = "Claro";
+"enum.theme.dark" = "Oscuro";
+"enum.theme.system" = "Sistema";
+
+/* Enums - Text Size */
+"enum.textSize.small" = "Pequeño";
+"enum.textSize.normal" = "Normal";
+"enum.textSize.large" = "Grande";
+
+/* Enums - Language */
+"enum.language.spanish" = "Español";
+"enum.language.english" = "English";
+"enum.language.portuguese" = "Português";
+
+/* Enums - Reading Goal */
+"enum.readingGoal.casual" = "Casual";
+"enum.readingGoal.regular" = "Regular";
+"enum.readingGoal.dedicated" = "Dedicado";
+"enum.readingGoal.intensive" = "Intensivo";
+"enum.readingGoal.casual.description" = "Leer ocasionalmente";
+"enum.readingGoal.regular.description" = "Leer varios días a la semana";
+"enum.readingGoal.dedicated.description" = "Leer diariamente";
+"enum.readingGoal.intensive.description" = "Leer múltiples veces al día";
+
+/* Enums - Reading Preference */
+"enum.readingPreference.continuous" = "Lectura continua";
+"enum.readingPreference.thematic" = "Lecturas temáticas";
+"enum.readingPreference.psalms" = "Salmos";
+"enum.readingPreference.gospels" = "Evangelios";
+"enum.readingPreference.epistles" = "Epístolas";
+
+/* Validation Errors */
+"validation.error.nameRequired" = "El nombre es requerido";
+"validation.error.invalidEmail" = "El email no es válido";
+"validation.error.ageRangeRequired" = "Por favor selecciona un rango de edad";
+"validation.error.genderRequired" = "Por favor selecciona un género";
+"validation.error.readingPreferencesRequired" = "Por favor selecciona al menos un tipo de lectura";
+
+/* Onboarding Errors */
+"onboarding.error.persistenceFailed" = "No se pudo guardar: %@";
+"onboarding.error.unknown" = "Algo salió mal. Por favor intenta de nuevo.";

@@ -1,0 +1,101 @@
+/* Onboarding - Step Titles */
+"onboarding.profileInfo.title" = "Your Profile";
+"onboarding.religiousPreferences.title" = "Religious Preferences";
+"onboarding.themeLanguage.title" = "Theme & Language";
+"onboarding.notificationsGoal.title" = "Notifications & Goal";
+"onboarding.summary.title" = "Summary";
+
+/* Onboarding - Profile Info */
+"onboarding.profileInfo.nameLabel" = "Name";
+"onboarding.profileInfo.emailLabel" = "Email";
+"onboarding.profileInfo.ageRangeLabel" = "Age Range";
+"onboarding.profileInfo.genderLabel" = "Gender";
+
+/* Onboarding - Religious Preferences */
+"onboarding.religiousPreferences.churchLabel" = "Church (optional)";
+"onboarding.religiousPreferences.bibleVersionLabel" = "Bible Version";
+"onboarding.religiousPreferences.readingPreferencesLabel" = "Reading Preferences";
+
+/* Onboarding - Theme & Language */
+"onboarding.themeLanguage.themeTitle" = "Theme";
+"onboarding.themeLanguage.themeLabel" = "Select a theme";
+"onboarding.themeLanguage.textSizeTitle" = "Text Size";
+"onboarding.themeLanguage.textSizeLabel" = "Select text size";
+"onboarding.themeLanguage.languageTitle" = "Language";
+"onboarding.themeLanguage.languageLabel" = "Select language";
+
+/* Onboarding - Notifications */
+"onboarding.notifications.toggleLabel" = "Enable notifications";
+"onboarding.notifications.timeLabel" = "Notification time";
+"onboarding.notifications.timePickerLabel" = "Select time";
+"onboarding.notifications.readingGoalLabel" = "Reading goal";
+"onboarding.notifications.readingGoalNone" = "Not selected";
+"onboarding.notifications.enabledValue" = "Enabled";
+"onboarding.notifications.disabledValue" = "Disabled";
+
+/* Onboarding - Buttons */
+"onboarding.button.complete" = "Complete";
+"onboarding.button.skip" = "Skip";
+"onboarding.button.next" = "Next";
+"onboarding.button.back" = "Back";
+
+/* Onboarding - Generic */
+"onboarding.placeholder.select" = "Select...";
+"onboarding.label.optional" = "optional";
+
+/* Enums - Age Range */
+"enum.ageRange.teen" = "13-17";
+"enum.ageRange.youngAdult" = "18-25";
+"enum.ageRange.adult" = "26-35";
+"enum.ageRange.middleAge" = "36-50";
+"enum.ageRange.mature" = "51-65";
+"enum.ageRange.senior" = "66+";
+
+/* Enums - Gender */
+"enum.gender.male" = "Male";
+"enum.gender.female" = "Female";
+"enum.gender.other" = "Other";
+"enum.gender.preferNotToSay" = "Prefer not to say";
+
+/* Enums - Theme */
+"enum.theme.light" = "Light";
+"enum.theme.dark" = "Dark";
+"enum.theme.system" = "System";
+
+/* Enums - Text Size */
+"enum.textSize.small" = "Small";
+"enum.textSize.normal" = "Normal";
+"enum.textSize.large" = "Large";
+
+/* Enums - Language */
+"enum.language.spanish" = "Español";
+"enum.language.english" = "English";
+"enum.language.portuguese" = "Português";
+
+/* Enums - Reading Goal */
+"enum.readingGoal.casual" = "Casual";
+"enum.readingGoal.regular" = "Regular";
+"enum.readingGoal.dedicated" = "Dedicated";
+"enum.readingGoal.intensive" = "Intensive";
+"enum.readingGoal.casual.description" = "Read occasionally";
+"enum.readingGoal.regular.description" = "Read several days a week";
+"enum.readingGoal.dedicated.description" = "Read daily";
+"enum.readingGoal.intensive.description" = "Read multiple times a day";
+
+/* Enums - Reading Preference */
+"enum.readingPreference.continuous" = "Continuous reading";
+"enum.readingPreference.thematic" = "Thematic readings";
+"enum.readingPreference.psalms" = "Psalms";
+"enum.readingPreference.gospels" = "Gospels";
+"enum.readingPreference.epistles" = "Epistles";
+
+/* Validation Errors */
+"validation.error.nameRequired" = "Name is required";
+"validation.error.invalidEmail" = "Email is invalid";
+"validation.error.ageRangeRequired" = "Please select an age range";
+"validation.error.genderRequired" = "Please select a gender";
+"validation.error.readingPreferencesRequired" = "Please select at least one reading preference";
+
+/* Onboarding Errors */
+"onboarding.error.persistenceFailed" = "Could not save: %@";
+"onboarding.error.unknown" = "Something went wrong. Please try again.";
