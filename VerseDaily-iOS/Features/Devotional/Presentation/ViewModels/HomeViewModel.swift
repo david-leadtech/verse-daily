@@ -19,17 +19,17 @@ public final class HomeViewModel: ObservableObject {
     public func loadData() async {
         isLoading = true
         errorMessage = nil
-        
+
         do {
             async let verseTask = getDailyVerseUseCase.execute()
             async let devotionalsTask = getDevotionalsUseCase.execute()
-            
+
             self.dailyVerse = try await verseTask
             self.devotionals = try await devotionalsTask
         } catch {
-            self.errorMessage = "Failed to load daily content. Please try again."
+            self.errorMessage = error.localizedDescription
         }
-        
+
         isLoading = false
     }
 }

@@ -1,11 +1,14 @@
 import Foundation
 import Combine
 
+// MARK: - Domain & Application imports
+// Note: OnboardingError from Domain, CompleteOnboardingUseCaseProtocol from Application
+
 /// OnboardingViewModel orchestrates the onboarding flow
 /// Axiom: @MainActor for UI state, @Published for updates, error handling complete
 /// Localization: All errors use LocalizationKey (no hardcoded strings)
 @MainActor
-final class OnboardingViewModel: ObservableObject {
+public final class OnboardingViewModel: ObservableObject {
     // MARK: - Published Properties
     @Published var currentStep: OnboardingStep = .profileInfo
     @Published var userData: OnboardingData = OnboardingData()
@@ -38,12 +41,12 @@ final class OnboardingViewModel: ObservableObject {
         }
 
         // Advance to next step
-        let _ = currentStep.nextStep()
+        currentStep = currentStep.nextStep()
     }
 
     func previousStep() {
         validationErrors = []
-        let _ = currentStep.previousStep()
+        currentStep = currentStep.previousStep()
     }
 
     func skipOnboarding() {
@@ -81,30 +84,4 @@ final class OnboardingViewModel: ObservableObject {
             return .success // Summary just displays data
         }
     }
-}
-
-// MARK: - Onboarding Error
-public enum OnboardingError: LocalizedError, Sendable {
-    case invalidName
-    case invalidEmail
-    case persistenceFailed(String)
-    case unknownError
-
-    public var errorDescription: String? {
-        switch self {
-        case .invalidName:
-            return LocalizationKey.validationErrorNameRequired.localized
-        case .invalidEmail:
-            return LocalizationKey.validationErrorInvalidEmail.localized
-        case .persistenceFailed(let msg):
-            return LocalizationKey.onboardingErrorPersistenceFailed.localized(with: msg as CVarArg)
-        case .unknownError:
-            return LocalizationKey.onboardingErrorUnknown.localized
-        }
-    }
-}
-
-// MARK: - Protocols
-public protocol CompleteOnboardingUseCaseProtocol: Sendable {
-    func execute(with settings: UserSettings) async throws
 }

@@ -1,10 +1,12 @@
 import SwiftUI
 import DesignSystem
+import CoreModels
 
 struct SettingsView: View {
     @ObservedObject var viewModel: SettingsViewModel
     @State private var showingSubscription = false
-    
+    @State private var showingOnboarding = false
+
     var body: some View {
         NavigationView {
             ZStack {
@@ -68,10 +70,34 @@ struct SettingsView: View {
                         }
                         .padding(.horizontal, 20)
                         
+                        // Section: Setup
+                        VStack(alignment: .leading, spacing: 10) {
+                            sectionTitle("Setup")
+
+                            VStack(spacing: 0) {
+                                settingRow(
+                                    icon: "gear",
+                                    color: DS.Tokens.Colors.accent,
+                                    label: "Redo Setup",
+                                    description: "Repeat the initial configuration"
+                                ) {
+                                    Button(action: { showingOnboarding = true }) {
+                                        Image(systemName: "chevron.right")
+                                            .font(.system(size: 14, weight: .bold))
+                                            .foregroundColor(DS.Tokens.Colors.border)
+                                    }
+                                }
+                            }
+                            .background(DS.Tokens.Colors.surface)
+                            .cornerRadius(16)
+                            .overlay(RoundedRectangle(cornerRadius: 16).stroke(DS.Tokens.Colors.border, lineWidth: 0.5))
+                        }
+                        .padding(.horizontal, 20)
+
                         // Section: About
                         VStack(alignment: .leading, spacing: 10) {
                             sectionTitle("About")
-                            
+
                             VStack(spacing: 0) {
                                 navigationLinkRow(icon: "info.circle", color: DS.Tokens.Colors.olive, label: "About")
                                 divider
@@ -101,6 +127,16 @@ struct SettingsView: View {
             .sheet(isPresented: $showingSubscription) {
                 // Dependency injection for SubscriptionView
                 SubscriptionView(viewModel: DependencyContainer.shared.resolveMonetizationViewModel())
+            }
+            .sheet(isPresented: $showingOnboarding) {
+                // Dependency injection for OnboardingView
+                OnboardingView(
+                    viewModel: OnboardingViewModel(
+                        updateUserSettingsUseCase: DependencyContainer.shared.updateUserSettingsUseCase
+                    )
+                ) {
+                    showingOnboarding = false
+                }
             }
         }
         .onAppear {

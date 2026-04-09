@@ -17,14 +17,25 @@ struct SubscriptionView: View {
     var body: some View {
         ZStack {
             DS.Tokens.Colors.background.ignoresSafeArea()
-            
+
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 0) {
                     heroSection
-                    
+
                     VStack(spacing: 28) {
+                        // Fallback Mode Warning
+                        if viewModel.isInFallbackMode {
+                            fallbackWarningBanner
+                        }
+
                         featuresSection
                         plansSection
+
+                        // Error Banner
+                        if let error = viewModel.error {
+                            errorBanner(error)
+                        }
+
                         subscribeButton
                         disclaimer
                     }
@@ -32,13 +43,13 @@ struct SubscriptionView: View {
                 }
             }
             .ignoresSafeArea(edges: .top)
-            
+
             closeButton
         }
         .onAppear {
             Task { await viewModel.loadPlans() }
         }
-        .onChange(of: viewModel.isSubscribed) { subscribed in
+        .onChange(of: viewModel.isSubscribed) { _, subscribed in
             if subscribed {
                 dismiss()
             }
@@ -219,5 +230,67 @@ struct SubscriptionView: View {
             }
             Spacer()
         }
+    }
+
+    private var fallbackWarningBanner: some View {
+        HStack(spacing: 12) {
+            Image(systemName: "wifi.slash")
+                .font(.system(size: 16, weight: .semibold))
+                .foregroundColor(DS.Tokens.Colors.accent)
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text("Offline Mode")
+                    .font(DS.Tokens.Typography.interMedium(size: 14))
+                    .foregroundColor(DS.Tokens.Colors.text)
+
+                Text(viewModel.fallbackWarning ?? "Using cached plans")
+                    .font(DS.Tokens.Typography.interRegular(size: 12))
+                    .foregroundColor(DS.Tokens.Colors.textSecondary)
+            }
+
+            Spacer()
+        }
+        .padding(12)
+        .background(DS.Tokens.Colors.accent.opacity(0.1))
+        .cornerRadius(12)
+        .padding(.horizontal, 24)
+    }
+
+    private func errorBanner(_ error: PurchaseError) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(spacing: 12) {
+                Image(systemName: "exclamationmark.circle.fill")
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundColor(DS.Tokens.Colors.crimson)
+
+                Text(error.errorDescription ?? "Something went wrong")
+                    .font(DS.Tokens.Typography.interRegular(size: 13))
+                    .foregroundColor(DS.Tokens.Colors.text)
+                    .lineLimit(3)
+
+                Spacer()
+
+                Button(action: { viewModel.clearError() }) {
+                    Image(systemName: "xmark")
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundColor(DS.Tokens.Colors.textSecondary)
+                }
+            }
+
+            Button(action: {
+                Task {
+                    await viewModel.subscribe()
+                }
+            }) {
+                Text("Try Again")
+                    .font(DS.Tokens.Typography.interMedium(size: 13))
+                    .foregroundColor(DS.Tokens.Colors.crimson)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .padding(12)
+        .background(DS.Tokens.Colors.crimson.opacity(0.1))
+        .cornerRadius(12)
+        .padding(.horizontal, 24)
     }
 }

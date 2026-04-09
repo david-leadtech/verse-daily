@@ -2,7 +2,7 @@ import Foundation
 
 /// Represents a step in the onboarding flow
 /// Axiom: Use enums for state instead of strings
-public enum OnboardingStep: Identifiable, Sendable, Equatable {
+public enum OnboardingStep: Identifiable, Sendable, Hashable, Equatable {
     case profileInfo
     case religiousPreferences
     case themeLanguage

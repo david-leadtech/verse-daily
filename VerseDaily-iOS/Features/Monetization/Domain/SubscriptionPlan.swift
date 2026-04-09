@@ -1,6 +1,6 @@
 import Foundation
 
-public struct SubscriptionPlan: Identifiable, Codable, Sendable, Equatable {
+public struct SubscriptionPlan: Identifiable, Codable, Sendable, Hashable, Equatable {
     public let id: String
     public let name: String
     public let price: Money
@@ -18,7 +18,7 @@ public struct SubscriptionPlan: Identifiable, Codable, Sendable, Equatable {
     }
 }
 
-public enum SubscriptionStatus: Sendable, Equatable {
+public enum SubscriptionStatus: Sendable, Hashable, Equatable {
     case free
     case premium
     case expired

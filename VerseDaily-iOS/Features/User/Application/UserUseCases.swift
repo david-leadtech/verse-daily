@@ -57,7 +57,7 @@ public final class UpdateUserSettingsUseCase: Sendable {
 
 // MARK: - Onboarding Use Cases
 
-/// Use case for completing onboarding and saving user settings
+/// Protocol for completing onboarding and saving user settings
 /// Axiom: One use case = one operation, dependencies injected
 public protocol CompleteOnboardingUseCaseProtocol: Sendable {
     func execute(with settings: UserSettings) async throws

@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Devotional: Identifiable, Codable, Sendable, Equatable {
+public struct Devotional: Identifiable, Codable, Sendable, Hashable, Equatable {
     public let id: Int
     public let title: String
     public let category: String

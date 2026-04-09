@@ -78,6 +78,15 @@ public enum LocalizationKey: String, Sendable, Hashable, CaseIterable {
     case onboardingSelectPlaceholder = "onboarding.placeholder.select"
     case onboardingOptionalLabel = "onboarding.label.optional"
 
+    // Home View
+    case homeGreetingGoodMorning = "home.greeting.goodMorning"
+    case homeVerseOfTheDay = "home.verse.ofTheDay"
+    case homeTodaysDevotionals = "home.devotionals.today"
+    case homePremiumFeature = "home.premium.feature"
+    case homeUnlockDevotionals = "home.premium.unlock"
+    case homeDevotionalsDesc = "home.premium.description"
+    case homeUpgradePremium = "home.premium.upgrade"
+
     public var localized: String {
         NSLocalizedString(self.rawValue, comment: "")
     }

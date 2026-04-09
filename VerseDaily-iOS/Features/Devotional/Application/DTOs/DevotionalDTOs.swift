@@ -1,12 +1,12 @@
 import Foundation
 
-public struct VerseDTO: Identifiable, Sendable {
+public struct VerseDTO: Identifiable, Sendable, Hashable, Equatable {
     public let id: Int
     public let Reference: String
     public let text: String
     public let version: String
     public let reflection: String?
-    
+
     public init(id: Int, Reference: String, text: String, version: String, reflection: String?) {
         self.id = id
         self.Reference = Reference
@@ -16,13 +16,13 @@ public struct VerseDTO: Identifiable, Sendable {
     }
 }
 
-public struct DevotionalDTO: Identifiable, Sendable {
+public struct DevotionalDTO: Identifiable, Sendable, Hashable, Equatable {
     public let id: Int
     public let title: String
     public let category: String
     public let readTime: String
     public let verseReference: String
-    
+
     public init(id: Int, title: String, category: String, readTime: String, verseReference: String) {
         self.id = id
         self.title = title
