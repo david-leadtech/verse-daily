@@ -41,6 +41,8 @@ public final class DependencyContainer: Sendable {
         let bibleRepo = MockBibleRepository()
         // Use real RevenueCat integration for monetization
         let monetizationRepo = RevenueCatMonetizationRepository()
+        // TODO: Use UserRepository() when Infrastructure target linking is set up
+        // Real implementation with SwiftData persistence is ready in Infrastructure/Repositories/UserRepository.swift
         let userRepo = MockUserRepository()
         let favoritesRepo = MockFavoritesRepository()
         
