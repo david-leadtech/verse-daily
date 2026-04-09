@@ -5,6 +5,7 @@ import SwiftUI
 struct OnboardingView: View {
     @ObservedObject var viewModel: OnboardingViewModel
     @Environment(\.dismiss) var dismiss
+    var onCompletion: (() -> Void)? = nil
 
     var body: some View {
         ZStack {
@@ -104,6 +105,7 @@ struct OnboardingView: View {
                     Task {
                         await viewModel.completeOnboarding()
                         if viewModel.error == nil {
+                            onCompletion?()
                             dismiss()
                         }
                     }
@@ -125,6 +127,7 @@ struct OnboardingView: View {
                     Task {
                         await viewModel.skipOnboarding()
                         if viewModel.error == nil {
+                            onCompletion?()
                             dismiss()
                         }
                     }
