@@ -87,20 +87,9 @@ public final class CompleteOnboardingUseCase: CompleteOnboardingUseCaseProtocol,
     }
 
     // MARK: - Private Methods
-    /// Maps repository/persistence errors to domain OnboardingError
-    private func mapError(_ error: Error) -> OnboardingError {
-        if let error = error as? OnboardingError {
-            return error
-        }
-
-        // If it's a persistence error, wrap it
-        if error.localizedDescription.contains("persistence") ||
-           error.localizedDescription.contains("encode") ||
-           error.localizedDescription.contains("decode") {
-            return .persistenceFailed(error.localizedDescription)
-        }
-
-        // Default to unknown error
-        return .unknownError
+    /// Maps repository/persistence errors
+    private func mapError(_ error: Error) -> Error {
+        // Return the error as-is; repository handles error mapping
+        return error
     }
 }
