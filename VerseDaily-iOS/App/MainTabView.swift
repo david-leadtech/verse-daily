@@ -27,23 +27,13 @@ public struct MainTabView: View {
                 }
                 .tag(2)
             
-            PremiumGateView(
-                featureName: "Prayer Journal",
-                icon: "pencil.and.outline"
-            ) {
-                PrayerListView()
-            }
+            PrayerListView()
                 .tabItem {
                     Label("Diario", systemImage: "pencil.and.outline")
                 }
                 .tag(3)
 
-            PremiumGateView(
-                featureName: "Liturgical Calendar",
-                icon: "calendar"
-            ) {
-                TodayLiturgicalView()
-            }
+            TodayLiturgicalView()
                 .tabItem {
                     Label("Liturgia", systemImage: "calendar")
                 }

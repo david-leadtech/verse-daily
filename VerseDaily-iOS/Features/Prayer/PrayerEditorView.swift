@@ -6,7 +6,7 @@ import CoreServices
 public struct PrayerEditorView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var viewModel: PrayerJournalViewModel
-    @Environment(\.appTheme) var theme: AppTheme
+    @Environment(\.appTheme) var theme: DesignSystem.AppTheme
     @EnvironmentObject var liturgicalViewModel: LiturgicalViewModel
     
     @State private var title: String = ""

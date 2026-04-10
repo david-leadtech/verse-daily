@@ -128,16 +128,17 @@ struct SettingsView: View {
                 // Dependency injection for SubscriptionView
                 SubscriptionView(viewModel: DependencyContainer.shared.resolveMonetizationViewModel())
             }
-            .sheet(isPresented: $showingOnboarding) {
-                // Dependency injection for OnboardingView
-                OnboardingView(
-                    viewModel: OnboardingViewModel(
-                        updateUserSettingsUseCase: DependencyContainer.shared.updateUserSettingsUseCase
-                    )
-                ) {
-                    showingOnboarding = false
-                }
-            }
+            // TODO: Fix OnboardingView visibility and re-enable onboarding sheet
+            // .sheet(isPresented: $showingOnboarding) {
+            //     // Dependency injection for OnboardingView
+            //     OnboardingView(
+            //         viewModel: OnboardingViewModel(
+            //             updateUserSettingsUseCase: DependencyContainer.shared.updateUserSettingsUseCase
+            //         )
+            //     ) {
+            //         showingOnboarding = false
+            //     }
+            // }
         }
         .onAppear {
             Task { await viewModel.loadSettings() }

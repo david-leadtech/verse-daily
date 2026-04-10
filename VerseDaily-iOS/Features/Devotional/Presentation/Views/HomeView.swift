@@ -63,7 +63,7 @@ public struct HomeView: View {
 
     private func checkPremiumStatus() async {
         do {
-            let isPremiumNow = await MonetizationIntegration(
+            let isPremiumNow = await MonetizationIntegrationImpl(
                 repository: DependencyContainer.shared.monetizationRepository
             ).isPremiumUser()
 

@@ -3,7 +3,7 @@ import DesignSystem
 
 /// Wrapper view that gates content behind premium subscription
 /// Shows paywall if user is not premium
-struct PremiumGateView<Content: View>: View {
+public struct PremiumGateView<Content: View>: View {
     @State private var isPremium = false
     @State private var isLoading = true
     @State private var showPaywall = false
@@ -11,6 +11,12 @@ struct PremiumGateView<Content: View>: View {
     let featureName: String
     let icon: String
     @ViewBuilder let content: () -> Content
+
+    public init(featureName: String, icon: String, @ViewBuilder content: @escaping () -> Content) {
+        self.featureName = featureName
+        self.icon = icon
+        self.content = content
+    }
 
     var body: some View {
         ZStack {

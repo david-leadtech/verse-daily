@@ -5,7 +5,7 @@ import CoreServices
 
 public struct PrayerListView: View {
     @EnvironmentObject var viewModel: PrayerJournalViewModel
-    @Environment(\.appTheme) var theme: AppTheme
+    @Environment(\.appTheme) var theme: DesignSystem.AppTheme
     @State private var showingEditor = false
     
     public init() {}
@@ -81,7 +81,7 @@ public struct PrayerListView: View {
 
 struct PrayerEntryRow: View {
     let entry: PrayerEntry
-    @Environment(\.appTheme) var theme: AppTheme
+    @Environment(\.appTheme) var theme: DesignSystem.AppTheme
     
     var body: some View {
         VStack(alignment: .leading, spacing: DS.Tokens.Spacing.xs) {

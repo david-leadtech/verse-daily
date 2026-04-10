@@ -2,7 +2,7 @@ import SwiftUI
 
 /// Main onboarding flow container
 /// Axiom: Keep body <50 lines, extract subviews
-struct OnboardingView: View {
+public struct OnboardingView: View {
     @ObservedObject var viewModel: OnboardingViewModel
     @Environment(\.dismiss) var dismiss
     var onCompletion: (() -> Void)? = nil

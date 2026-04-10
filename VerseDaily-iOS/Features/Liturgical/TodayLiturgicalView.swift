@@ -6,7 +6,7 @@ import CoreServices
 public struct TodayLiturgicalView: View {
     @EnvironmentObject var viewModel: LiturgicalViewModel
     @EnvironmentObject var streakViewModel: StreakViewModel
-    @Environment(\.appTheme) var theme: AppTheme
+    @Environment(\.appTheme) var theme: DesignSystem.AppTheme
     
     public init() {}
     
