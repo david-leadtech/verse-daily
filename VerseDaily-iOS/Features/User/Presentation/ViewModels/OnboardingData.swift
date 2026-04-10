@@ -11,6 +11,7 @@ public struct OnboardingData: Sendable, Hashable, Equatable {
 
     // MARK: - Religious Preferences
     public var church: String = ""
+    public var canon: Canon = .protestant
     public var bibleVersion: String = "KJV"
     public var readingPreferences: Set<ReadingPreference> = []
 
@@ -40,6 +41,7 @@ public struct OnboardingData: Sendable, Hashable, Equatable {
             ageRange: ageRange,
             gender: gender,
             church: church.isEmpty ? nil : church,
+            canon: canon,
             readingPreferences: readingPreferences.isEmpty ? nil : Array(readingPreferences),
             appTheme: appTheme,
             textSize: textSize,

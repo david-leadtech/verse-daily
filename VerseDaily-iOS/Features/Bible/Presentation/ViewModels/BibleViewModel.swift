@@ -14,6 +14,8 @@ public final class BibleViewModel: ObservableObject {
     @Published public var verses: [VerseDTO] = []
     @Published public var isLoading: Bool = false
     @Published public var error: LocalizedError?
+    @Published public var lastReadingSession: ReadingSession?
+    @Published public var currentReadingSession: ReadingSession?
 
     private let getBooksUseCase: GetBibleBooksUseCase
     private let getVersesUseCase: GetBibleVersesUseCase
@@ -57,16 +59,44 @@ public final class BibleViewModel: ObservableObject {
         }
     }
     
-    private func loadVerses(book: String, chapter: Int) async {
+    public func loadVerses(book: String, chapter: Int) async {
         isLoading = true
         error = nil
         do {
             self.verses = try await getVersesUseCase.execute(book: book, chapter: chapter)
+            startReadingSession(book: book, chapter: chapter)
         } catch let err as LocalizedError {
             self.error = err
         } catch {
             print("Error loading verses: \(error)")
         }
         isLoading = false
+    }
+
+    /// Load the last reading session to show "Resume Reading" option
+    public func loadLastSession() {
+        // TODO: Load from SwiftData when infrastructure is set up
+        // For now, this is a placeholder for the feature
+    }
+
+    /// Start a new reading session or resume the current one
+    private func startReadingSession(book: String, chapter: Int) {
+        let session = ReadingSession(book: book, chapter: chapter)
+        currentReadingSession = session
+        lastReadingSession = session
+    }
+
+    /// Update progress in current reading session
+    public func updateReadingProgress(verseNumber: Int) {
+        currentReadingSession?.lastVerseRead = verseNumber
+        currentReadingSession?.lastReadAt = Date()
+    }
+
+    /// Complete the current reading session
+    public func completeReadingSession() {
+        if let session = currentReadingSession {
+            lastReadingSession = session
+            currentReadingSession = nil
+        }
     }
 }

@@ -13,6 +13,8 @@ public final class UserProfile {
 
     // Religious Preferences
     public var church: String?
+    public var canon: String = "protestant"
+    public var showAdditionalBooks: Bool = false
     public var readingPreferences: [String]? = []
 
     // Theme & Language
@@ -34,6 +36,8 @@ public final class UserProfile {
         ageRange: String? = nil,
         gender: String? = nil,
         church: String? = nil,
+        canon: String = "protestant",
+        showAdditionalBooks: Bool = false,
         readingPreferences: [String]? = nil,
         appTheme: String = "system",
         textSize: String = "normal",
@@ -46,6 +50,8 @@ public final class UserProfile {
         self.ageRange = ageRange
         self.gender = gender
         self.church = church
+        self.canon = canon
+        self.showAdditionalBooks = showAdditionalBooks
         self.readingPreferences = readingPreferences ?? []
         self.appTheme = appTheme
         self.textSize = textSize

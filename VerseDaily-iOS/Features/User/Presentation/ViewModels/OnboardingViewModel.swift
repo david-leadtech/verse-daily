@@ -1,5 +1,6 @@
 import Foundation
 import Combine
+import Infrastructure
 
 // MARK: - Domain & Application imports
 // Note: OnboardingError from Domain, CompleteOnboardingUseCaseProtocol from Application
@@ -27,6 +28,10 @@ public final class OnboardingViewModel: ObservableObject {
     ) {
         self.userRepository = userRepository
         self.completeOnboardingUseCase = completeOnboardingUseCase
+
+        // Set sensible defaults based on device locale
+        let (inferredCanon, _) = LocalePreferenceDetector.inferDefaultPreferences()
+        self.userData.canon = inferredCanon
     }
 
     // MARK: - Public Methods
