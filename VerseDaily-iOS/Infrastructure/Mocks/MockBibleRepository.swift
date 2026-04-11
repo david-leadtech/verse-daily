@@ -1,28 +1,53 @@
 import Foundation
 
-public final class MockBibleRepository: BibleRepositoryProtocol {
+public final class MockBibleRepository: BibleRepositoryProtocol, Sendable {
     private let books: [BibleBook]
-    private let verses: [String: [String: [[String: Any]]]]
+    private let bibleDictionary: [String: [String: [String: [String: String]]]]
 
     public init() {
-        self.books = Self.loadBooksFromJSON()
-        self.verses = Self.loadVersesFromJSON()
+        let loadedData = Self.loadBibleDataFromJSON()
+        self.bibleDictionary = loadedData
+        self.books = Self.extractBooksFromBible(loadedData)
     }
 
-    private static func loadBooksFromJSON() -> [BibleBook] {
+    private static func loadBibleDataFromJSON() -> [String: [String: [String: [String: String]]]] {
         guard let url = Bundle.main.url(forResource: "BibleData", withExtension: "json") else {
-            return Self.fallbackBooks()
+            return [:]
         }
 
         do {
             let data = try Data(contentsOf: url)
-            let decoder = JSONDecoder()
-            let bibleDictionary = try decoder.decode([String: [BibleBook]].self, from: data)
-            return bibleDictionary["books"] ?? Self.fallbackBooks()
+            if let jsonObject = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+               let testamentData = jsonObject["testament"] as? [String: [String: Any]] {
+                var result: [String: [String: [String: [String: String]]]] = [:]
+                for (testamentName, testament) in testamentData {
+                    result[testamentName] = [:]
+                }
+                return result
+            }
+            return [:]
         } catch {
             print("Error loading BibleData.json: \(error)")
-            return Self.fallbackBooks()
+            return [:]
         }
+    }
+
+    private static func extractBooksFromBible(_ bibleDictionary: [String: [String: [String: [String: String]]]]) -> [BibleBook] {
+        var books: [BibleBook] = []
+
+        for (testamentName, testamentData) in bibleDictionary {
+            for (bookName, chapters) in testamentData {
+                let testament: Testament = testamentName == "Old Testament" ? .old : .new
+                let book = BibleBook(
+                    name: bookName,
+                    testament: testament,
+                    chapters: chapters.count
+                )
+                books.append(book)
+            }
+        }
+
+        return books.isEmpty ? Self.fallbackBooks() : books
     }
 
     private static func fallbackBooks() -> [BibleBook] {
@@ -34,46 +59,29 @@ public final class MockBibleRepository: BibleRepositoryProtocol {
         ]
     }
 
-    private static func loadVersesFromJSON() -> [String: [String: [[String: Any]]]] {
-        guard let url = Bundle.main.url(forResource: "BibleData", withExtension: "json") else {
-            return [:]
-        }
-
-        do {
-            let data = try Data(contentsOf: url)
-            if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
-               let versesData = json["verses"] as? [String: [String: [[String: Any]]]] {
-                return versesData
-            }
-            return [:]
-        } catch {
-            print("Error loading verses from BibleData.json: \(error)")
-            return [:]
-        }
-    }
 
     public func getBooks() async throws -> [BibleBook] {
         return books
     }
     
     public func getVerses(book: String, chapter: Int) async throws -> [Verse] {
-        // Try to get verses from loaded data
-        if let bookVerses = verses[book],
-           let chapterVerses = bookVerses[String(chapter)] {
-            return chapterVerses.compactMap { verseDict in
-                guard let verseNum = verseDict["verse"] as? Int,
-                      let text = verseDict["text"] as? String else {
-                    return nil
+        // Search through testament structure
+        for (_, testamentData) in bibleDictionary {
+            if let chapters = testamentData[book], let verseTexts = chapters[String(chapter)] {
+                var verses: [Verse] = []
+                for (verseNum, text) in verseTexts {
+                    if let num = Int(verseNum) {
+                        verses.append(Verse(
+                            id: chapter * 1000 + num,
+                            book: book,
+                            chapter: chapter,
+                            verseNumber: num,
+                            text: text,
+                            version: "KJV"
+                        ))
+                    }
                 }
-
-                return Verse(
-                    id: chapter * 1000 + verseNum,
-                    book: book,
-                    chapter: chapter,
-                    verseNumber: verseNum,
-                    text: text,
-                    version: "KJV"
-                )
+                return verses
             }
         }
 

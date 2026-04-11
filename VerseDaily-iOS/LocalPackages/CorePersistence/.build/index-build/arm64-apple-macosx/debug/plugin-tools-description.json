@@ -32,6 +32,10 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreModels/Sources/CoreModels/UserProfile.swift"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreModels/Sources/CoreModels/UserStreak.swift"
         },
         {
@@ -49,6 +53,7 @@
       "objects" : [
         "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/LiturgicalDay.swift.o",
         "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/PrayerEntry.swift.o",
+        "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/UserProfile.swift.o",
         "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/UserStreak.swift.o"
       ],
       "otherArguments" : [
@@ -57,6 +62,8 @@
         "-incremental",
         "-enable-batch-mode",
         "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/index/store",
         "-Onone",
         "-enable-testing",
         "-j14",
@@ -117,106 +124,10 @@
       "sources" : [
         "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreModels/Sources/CoreModels/LiturgicalDay.swift",
         "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreModels/Sources/CoreModels/PrayerEntry.swift",
+        "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreModels/Sources/CoreModels/UserProfile.swift",
         "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreModels/Sources/CoreModels/UserStreak.swift"
       ],
       "tempsPath" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CoreModels.build",
-      "wholeModuleOptimization" : false
-    },
-    "C.CorePersistence-arm64-apple-macosx-debug.module" : {
-      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
-      "fileList" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CorePersistence.build/sources",
-      "importPath" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/Modules",
-      "inputs" : [
-        {
-          "kind" : "file",
-          "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/Sources/CorePersistence/PersistenceContainer.swift"
-        },
-        {
-          "kind" : "file",
-          "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
-        },
-        {
-          "kind" : "file",
-          "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/Modules/CoreModels.swiftmodule"
-        },
-        {
-          "kind" : "file",
-          "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CorePersistence.build/sources"
-        }
-      ],
-      "isLibrary" : true,
-      "moduleName" : "CorePersistence",
-      "moduleOutputPath" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/Modules/CorePersistence.swiftmodule",
-      "objects" : [
-        "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CorePersistence.build/PersistenceContainer.swift.o"
-      ],
-      "otherArguments" : [
-        "-target",
-        "arm64-apple-macosx14.0",
-        "-incremental",
-        "-enable-batch-mode",
-        "-serialize-diagnostics",
-        "-Onone",
-        "-enable-testing",
-        "-j14",
-        "-DSWIFT_PACKAGE",
-        "-DDEBUG",
-        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
-        "-module-cache-path",
-        "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/ModuleCache",
-        "-parseable-output",
-        "-parse-as-library",
-        "-emit-objc-header",
-        "-emit-objc-header-path",
-        "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CorePersistence.build/include/CorePersistence-Swift.h",
-        "-swift-version",
-        "5",
-        "-Xfrontend",
-        "-experimental-lazy-typecheck",
-        "-Xfrontend",
-        "-experimental-skip-all-function-bodies",
-        "-Xfrontend",
-        "-experimental-allow-module-with-compiler-errors",
-        "-Xfrontend",
-        "-empty-abi-descriptor",
-        "-plugin-path",
-        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
-        "-sdk",
-        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk",
-        "-F",
-        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
-        "-I",
-        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
-        "-L",
-        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
-        "-g",
-        "-Xcc",
-        "-isysroot",
-        "-Xcc",
-        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk",
-        "-Xcc",
-        "-F",
-        "-Xcc",
-        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
-        "-Xcc",
-        "-fPIC",
-        "-Xcc",
-        "-g",
-        "-package-name",
-        "corepersistence"
-      ],
-      "outputFileMapPath" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CorePersistence.build/output-file-map.json",
-      "outputs" : [
-        {
-          "kind" : "file",
-          "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/Modules/CorePersistence.swiftmodule"
-        }
-      ],
-      "prepareForIndexing" : true,
-      "sources" : [
-        "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/Sources/CorePersistence/PersistenceContainer.swift"
-      ],
-      "tempsPath" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CorePersistence.build",
       "wholeModuleOptimization" : false
     }
   },
@@ -233,6 +144,7 @@
       "-c",
       "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreModels/Sources/CoreModels/LiturgicalDay.swift",
       "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreModels/Sources/CoreModels/PrayerEntry.swift",
+      "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreModels/Sources/CoreModels/UserProfile.swift",
       "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreModels/Sources/CoreModels/UserStreak.swift",
       "-I",
       "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/Modules",
@@ -241,6 +153,8 @@
       "-incremental",
       "-enable-batch-mode",
       "-serialize-diagnostics",
+      "-index-store-path",
+      "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/index/store",
       "-Onone",
       "-enable-testing",
       "-j14",
@@ -291,80 +205,11 @@
       "coremodels",
       "-driver-use-frontend-path",
       "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
-    ],
-    "CorePersistence" : [
-      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
-      "-module-name",
-      "CorePersistence",
-      "-package-name",
-      "corepersistence",
-      "-c",
-      "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/Sources/CorePersistence/PersistenceContainer.swift",
-      "-I",
-      "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/Modules",
-      "-target",
-      "arm64-apple-macosx14.0",
-      "-incremental",
-      "-enable-batch-mode",
-      "-serialize-diagnostics",
-      "-Onone",
-      "-enable-testing",
-      "-j14",
-      "-DSWIFT_PACKAGE",
-      "-DDEBUG",
-      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
-      "-module-cache-path",
-      "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/ModuleCache",
-      "-parseable-output",
-      "-parse-as-library",
-      "-emit-objc-header",
-      "-emit-objc-header-path",
-      "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CorePersistence.build/include/CorePersistence-Swift.h",
-      "-swift-version",
-      "5",
-      "-Xfrontend",
-      "-experimental-lazy-typecheck",
-      "-Xfrontend",
-      "-experimental-skip-all-function-bodies",
-      "-Xfrontend",
-      "-experimental-allow-module-with-compiler-errors",
-      "-Xfrontend",
-      "-empty-abi-descriptor",
-      "-plugin-path",
-      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
-      "-sdk",
-      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk",
-      "-F",
-      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
-      "-I",
-      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
-      "-L",
-      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
-      "-g",
-      "-Xcc",
-      "-isysroot",
-      "-Xcc",
-      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk",
-      "-Xcc",
-      "-F",
-      "-Xcc",
-      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
-      "-Xcc",
-      "-fPIC",
-      "-Xcc",
-      "-g",
-      "-package-name",
-      "corepersistence",
-      "-driver-use-frontend-path",
-      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
     ]
   },
   "targetDependencyMap" : {
     "CoreModels" : [
 
-    ],
-    "CorePersistence" : [
-      "CoreModels"
     ]
   },
   "testDiscoveryCommands" : {
@@ -396,24 +241,14 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreModels/Sources/CoreModels/UserProfile.swift"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreModels/Sources/CoreModels/UserStreak.swift"
         }
       ],
       "outputFilePath" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/sources"
-    },
-    "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CorePersistence.build/sources" : {
-      "alwaysOutOfDate" : false,
-      "inputs" : [
-        {
-          "kind" : "virtual",
-          "name" : "<sources-file-list>"
-        },
-        {
-          "kind" : "file",
-          "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/Sources/CorePersistence/PersistenceContainer.swift"
-        }
-      ],
-      "outputFilePath" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CorePersistence.build/sources"
     },
     "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt" : {
       "alwaysOutOfDate" : true,

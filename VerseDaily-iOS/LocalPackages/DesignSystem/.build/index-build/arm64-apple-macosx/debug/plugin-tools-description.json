@@ -17,46 +17,26 @@
 
   ],
   "swiftCommands" : {
-    "C.DesignSystem-arm64-apple-macosx-debug.module" : {
+    "C.CoreModels-arm64-apple-macosx-debug.module" : {
       "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
-      "fileList" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/index-build/arm64-apple-macosx/debug/DesignSystem.build/sources",
+      "fileList" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/sources",
       "importPath" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/index-build/arm64-apple-macosx/debug/Modules",
       "inputs" : [
         {
           "kind" : "file",
-          "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/AppTheme.swift"
+          "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreModels/Sources/CoreModels/LiturgicalDay.swift"
         },
         {
           "kind" : "file",
-          "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/Components/DSBadge.swift"
+          "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreModels/Sources/CoreModels/PrayerEntry.swift"
         },
         {
           "kind" : "file",
-          "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/Components/DSButton.swift"
+          "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreModels/Sources/CoreModels/UserProfile.swift"
         },
         {
           "kind" : "file",
-          "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/Components/DSCard.swift"
-        },
-        {
-          "kind" : "file",
-          "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/Components/DSInput.swift"
-        },
-        {
-          "kind" : "file",
-          "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/Components/DSModal.swift"
-        },
-        {
-          "kind" : "file",
-          "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/Components/DSTable.swift"
-        },
-        {
-          "kind" : "file",
-          "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/LiturgicalColor.swift"
-        },
-        {
-          "kind" : "file",
-          "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/Tokens/Tokens.swift"
+          "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreModels/Sources/CoreModels/UserStreak.swift"
         },
         {
           "kind" : "file",
@@ -64,29 +44,26 @@
         },
         {
           "kind" : "file",
-          "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/index-build/arm64-apple-macosx/debug/DesignSystem.build/sources"
+          "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/sources"
         }
       ],
       "isLibrary" : true,
-      "moduleName" : "DesignSystem",
-      "moduleOutputPath" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/index-build/arm64-apple-macosx/debug/Modules/DesignSystem.swiftmodule",
+      "moduleName" : "CoreModels",
+      "moduleOutputPath" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/index-build/arm64-apple-macosx/debug/Modules/CoreModels.swiftmodule",
       "objects" : [
-        "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/index-build/arm64-apple-macosx/debug/DesignSystem.build/AppTheme.swift.o",
-        "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/index-build/arm64-apple-macosx/debug/DesignSystem.build/DSBadge.swift.o",
-        "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/index-build/arm64-apple-macosx/debug/DesignSystem.build/DSButton.swift.o",
-        "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/index-build/arm64-apple-macosx/debug/DesignSystem.build/DSCard.swift.o",
-        "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/index-build/arm64-apple-macosx/debug/DesignSystem.build/DSInput.swift.o",
-        "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/index-build/arm64-apple-macosx/debug/DesignSystem.build/DSModal.swift.o",
-        "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/index-build/arm64-apple-macosx/debug/DesignSystem.build/DSTable.swift.o",
-        "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/index-build/arm64-apple-macosx/debug/DesignSystem.build/LiturgicalColor.swift.o",
-        "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/index-build/arm64-apple-macosx/debug/DesignSystem.build/Tokens.swift.o"
+        "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/LiturgicalDay.swift.o",
+        "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/PrayerEntry.swift.o",
+        "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/UserProfile.swift.o",
+        "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/UserStreak.swift.o"
       ],
       "otherArguments" : [
         "-target",
-        "arm64-apple-macosx10.13",
+        "arm64-apple-macosx14.0",
         "-incremental",
         "-enable-batch-mode",
         "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/index-build/arm64-apple-macosx/debug/index/store",
         "-Onone",
         "-enable-testing",
         "-j14",
@@ -99,7 +76,7 @@
         "-parse-as-library",
         "-emit-objc-header",
         "-emit-objc-header-path",
-        "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/index-build/arm64-apple-macosx/debug/DesignSystem.build/include/DesignSystem-Swift.h",
+        "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/include/CoreModels-Swift.h",
         "-swift-version",
         "5",
         "-Xfrontend",
@@ -134,28 +111,23 @@
         "-Xcc",
         "-g",
         "-package-name",
-        "designsystem"
+        "coremodels"
       ],
-      "outputFileMapPath" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/index-build/arm64-apple-macosx/debug/DesignSystem.build/output-file-map.json",
+      "outputFileMapPath" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/output-file-map.json",
       "outputs" : [
         {
           "kind" : "file",
-          "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/index-build/arm64-apple-macosx/debug/Modules/DesignSystem.swiftmodule"
+          "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/index-build/arm64-apple-macosx/debug/Modules/CoreModels.swiftmodule"
         }
       ],
       "prepareForIndexing" : true,
       "sources" : [
-        "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/AppTheme.swift",
-        "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/Components/DSBadge.swift",
-        "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/Components/DSButton.swift",
-        "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/Components/DSCard.swift",
-        "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/Components/DSInput.swift",
-        "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/Components/DSModal.swift",
-        "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/Components/DSTable.swift",
-        "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/LiturgicalColor.swift",
-        "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/Tokens/Tokens.swift"
+        "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreModels/Sources/CoreModels/LiturgicalDay.swift",
+        "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreModels/Sources/CoreModels/PrayerEntry.swift",
+        "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreModels/Sources/CoreModels/UserProfile.swift",
+        "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreModels/Sources/CoreModels/UserStreak.swift"
       ],
-      "tempsPath" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/index-build/arm64-apple-macosx/debug/DesignSystem.build",
+      "tempsPath" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/index-build/arm64-apple-macosx/debug/CoreModels.build",
       "wholeModuleOptimization" : false
     }
   },
@@ -163,29 +135,26 @@
 
   },
   "swiftTargetScanArgs" : {
-    "DesignSystem" : [
+    "CoreModels" : [
       "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
       "-module-name",
-      "DesignSystem",
+      "CoreModels",
       "-package-name",
-      "designsystem",
+      "coremodels",
       "-c",
-      "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/AppTheme.swift",
-      "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/Components/DSBadge.swift",
-      "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/Components/DSButton.swift",
-      "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/Components/DSCard.swift",
-      "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/Components/DSInput.swift",
-      "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/Components/DSModal.swift",
-      "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/Components/DSTable.swift",
-      "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/LiturgicalColor.swift",
-      "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/Tokens/Tokens.swift",
+      "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreModels/Sources/CoreModels/LiturgicalDay.swift",
+      "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreModels/Sources/CoreModels/PrayerEntry.swift",
+      "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreModels/Sources/CoreModels/UserProfile.swift",
+      "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreModels/Sources/CoreModels/UserStreak.swift",
       "-I",
       "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/index-build/arm64-apple-macosx/debug/Modules",
       "-target",
-      "arm64-apple-macosx10.13",
+      "arm64-apple-macosx14.0",
       "-incremental",
       "-enable-batch-mode",
       "-serialize-diagnostics",
+      "-index-store-path",
+      "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/index-build/arm64-apple-macosx/debug/index/store",
       "-Onone",
       "-enable-testing",
       "-j14",
@@ -198,7 +167,7 @@
       "-parse-as-library",
       "-emit-objc-header",
       "-emit-objc-header-path",
-      "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/index-build/arm64-apple-macosx/debug/DesignSystem.build/include/DesignSystem-Swift.h",
+      "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/include/CoreModels-Swift.h",
       "-swift-version",
       "5",
       "-Xfrontend",
@@ -233,13 +202,13 @@
       "-Xcc",
       "-g",
       "-package-name",
-      "designsystem",
+      "coremodels",
       "-driver-use-frontend-path",
       "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
     ]
   },
   "targetDependencyMap" : {
-    "DesignSystem" : [
+    "CoreModels" : [
 
     ]
   },
@@ -255,7 +224,7 @@
     }
   },
   "writeCommands" : {
-    "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/index-build/arm64-apple-macosx/debug/DesignSystem.build/sources" : {
+    "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/sources" : {
       "alwaysOutOfDate" : false,
       "inputs" : [
         {
@@ -264,42 +233,22 @@
         },
         {
           "kind" : "file",
-          "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/AppTheme.swift"
+          "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreModels/Sources/CoreModels/LiturgicalDay.swift"
         },
         {
           "kind" : "file",
-          "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/Components/DSBadge.swift"
+          "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreModels/Sources/CoreModels/PrayerEntry.swift"
         },
         {
           "kind" : "file",
-          "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/Components/DSButton.swift"
+          "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreModels/Sources/CoreModels/UserProfile.swift"
         },
         {
           "kind" : "file",
-          "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/Components/DSCard.swift"
-        },
-        {
-          "kind" : "file",
-          "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/Components/DSInput.swift"
-        },
-        {
-          "kind" : "file",
-          "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/Components/DSModal.swift"
-        },
-        {
-          "kind" : "file",
-          "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/Components/DSTable.swift"
-        },
-        {
-          "kind" : "file",
-          "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/LiturgicalColor.swift"
-        },
-        {
-          "kind" : "file",
-          "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/Sources/DesignSystem/Tokens/Tokens.swift"
+          "name" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreModels/Sources/CoreModels/UserStreak.swift"
         }
       ],
-      "outputFilePath" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/index-build/arm64-apple-macosx/debug/DesignSystem.build/sources"
+      "outputFilePath" : "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/sources"
     },
     "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/DesignSystem/.build/index-build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt" : {
       "alwaysOutOfDate" : true,
