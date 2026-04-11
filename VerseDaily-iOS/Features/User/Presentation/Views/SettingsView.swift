@@ -61,17 +61,7 @@ struct SettingsView: View {
 
                                     HStack(spacing: 8) {
                                         ForEach(Canon.allCases, id: \.self) { canon in
-                                            Button(action: {
-                                                Task { await viewModel.updateCanon(canon) }
-                                            }) {
-                                                Text(canon.displayName)
-                                                    .font(DS.Tokens.Typography.interSmall(size: 11))
-                                                    .foregroundColor(viewModel.selectedCanon == canon ? .white : DS.Tokens.Colors.text)
-                                                    .frame(maxWidth: .infinity)
-                                                    .padding(.vertical, 8)
-                                                    .background(viewModel.selectedCanon == canon ? DS.Tokens.Colors.accent : DS.Tokens.Colors.border.opacity(0.2))
-                                                    .cornerRadius(6)
-                                            }
+                                            canonButton(for: canon)
                                         }
                                     }
                                 }
@@ -294,7 +284,22 @@ struct SettingsView: View {
                 .foregroundColor(DS.Tokens.Colors.border)
         }
     }
-    
+
+    private func canonButton(for canon: Canon) -> some View {
+        let isSelected = viewModel.selectedCanon == canon
+        return Button(action: {
+            Task { await viewModel.updateCanon(canon) }
+        }) {
+            Text(canon.displayName)
+                .font(DS.Tokens.Typography.interRegular(size: 11))
+                .foregroundColor(isSelected ? .white : DS.Tokens.Colors.text)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 8)
+                .background(isSelected ? DS.Tokens.Colors.accent : DS.Tokens.Colors.border.opacity(0.2))
+                .cornerRadius(6)
+        }
+    }
+
     private var premiumCard: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack(spacing: 14) {

@@ -11,14 +11,20 @@ public struct UserSettingsDTO: Sendable {
     public let isPremium: Bool
     public let canon: Canon
     public let showAdditionalBooks: Bool
+    public let userName: String?
+    public let userEmail: String?
+    public let readingPreferences: [ReadingPreference]?
 
-    public init(notificationsEnabled: Bool, notificationTime: String, bibleVersion: String, isPremium: Bool, canon: Canon = .protestant, showAdditionalBooks: Bool = false) {
+    public init(notificationsEnabled: Bool, notificationTime: String, bibleVersion: String, isPremium: Bool, canon: Canon = .protestant, showAdditionalBooks: Bool = false, userName: String? = nil, userEmail: String? = nil, readingPreferences: [ReadingPreference]? = nil) {
         self.notificationsEnabled = notificationsEnabled
         self.notificationTime = notificationTime
         self.bibleVersion = bibleVersion
         self.isPremium = isPremium
         self.canon = canon
         self.showAdditionalBooks = showAdditionalBooks
+        self.userName = userName
+        self.userEmail = userEmail
+        self.readingPreferences = readingPreferences
     }
 }
 
@@ -37,7 +43,10 @@ public final class GetUserSettingsUseCase: Sendable {
             bibleVersion: settings.bibleVersion,
             isPremium: settings.isPremium,
             canon: settings.canon,
-            showAdditionalBooks: settings.showAdditionalBooks
+            showAdditionalBooks: settings.showAdditionalBooks,
+            userName: settings.userName,
+            userEmail: settings.userEmail,
+            readingPreferences: settings.readingPreferences
         )
     }
 }
@@ -54,7 +63,10 @@ public final class UpdateUserSettingsUseCase: Sendable {
                         bibleVersion: String? = nil,
                         isPremium: Bool? = nil,
                         canon: Canon? = nil,
-                        showAdditionalBooks: Bool? = nil) async throws {
+                        showAdditionalBooks: Bool? = nil,
+                        userName: String? = nil,
+                        userEmail: String? = nil,
+                        readingPreferences: [ReadingPreference]? = nil) async throws {
         var current = try await repository.getSettings()
         if let notificationsEnabled = notificationsEnabled { current.notificationsEnabled = notificationsEnabled }
         if let notificationTime = notificationTime { current.notificationTime = notificationTime }
@@ -62,6 +74,9 @@ public final class UpdateUserSettingsUseCase: Sendable {
         if let isPremium = isPremium { current.isPremium = isPremium }
         if let canon = canon { current.canon = canon }
         if let showAdditionalBooks = showAdditionalBooks { current.showAdditionalBooks = showAdditionalBooks }
+        if userName != nil { current.userName = userName }
+        if userEmail != nil { current.userEmail = userEmail }
+        if readingPreferences != nil { current.readingPreferences = readingPreferences }
         try await repository.updateSettings(current)
     }
 }

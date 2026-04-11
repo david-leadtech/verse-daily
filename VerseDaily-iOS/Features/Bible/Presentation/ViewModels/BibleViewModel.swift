@@ -1,5 +1,6 @@
 import Foundation
 import Combine
+import CorePersistence
 
 public enum BibleNavigationState: Sendable {
     case bookSelection

@@ -2,6 +2,7 @@ import SwiftUI
 import DesignSystem
 import CoreModels
 import SwiftData
+import CorePersistence
 
 public struct HomeView: View {
     @ObservedObject var viewModel: HomeViewModel
