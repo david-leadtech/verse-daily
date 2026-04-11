@@ -5,12 +5,23 @@ struct OnboardingReligiousPreferencesView: View {
 
     var body: some View {
         VStack(spacing: 16) {
-            // Church input
+            // Biblical Tradition picker
             VStack(alignment: .leading, spacing: 8) {
-                Text(LocalizationKey.onboardingReligiousPreferencesChurchLabel.localized)
-                    .font(.headline)
-                TextField(LocalizationKey.onboardingReligiousPreferencesChurchLabel.localized, text: $userData.church)
-                    .textFieldStyle(.roundedBorder)
+                HStack {
+                    Text("📖 Biblical Tradition")
+                        .font(.headline)
+                    Spacer()
+                    Text("(Auto-detected)")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+
+                Picker("Biblical Tradition", selection: $userData.canon) {
+                    ForEach(Canon.allCases, id: \.self) { canon in
+                        Text(canon.displayName).tag(canon)
+                    }
+                }
+                .pickerStyle(.segmented)
             }
 
             // Bible version picker

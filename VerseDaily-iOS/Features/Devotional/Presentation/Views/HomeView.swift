@@ -1,10 +1,18 @@
 import SwiftUI
 import DesignSystem
+import CoreModels
+import SwiftData
+import CorePersistence
 
 public struct HomeView: View {
     @ObservedObject var viewModel: HomeViewModel
+    @Environment(\.appTheme) var theme: DesignSystem.AppTheme
     @State private var isPremium = false
     @State private var showPaywall = false
+    @State private var selectedChapter: (book: String, chapter: Int)?
+    @State private var showFullChapter = false
+    @State private var lastReadingSession: ReadingSession?
+    @Query(sort: \ReadingSession.lastReadAt, order: .reverse) private var readingSessions: [ReadingSession]
 
     public init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
@@ -14,11 +22,16 @@ public struct HomeView: View {
         NavigationView {
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 0) {
-                    // Header section
                     header
                         .padding(.vertical, DS.Tokens.Spacing.lg)
 
-                    // Daily verse section (Free)
+                    // Resume Reading Banner
+                    if let lastSession = readingSessions.first {
+                        resumeReadingBanner(for: lastSession)
+                            .padding(.horizontal, DS.Tokens.Spacing.lg)
+                            .padding(.vertical, DS.Tokens.Spacing.md)
+                    }
+
                     VStack(alignment: .leading, spacing: DS.Tokens.Spacing.sm) {
                         Text(LocalizationKey.homeVerseOfTheDay.localized)
                             .font(DS.Tokens.Typography.interMedium(size: 12))
@@ -29,13 +42,18 @@ public struct HomeView: View {
 
                         VerseCardView(
                             verse: viewModel.dailyVerse,
-                            onReadChapter: {}
+                            onReadChapter: {
+                                if let verse = viewModel.dailyVerse,
+                                   let (book, chapter) = parseReference(verse.Reference) {
+                                    selectedChapter = (book: book, chapter: chapter)
+                                    showFullChapter = true
+                                }
+                            }
                         )
                         .padding(.horizontal, DS.Tokens.Spacing.lg)
                     }
                     .padding(.vertical, DS.Tokens.Spacing.xl)
 
-                    // Devotionals section (Premium)
                     if isPremium {
                         devotionalsSection
                             .padding(.vertical, DS.Tokens.Spacing.xl)
@@ -58,7 +76,26 @@ public struct HomeView: View {
             .sheet(isPresented: $showPaywall) {
                 SubscriptionView(viewModel: DependencyContainer.shared.resolveMonetizationViewModel())
             }
+            .sheet(isPresented: $showFullChapter) {
+                if let selectedChapter = selectedChapter {
+                    SavedChapterView(
+                        bookName: selectedChapter.book,
+                        chapter: selectedChapter.chapter,
+                        isPresented: $showFullChapter
+                    )
+                    .environment(\.appTheme, theme)
+                }
+            }
         }
+    }
+
+    private func parseReference(_ reference: String) -> (book: String, chapter: Int)? {
+        let components = reference.split(separator: " ")
+        guard components.count >= 2 else { return nil }
+        let bookName = String(components[0])
+        let chapterString = String(components[1]).split(separator: ":").first.map(String.init) ?? ""
+        guard let chapter = Int(chapterString) else { return nil }
+        return (book: bookName, chapter: chapter)
     }
 
     private func checkPremiumStatus() async {
@@ -66,7 +103,6 @@ public struct HomeView: View {
             let isPremiumNow = await MonetizationIntegrationImpl(
                 repository: DependencyContainer.shared.monetizationRepository
             ).isPremiumUser()
-
             await MainActor.run {
                 self.isPremium = isPremiumNow
             }
@@ -183,6 +219,57 @@ public struct HomeView: View {
         formatter.dateFormat = "EEEE, MMM d"
         return formatter.string(from: Date())
     }
+
+    private func resumeReadingBanner(for session: ReadingSession) -> some View {
+        Button(action: {
+            selectedChapter = (book: session.book, chapter: session.chapter)
+            showFullChapter = true
+        }) {
+            HStack(spacing: DS.Tokens.Spacing.md) {
+                VStack(alignment: .leading, spacing: DS.Tokens.Spacing.xs) {
+                    Text("Continue Reading")
+                        .font(DS.Tokens.Typography.interMedium(size: 11))
+                        .foregroundColor(DS.Tokens.Colors.textSecondary)
+                        .textCase(.uppercase)
+                        .tracking(0.5)
+
+                    HStack(spacing: 4) {
+                        Text(session.book)
+                            .font(DS.Tokens.Typography.interMedium(size: 16))
+                        Text("Chapter \(session.chapter)")
+                            .font(DS.Tokens.Typography.interMedium(size: 16))
+                    }
+                    .foregroundColor(DS.Tokens.Colors.text)
+
+                    Text("Verse \(session.lastVerseRead)")
+                        .font(DS.Tokens.Typography.interRegular(size: 12))
+                        .foregroundColor(DS.Tokens.Colors.textSecondary)
+                }
+
+                Spacer()
+
+                Image(systemName: "bookmark.fill")
+                    .font(.system(size: 20, weight: .semibold))
+                    .foregroundColor(DS.Tokens.Colors.accent)
+            }
+            .padding(16)
+            .background(
+                LinearGradient(
+                    gradient: Gradient(colors: [
+                        DS.Tokens.Colors.accent.opacity(0.12),
+                        DS.Tokens.Colors.tint.opacity(0.06)
+                    ]),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+            )
+            .cornerRadius(12)
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(DS.Tokens.Colors.accent.opacity(0.3), lineWidth: 1)
+            )
+        }
+    }
 }
 
 struct DevotionalCard: View {
@@ -195,9 +282,7 @@ struct DevotionalCard: View {
                 VStack(alignment: .leading, spacing: DS.Tokens.Spacing.md) {
                     HStack(alignment: .top, spacing: DS.Tokens.Spacing.sm) {
                         DSBadge(devotional.category)
-
                         Spacer()
-
                         Image(systemName: "chevron.right")
                             .font(.system(size: 14, weight: .semibold))
                             .foregroundColor(DS.Tokens.Colors.tint)
@@ -232,4 +317,3 @@ struct DevotionalCard: View {
         .animation(.easeInOut(duration: 0.2), value: isSelected)
     }
 }
-

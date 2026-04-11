@@ -16,6 +16,13 @@
     "swift-dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/PrayerEntry.swiftdeps",
     "diagnostics": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/PrayerEntry.dia"
   },
+  "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreModels/Sources/CoreModels/UserProfile.swift": {
+    "dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/UserProfile.d",
+    "object": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/UserProfile.swift.o",
+    "swiftmodule": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/UserProfile~partial.swiftmodule",
+    "swift-dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/UserProfile.swiftdeps",
+    "diagnostics": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/UserProfile.dia"
+  },
   "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CoreModels/Sources/CoreModels/UserStreak.swift": {
     "dependencies": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/UserStreak.d",
     "object": "/Users/davidsanchezcamacho/Desktop/Verse Daily/VerseDaily-iOS/LocalPackages/CorePersistence/.build/index-build/arm64-apple-macosx/debug/CoreModels.build/UserStreak.swift.o",

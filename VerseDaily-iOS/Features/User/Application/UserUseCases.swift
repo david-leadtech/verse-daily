@@ -1,4 +1,5 @@
 import Foundation
+import CoreModels
 
 // MARK: - Domain imports
 // Note: Domain types (UserSettings, UserRepositoryProtocol, OnboardingError) should be auto-linked from project target
@@ -8,12 +9,22 @@ public struct UserSettingsDTO: Sendable {
     public let notificationTime: String
     public let bibleVersion: String
     public let isPremium: Bool
-    
-    public init(notificationsEnabled: Bool, notificationTime: String, bibleVersion: String, isPremium: Bool) {
+    public let canon: Canon
+    public let showAdditionalBooks: Bool
+    public let userName: String?
+    public let userEmail: String?
+    public let readingPreferences: [ReadingPreference]?
+
+    public init(notificationsEnabled: Bool, notificationTime: String, bibleVersion: String, isPremium: Bool, canon: Canon = .protestant, showAdditionalBooks: Bool = false, userName: String? = nil, userEmail: String? = nil, readingPreferences: [ReadingPreference]? = nil) {
         self.notificationsEnabled = notificationsEnabled
         self.notificationTime = notificationTime
         self.bibleVersion = bibleVersion
         self.isPremium = isPremium
+        self.canon = canon
+        self.showAdditionalBooks = showAdditionalBooks
+        self.userName = userName
+        self.userEmail = userEmail
+        self.readingPreferences = readingPreferences
     }
 }
 
@@ -30,7 +41,12 @@ public final class GetUserSettingsUseCase: Sendable {
             notificationsEnabled: settings.notificationsEnabled,
             notificationTime: settings.notificationTime,
             bibleVersion: settings.bibleVersion,
-            isPremium: settings.isPremium
+            isPremium: settings.isPremium,
+            canon: settings.canon,
+            showAdditionalBooks: settings.showAdditionalBooks,
+            userName: settings.userName,
+            userEmail: settings.userEmail,
+            readingPreferences: settings.readingPreferences
         )
     }
 }
@@ -45,12 +61,22 @@ public final class UpdateUserSettingsUseCase: Sendable {
     public func execute(notificationsEnabled: Bool? = nil,
                         notificationTime: String? = nil,
                         bibleVersion: String? = nil,
-                        isPremium: Bool? = nil) async throws {
+                        isPremium: Bool? = nil,
+                        canon: Canon? = nil,
+                        showAdditionalBooks: Bool? = nil,
+                        userName: String? = nil,
+                        userEmail: String? = nil,
+                        readingPreferences: [ReadingPreference]? = nil) async throws {
         var current = try await repository.getSettings()
         if let notificationsEnabled = notificationsEnabled { current.notificationsEnabled = notificationsEnabled }
         if let notificationTime = notificationTime { current.notificationTime = notificationTime }
         if let bibleVersion = bibleVersion { current.bibleVersion = bibleVersion }
         if let isPremium = isPremium { current.isPremium = isPremium }
+        if let canon = canon { current.canon = canon }
+        if let showAdditionalBooks = showAdditionalBooks { current.showAdditionalBooks = showAdditionalBooks }
+        if userName != nil { current.userName = userName }
+        if userEmail != nil { current.userEmail = userEmail }
+        if readingPreferences != nil { current.readingPreferences = readingPreferences }
         try await repository.updateSettings(current)
     }
 }

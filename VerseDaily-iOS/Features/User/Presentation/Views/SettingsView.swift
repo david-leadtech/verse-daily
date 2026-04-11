@@ -14,6 +14,85 @@ struct SettingsView: View {
                 
                 ScrollView {
                     VStack(alignment: .leading, spacing: 28) {
+                        // Section: My Profile
+                        VStack(alignment: .leading, spacing: 10) {
+                            sectionTitle("My Profile")
+
+                            VStack(spacing: 0) {
+                                settingRow(
+                                    icon: "person.fill",
+                                    color: DS.Tokens.Colors.navy,
+                                    label: "Name"
+                                ) {
+                                    TextField("Your name", text: $viewModel.userName)
+                                        .font(DS.Tokens.Typography.interRegular(size: 14))
+                                        .foregroundColor(DS.Tokens.Colors.text)
+                                        .multilineTextAlignment(.trailing)
+                                }
+
+                                divider
+
+                                settingRow(
+                                    icon: "envelope.fill",
+                                    color: DS.Tokens.Colors.tint,
+                                    label: "Email",
+                                    description: "Optional"
+                                ) {
+                                    TextField("your@email.com", text: $viewModel.userEmail)
+                                        .font(DS.Tokens.Typography.interRegular(size: 14))
+                                        .foregroundColor(DS.Tokens.Colors.text)
+                                        .multilineTextAlignment(.trailing)
+                                }
+
+                                divider
+
+                                VStack(alignment: .leading, spacing: 12) {
+                                    HStack {
+                                        Image(systemName: "book.fill")
+                                            .foregroundColor(DS.Tokens.Colors.accent)
+                                            .font(.system(size: 16, weight: .semibold))
+
+                                        Text("Biblical Tradition")
+                                            .font(DS.Tokens.Typography.interMedium(size: 16))
+                                            .foregroundColor(DS.Tokens.Colors.text)
+
+                                        Spacer()
+                                    }
+
+                                    HStack(spacing: 8) {
+                                        ForEach(Canon.allCases, id: \.self) { canon in
+                                            canonButton(for: canon)
+                                        }
+                                    }
+                                }
+                                .padding(16)
+
+                                divider
+
+                                VStack(alignment: .leading, spacing: 12) {
+                                    Text("Reading Preferences")
+                                        .font(DS.Tokens.Typography.interMedium(size: 14))
+                                        .foregroundColor(DS.Tokens.Colors.text)
+
+                                    VStack(spacing: 8) {
+                                        ForEach(ReadingPreference.allCases, id: \.self) { preference in
+                                            Toggle(preference.displayName, isOn: .init(
+                                                get: { viewModel.readingPreferences.contains(preference) },
+                                                set: { _ in viewModel.updateReadingPreference(preference) }
+                                            ))
+                                            .font(DS.Tokens.Typography.interRegular(size: 13))
+                                            .tint(DS.Tokens.Colors.accent)
+                                        }
+                                    }
+                                }
+                                .padding(16)
+                            }
+                            .background(DS.Tokens.Colors.surface)
+                            .cornerRadius(16)
+                            .overlay(RoundedRectangle(cornerRadius: 16).stroke(DS.Tokens.Colors.border, lineWidth: 0.5))
+                        }
+                        .padding(.horizontal, 20)
+
                         // Section: Preferences
                         VStack(alignment: .leading, spacing: 10) {
                             sectionTitle("Preferences")
@@ -58,7 +137,7 @@ struct SettingsView: View {
                             .overlay(RoundedRectangle(cornerRadius: 16).stroke(DS.Tokens.Colors.border, lineWidth: 0.5))
                         }
                         .padding(.horizontal, 20)
-                        
+
                         // Section: Premium
                         VStack(alignment: .leading, spacing: 10) {
                             sectionTitle("Premium")
@@ -205,7 +284,22 @@ struct SettingsView: View {
                 .foregroundColor(DS.Tokens.Colors.border)
         }
     }
-    
+
+    private func canonButton(for canon: Canon) -> some View {
+        let isSelected = viewModel.selectedCanon == canon
+        return Button(action: {
+            Task { await viewModel.updateCanon(canon) }
+        }) {
+            Text(canon.displayName)
+                .font(DS.Tokens.Typography.interRegular(size: 11))
+                .foregroundColor(isSelected ? .white : DS.Tokens.Colors.text)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 8)
+                .background(isSelected ? DS.Tokens.Colors.accent : DS.Tokens.Colors.border.opacity(0.2))
+                .cornerRadius(6)
+        }
+    }
+
     private var premiumCard: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack(spacing: 14) {

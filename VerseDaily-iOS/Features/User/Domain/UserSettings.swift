@@ -28,6 +28,9 @@ public enum LocalizationKey: String, Sendable, Hashable, CaseIterable {
     case enumReadingPreferencePsalms = "enum.readingPreference.psalms"
     case enumReadingPreferenceGospels = "enum.readingPreference.gospels"
     case enumReadingPreferenceEpistles = "enum.readingPreference.epistles"
+    case enumCanonProtestant = "enum.canon.protestant"
+    case enumCanonCatholic = "enum.canon.catholic"
+    case enumCanonOrthodox = "enum.canon.orthodox"
     case validationErrorNameRequired = "validation.error.nameRequired"
     case validationErrorInvalidEmail = "validation.error.invalidEmail"
     case validationErrorAgeRangeRequired = "validation.error.ageRangeRequired"
@@ -243,6 +246,24 @@ public enum ReadingPreference: String, Codable, Sendable, Hashable, CaseIterable
     }
 }
 
+// MARK: - Biblical Canon
+public enum Canon: String, Codable, Sendable, Hashable, CaseIterable {
+    case protestant = "protestant"
+    case catholic = "catholic"
+    case orthodox = "orthodox"
+
+    public var displayName: String {
+        switch self {
+        case .protestant:
+            return LocalizationKey.enumCanonProtestant.localized
+        case .catholic:
+            return LocalizationKey.enumCanonCatholic.localized
+        case .orthodox:
+            return LocalizationKey.enumCanonOrthodox.localized
+        }
+    }
+}
+
 // MARK: - User Settings
 public struct UserSettings: Codable, Sendable, Equatable {
     // MARK: - Existing Settings
@@ -260,6 +281,8 @@ public struct UserSettings: Codable, Sendable, Equatable {
 
     // MARK: - Religious Preferences
     public var church: String?
+    public var canon: Canon
+    public var showAdditionalBooks: Bool
     public var readingPreferences: [ReadingPreference]?
 
     // MARK: - Theme & Language (Axiom: Use enums, not strings)
@@ -281,6 +304,8 @@ public struct UserSettings: Codable, Sendable, Equatable {
         ageRange: AgeRange? = nil,
         gender: Gender? = nil,
         church: String? = nil,
+        canon: Canon = .protestant,
+        showAdditionalBooks: Bool = false,
         readingPreferences: [ReadingPreference]? = nil,
         appTheme: AppTheme = .system,
         textSize: TextSize = .normal,
@@ -297,6 +322,8 @@ public struct UserSettings: Codable, Sendable, Equatable {
         self.ageRange = ageRange
         self.gender = gender
         self.church = church
+        self.canon = canon
+        self.showAdditionalBooks = showAdditionalBooks
         self.readingPreferences = readingPreferences
         self.appTheme = appTheme
         self.textSize = textSize
